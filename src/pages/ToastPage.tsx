@@ -21,6 +21,7 @@ const ToastPage = () => {
                   type="success"
                   title="Успех"
                   message="Операция выполнена успешно!"
+                  static={true}
                 />
               </div>
               
@@ -29,6 +30,7 @@ const ToastPage = () => {
                   type="danger"
                   title="Ошибка"
                   message="Произошла ошибка при выполнении операции!"
+                  static={true}
                 />
               </div>
               
@@ -37,6 +39,7 @@ const ToastPage = () => {
                   type="info"
                   title="Информация"
                   message="Новая информация доступна для ознакомления"
+                  static={true}
                 />
               </div>
               
@@ -45,6 +48,7 @@ const ToastPage = () => {
                   type="warning"
                   title="Предупреждение"
                   message="Внимание! Требуется ваше действие"
+                  static={true}
                 />
               </div>
               
@@ -53,6 +57,7 @@ const ToastPage = () => {
                   type="default"
                   title="По умолчанию"
                   message="Обычное уведомление"
+                  static={true}
                 />
               </div>
             </div>
