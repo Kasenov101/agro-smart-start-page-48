@@ -11,6 +11,7 @@ interface ToastProps {
   message: string;
   onClose?: () => void;
   duration?: number;
+  static?: boolean;
 }
 
 const toastConfig = {
@@ -61,26 +62,26 @@ export const Toast: React.FC<ToastProps> = ({
   title,
   message,
   onClose,
-  duration = 5000
+  duration = 5000,
+  static: isStatic = false
 }) => {
   const config = toastConfig[type];
   const Icon = config.icon;
 
   React.useEffect(() => {
-    if (duration > 0) {
+    if (duration > 0 && !isStatic) {
       const timer = setTimeout(() => {
         onClose?.();
       }, duration);
       return () => clearTimeout(timer);
     }
-  }, [duration, onClose]);
+  }, [duration, onClose, isStatic]);
 
   return (
     <div
       className={cn(
-        'fixed top-4 right-4 z-50 max-w-md w-full mx-auto',
-        'rounded-lg border p-4 shadow-lg',
-        'animate-in slide-in-from-top-2 duration-300',
+        'max-w-md w-full mx-auto rounded-lg border p-4 shadow-lg',
+        isStatic ? 'relative' : 'fixed top-4 right-4 z-50 animate-in slide-in-from-top-2 duration-300',
         config.bgColor
       )}
     >
