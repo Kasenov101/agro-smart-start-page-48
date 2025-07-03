@@ -1,10 +1,7 @@
 
 import { useState } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Button, Input, Select, SelectItem, Progress } from "@nextui-org/react";
 import { Sprout, ArrowLeft } from "lucide-react";
 
 const Register = () => {
@@ -91,132 +88,117 @@ const Register = () => {
                 Данные организации
               </span>
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
-              <div
-                className="bg-green-600 h-2 rounded-full transition-all duration-300"
-                style={{ width: `${(currentStep / 2) * 100}%` }}
-              ></div>
-            </div>
+            <Progress 
+              value={(currentStep / 2) * 100} 
+              classNames={{
+                base: "w-full",
+                track: "bg-gray-200",
+                indicator: "bg-green-600"
+              }}
+            />
           </div>
 
           {/* Step 1: User Data */}
           {currentStep === 1 && (
             <form onSubmit={handleNextStep} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <Label htmlFor="firstName" className="text-gray-700">
-                    Имя
-                  </Label>
-                  <Input
-                    id="firstName"
-                    name="firstName"
-                    type="text"
-                    value={userData.firstName}
-                    onChange={handleUserDataChange}
-                    placeholder="Иван"
-                    className="mt-1"
-                    required
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="lastName" className="text-gray-700">
-                    Фамилия
-                  </Label>
-                  <Input
-                    id="lastName"
-                    name="lastName"
-                    type="text"
-                    value={userData.lastName}
-                    onChange={handleUserDataChange}
-                    placeholder="Иванов"
-                    className="mt-1"
-                    required
-                  />
-                </div>
-              </div>
-
-              <div>
-                <Label htmlFor="middleName" className="text-gray-700">
-                  Отчество
-                </Label>
                 <Input
-                  id="middleName"
-                  name="middleName"
-                  type="text"
-                  value={userData.middleName}
+                  name="firstName"
+                  label="Имя"
+                  placeholder="Иван"
+                  value={userData.firstName}
                   onChange={handleUserDataChange}
-                  placeholder="Иванович"
-                  className="mt-1"
+                  isRequired
+                  classNames={{
+                    label: "text-gray-700",
+                    input: "text-gray-900",
+                  }}
+                />
+                <Input
+                  name="lastName"
+                  label="Фамилия"
+                  placeholder="Иванов"
+                  value={userData.lastName}
+                  onChange={handleUserDataChange}
+                  isRequired
+                  classNames={{
+                    label: "text-gray-700",
+                    input: "text-gray-900",
+                  }}
                 />
               </div>
 
-              <div>
-                <Label htmlFor="login" className="text-gray-700">
-                  Логин
-                </Label>
-                <Input
-                  id="login"
-                  name="login"
-                  type="text"
-                  value={userData.login}
-                  onChange={handleUserDataChange}
-                  placeholder="ivan_farmer"
-                  className="mt-1"
-                  required
-                />
-              </div>
+              <Input
+                name="middleName"
+                label="Отчество"
+                placeholder="Иванович"
+                value={userData.middleName}
+                onChange={handleUserDataChange}
+                classNames={{
+                  label: "text-gray-700",
+                  input: "text-gray-900",
+                }}
+              />
 
-              <div>
-                <Label htmlFor="email" className="text-gray-700">
-                  Email адрес
-                </Label>
-                <Input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={userData.email}
-                  onChange={handleUserDataChange}
-                  placeholder="ivan@example.com"
-                  className="mt-1"
-                  required
-                />
-              </div>
+              <Input
+                name="login"
+                label="Логин"
+                placeholder="ivan_farmer"
+                value={userData.login}
+                onChange={handleUserDataChange}
+                isRequired
+                classNames={{
+                  label: "text-gray-700",
+                  input: "text-gray-900",
+                }}
+              />
 
-              <div>
-                <Label htmlFor="password" className="text-gray-700">
-                  Пароль
-                </Label>
-                <Input
-                  id="password"
-                  name="password"
-                  type="password"
-                  value={userData.password}
-                  onChange={handleUserDataChange}
-                  placeholder="Минимум 6 символов"
-                  className="mt-1"
-                  required
-                />
-              </div>
+              <Input
+                name="email"
+                type="email"
+                label="Email адрес"
+                placeholder="ivan@example.com"
+                value={userData.email}
+                onChange={handleUserDataChange}
+                isRequired
+                classNames={{
+                  label: "text-gray-700",
+                  input: "text-gray-900",
+                }}
+              />
 
-              <div>
-                <Label htmlFor="confirmPassword" className="text-gray-700">
-                  Подтвердите пароль
-                </Label>
-                <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  value={userData.confirmPassword}
-                  onChange={handleUserDataChange}
-                  placeholder="Повторите пароль"
-                  className="mt-1"
-                  required
-                />
-              </div>
+              <Input
+                name="password"
+                type="password"
+                label="Пароль"
+                placeholder="Минимум 6 символов"
+                value={userData.password}
+                onChange={handleUserDataChange}
+                isRequired
+                classNames={{
+                  label: "text-gray-700",
+                  input: "text-gray-900",
+                }}
+              />
+
+              <Input
+                name="confirmPassword"
+                type="password"
+                label="Подтвердите пароль"
+                placeholder="Повторите пароль"
+                value={userData.confirmPassword}
+                onChange={handleUserDataChange}
+                isRequired
+                classNames={{
+                  label: "text-gray-700",
+                  input: "text-gray-900",
+                }}
+              />
 
               <Button
                 type="submit"
-                className="w-full bg-green-600 hover:bg-green-700 text-white py-3"
+                className="w-full bg-green-600 hover:bg-green-700 text-white py-6"
+                size="lg"
               >
                 Далее
               </Button>
@@ -228,10 +210,10 @@ const Register = () => {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="flex items-center mb-4">
                 <Button
-                  type="button"
-                  variant="ghost"
+                  isIconOnly
+                  variant="light"
                   onClick={handlePrevStep}
-                  className="p-1 mr-2"
+                  className="mr-2"
                 >
                   <ArrowLeft className="h-4 w-4" />
                 </Button>
@@ -240,88 +222,81 @@ const Register = () => {
                 </h3>
               </div>
 
-              <div>
-                <Label htmlFor="organizationName" className="text-gray-700">
-                  Название организации
-                </Label>
-                <Input
-                  id="organizationName"
-                  name="name"
-                  type="text"
-                  value={organizationData.name}
-                  onChange={handleOrganizationDataChange}
-                  placeholder="ООО Зеленые поля"
-                  className="mt-1"
-                  required
-                />
-              </div>
+              <Input
+                name="name"
+                label="Название организации"
+                placeholder="ООО Зеленые поля"
+                value={organizationData.name}
+                onChange={handleOrganizationDataChange}
+                isRequired
+                classNames={{
+                  label: "text-gray-700",
+                  input: "text-gray-900",
+                }}
+              />
 
-              <div>
-                <Label htmlFor="identifierType" className="text-gray-700">
-                  Тип идентификатора
-                </Label>
-                <Select onValueChange={handleIdentifierTypeChange} required>
-                  <SelectTrigger className="mt-1">
-                    <SelectValue placeholder="Выберите тип" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="iin">ИИН</SelectItem>
-                    <SelectItem value="bin">БИН</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+              <Select
+                label="Тип идентификатора"
+                placeholder="Выберите тип"
+                onSelectionChange={(keys) => {
+                  const selectedKey = Array.from(keys)[0] as string;
+                  handleIdentifierTypeChange(selectedKey);
+                }}
+                isRequired
+                classNames={{
+                  label: "text-gray-700",
+                  value: "text-gray-900",
+                }}
+              >
+                <SelectItem key="iin" value="iin">ИИН</SelectItem>
+                <SelectItem key="bin" value="bin">БИН</SelectItem>
+              </Select>
 
-              <div>
-                <Label htmlFor="identifier" className="text-gray-700">
-                  {organizationData.identifierType === "iin" ? "ИИН" : organizationData.identifierType === "bin" ? "БИН" : "Идентификатор"}
-                </Label>
-                <Input
-                  id="identifier"
-                  name="identifier"
-                  type="text"
-                  value={organizationData.identifier}
-                  onChange={handleOrganizationDataChange}
-                  placeholder={organizationData.identifierType === "iin" ? "123456789012" : "123456789012"}
-                  className="mt-1"
-                  required
-                />
-              </div>
+              <Input
+                name="identifier"
+                label={organizationData.identifierType === "iin" ? "ИИН" : organizationData.identifierType === "bin" ? "БИН" : "Идентификатор"}
+                placeholder={organizationData.identifierType === "iin" ? "123456789012" : "123456789012"}
+                value={organizationData.identifier}
+                onChange={handleOrganizationDataChange}
+                isRequired
+                classNames={{
+                  label: "text-gray-700",
+                  input: "text-gray-900",
+                }}
+              />
 
-              <div>
-                <Label htmlFor="organizationEmail" className="text-gray-700">
-                  Email организации
-                </Label>
-                <Input
-                  id="organizationEmail"
-                  name="email"
-                  type="email"
-                  value={organizationData.email}
-                  onChange={handleOrganizationDataChange}
-                  placeholder="info@company.kz"
-                  className="mt-1"
-                  required
-                />
-              </div>
+              <Input
+                name="email"
+                type="email"
+                label="Email организации"
+                placeholder="info@company.kz"
+                value={organizationData.email}
+                onChange={handleOrganizationDataChange}
+                isRequired
+                classNames={{
+                  label: "text-gray-700",
+                  input: "text-gray-900",
+                }}
+              />
 
-              <div>
-                <Label htmlFor="phone" className="text-gray-700">
-                  Телефон
-                </Label>
-                <Input
-                  id="phone"
-                  name="phone"
-                  type="tel"
-                  value={organizationData.phone}
-                  onChange={handleOrganizationDataChange}
-                  placeholder="+7 (777) 123-45-67"
-                  className="mt-1"
-                  required
-                />
-              </div>
+              <Input
+                name="phone"
+                type="tel"
+                label="Телефон"
+                placeholder="+7 (777) 123-45-67"
+                value={organizationData.phone}
+                onChange={handleOrganizationDataChange}
+                isRequired
+                classNames={{
+                  label: "text-gray-700",
+                  input: "text-gray-900",
+                }}
+              />
 
               <Button
                 type="submit"
-                className="w-full bg-green-600 hover:bg-green-700 text-white py-3"
+                className="w-full bg-green-600 hover:bg-green-700 text-white py-6"
+                size="lg"
               >
                 Создать аккаунт
               </Button>
