@@ -1,55 +1,107 @@
 
-import { Button } from "@/components/ui/button";
-import { Sprout } from "lucide-react";
-import { Link } from "react-router-dom";
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button } from '@nextui-org/react';
+import { Sprout, Menu, X } from 'lucide-react';
 
 export const Header = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
-    <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
-      <div className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3">
-            <div className="bg-green-600 p-2 rounded-lg">
-              <Sprout className="h-8 w-8 text-white" />
+    <Navbar 
+      onMenuOpenChange={setIsMenuOpen}
+      className="bg-white shadow-sm"
+      maxWidth="full"
+    >
+      <NavbarContent>
+        <NavbarMenuToggle
+          aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+          className="sm:hidden"
+        />
+        <NavbarBrand>
+          <Link to="/" className="flex items-center">
+            <div className="bg-green-600 p-2 rounded-lg mr-3">
+              <Sprout className="h-6 w-6 text-white" />
             </div>
-            <div>
-              <h1 className="text-2xl font-bold text-gray-900">Smart Center</h1>
-              <p className="text-sm text-gray-600">Для крестьянских хозяйств</p>
-            </div>
+            <span className="text-xl font-bold text-gray-900">Smart Center</span>
           </Link>
+        </NavbarBrand>
+      </NavbarContent>
 
-          {/* Navigation */}
-          <nav className="hidden md:flex items-center space-x-8">
-            <a href="#features" className="text-gray-600 hover:text-gray-900 transition-colors">
-              Возможности
-            </a>
-            <a href="#pricing" className="text-gray-600 hover:text-gray-900 transition-colors">
-              Тарифы
-            </a>
-            <a href="#contact" className="text-gray-600 hover:text-gray-900 transition-colors">
-              Контакты
-            </a>
-          </nav>
+      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+        <NavbarItem>
+          <Link to="/" className="text-gray-600 hover:text-green-600 font-medium">
+            Главная
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link to="#features" className="text-gray-600 hover:text-green-600 font-medium">
+            Возможности
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Link to="/dashboard" className="text-gray-600 hover:text-green-600 font-medium">
+            Dashboard
+          </Link>
+        </NavbarItem>
+      </NavbarContent>
 
-          {/* Auth Buttons */}
-          <div className="flex items-center space-x-3">
-            <Button 
-              variant="outline" 
-              className="border-gray-300 text-gray-700 hover:bg-gray-50"
-              asChild
-            >
-              <Link to="/login">Войти</Link>
-            </Button>
-            <Button 
-              className="bg-green-600 hover:bg-green-700 text-white"
-              asChild
-            >
-              <Link to="/register">Регистрация</Link>
-            </Button>
-          </div>
-        </div>
-      </div>
-    </header>
+      <NavbarContent justify="end">
+        <NavbarItem className="hidden lg:flex">
+          <Link to="/login" className="text-gray-600 hover:text-green-600 font-medium">
+            Войти
+          </Link>
+        </NavbarItem>
+        <NavbarItem>
+          <Button 
+            as={Link} 
+            to="/register"
+            className="bg-green-600 hover:bg-green-700 text-white font-medium"
+            radius="md"
+          >
+            Регистрация
+          </Button>
+        </NavbarItem>
+      </NavbarContent>
+
+      <NavbarMenu>
+        <NavbarMenuItem>
+          <Link
+            to="/"
+            className="w-full text-gray-700 hover:text-green-600"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Главная
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link
+            to="#features"
+            className="w-full text-gray-700 hover:text-green-600"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Возможности
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link
+            to="/dashboard"
+            className="w-full text-gray-700 hover:text-green-600"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Dashboard
+          </Link>
+        </NavbarMenuItem>
+        <NavbarMenuItem>
+          <Link
+            to="/login"
+            className="w-full text-gray-700 hover:text-green-600"
+            onClick={() => setIsMenuOpen(false)}
+          >
+            Войти
+          </Link>
+        </NavbarMenuItem>
+      </NavbarMenu>
+    </Navbar>
   );
 };
