@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Button, Input, Select, SelectItem, Progress, Card, CardBody } from "@nextui-org/react";
@@ -196,7 +195,7 @@ const Register = () => {
                   variant="bordered"
                 />
 
-                <div className="space-y-2">
+                <div className="grid grid-cols-2 gap-4">
                   <Input
                     name="password"
                     type={showPassword ? "text" : "password"}
@@ -220,81 +219,81 @@ const Register = () => {
                       </button>
                     }
                   />
-                  
-                  {/* Индикатор сложности пароля */}
-                  {userData.password && (
-                    <div className="space-y-2">
-                      <div className="flex items-center justify-between">
-                        <span className="text-sm text-gray-600">Сложность пароля:</span>
-                        <span className={`text-sm font-medium ${
-                          passwordStrength.color === 'danger' ? 'text-red-500' :
-                          passwordStrength.color === 'warning' ? 'text-yellow-500' :
-                          passwordStrength.color === 'primary' ? 'text-blue-500' :
-                          passwordStrength.color === 'success' ? 'text-green-500' : ''
-                        }`}>
-                          {passwordStrength.strength}
-                        </span>
-                      </div>
-                      
-                      <Progress
-                        value={passwordStrength.progress}
-                        color={passwordStrength.color as any}
-                        size="sm"
-                        className="w-full"
-                      />
-                      
-                      {/* Критерии пароля */}
-                      <div className="grid grid-cols-1 gap-1 text-xs">
-                        <div className={`flex items-center gap-1 ${passwordStrength.criteria.length ? 'text-green-600' : 'text-gray-400'}`}>
-                          {passwordStrength.criteria.length ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
-                          <span>Минимум 8 символов</span>
-                        </div>
-                        <div className={`flex items-center gap-1 ${passwordStrength.criteria.uppercase ? 'text-green-600' : 'text-gray-400'}`}>
-                          {passwordStrength.criteria.uppercase ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
-                          <span>Заглавная буква</span>
-                        </div>
-                        <div className={`flex items-center gap-1 ${passwordStrength.criteria.lowercase ? 'text-green-600' : 'text-gray-400'}`}>
-                          {passwordStrength.criteria.lowercase ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
-                          <span>Строчная буква</span>
-                        </div>
-                        <div className={`flex items-center gap-1 ${passwordStrength.criteria.number ? 'text-green-600' : 'text-gray-400'}`}>
-                          {passwordStrength.criteria.number ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
-                          <span>Цифра</span>
-                        </div>
-                        <div className={`flex items-center gap-1 ${passwordStrength.criteria.special ? 'text-green-600' : 'text-gray-400'}`}>
-                          {passwordStrength.criteria.special ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
-                          <span>Специальный символ</span>
-                        </div>
-                      </div>
-                    </div>
-                  )}
+
+                  <Input
+                    name="confirmPassword"
+                    type={showConfirmPassword ? "text" : "password"}
+                    label="Подтвердите пароль"
+                    placeholder="Повторите пароль"
+                    value={userData.confirmPassword}
+                    onChange={handleUserDataChange}
+                    isRequired
+                    variant="bordered"
+                    color={userData.confirmPassword && userData.password !== userData.confirmPassword ? "danger" : "default"}
+                    errorMessage={userData.confirmPassword && userData.password !== userData.confirmPassword ? "Пароли не совпадают" : ""}
+                    endContent={
+                      <button
+                        className="focus:outline-none"
+                        type="button"
+                        onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                      >
+                        {showConfirmPassword ? (
+                          <EyeOff className="h-4 w-4 text-gray-400" />
+                        ) : (
+                          <Eye className="h-4 w-4 text-gray-400" />
+                        )}
+                      </button>
+                    }
+                  />
                 </div>
 
-                <Input
-                  name="confirmPassword"
-                  type={showConfirmPassword ? "text" : "password"}
-                  label="Подтвердите пароль"
-                  placeholder="Повторите пароль"
-                  value={userData.confirmPassword}
-                  onChange={handleUserDataChange}
-                  isRequired
-                  variant="bordered"
-                  color={userData.confirmPassword && userData.password !== userData.confirmPassword ? "danger" : "default"}
-                  errorMessage={userData.confirmPassword && userData.password !== userData.confirmPassword ? "Пароли не совпадают" : ""}
-                  endContent={
-                    <button
-                      className="focus:outline-none"
-                      type="button"
-                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                    >
-                      {showConfirmPassword ? (
-                        <EyeOff className="h-4 w-4 text-gray-400" />
-                      ) : (
-                        <Eye className="h-4 w-4 text-gray-400" />
-                      )}
-                    </button>
-                  }
-                />
+                {/* Индикатор сложности пароля */}
+                {userData.password && (
+                  <div className="space-y-2">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-gray-600">Сложность пароля:</span>
+                      <span className={`text-sm font-medium ${
+                        passwordStrength.color === 'danger' ? 'text-red-500' :
+                        passwordStrength.color === 'warning' ? 'text-yellow-500' :
+                        passwordStrength.color === 'primary' ? 'text-blue-500' :
+                        passwordStrength.color === 'success' ? 'text-green-500' : ''
+                      }`}>
+                        {passwordStrength.strength}
+                      </span>
+                    </div>
+                    
+                    <Progress
+                      value={passwordStrength.progress}
+                      color={passwordStrength.color as any}
+                      size="sm"
+                      className="w-full"
+                    />
+                    
+                    {/* Критерии пароля */}
+                    <div className="grid grid-cols-1 gap-1 text-xs">
+                      <div className={`flex items-center gap-1 ${passwordStrength.criteria.length ? 'text-green-600' : 'text-gray-400'}`}>
+                        {passwordStrength.criteria.length ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                        <span>Минимум 8 символов</span>
+                      </div>
+                      <div className={`flex items-center gap-1 ${passwordStrength.criteria.uppercase ? 'text-green-600' : 'text-gray-400'}`}>
+                        {passwordStrength.criteria.uppercase ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                        <span>Заглавная буква</span>
+                      </div>
+                      <div className={`flex items-center gap-1 ${passwordStrength.criteria.lowercase ? 'text-green-600' : 'text-gray-400'}`}>
+                        {passwordStrength.criteria.lowercase ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                        <span>Строчная буква</span>
+                      </div>
+                      <div className={`flex items-center gap-1 ${passwordStrength.criteria.number ? 'text-green-600' : 'text-gray-400'}`}>
+                        {passwordStrength.criteria.number ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                        <span>Цифра</span>
+                      </div>
+                      <div className={`flex items-center gap-1 ${passwordStrength.criteria.special ? 'text-green-600' : 'text-gray-400'}`}>
+                        {passwordStrength.criteria.special ? <Check className="h-3 w-3" /> : <X className="h-3 w-3" />}
+                        <span>Специальный символ</span>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 <Button
                   type="submit"
