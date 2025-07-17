@@ -63,47 +63,77 @@ const Profile = () => {
           {/* Personal Information */}
           <Card className="bg-white">
             <CardHeader className="pb-3">
-              <div className="flex items-center gap-3">
-                <User className="h-6 w-6 text-blue-600" />
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Личная информация
-                </h3>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <User className="h-6 w-6 text-blue-600" />
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Личная информация
+                  </h3>
+                </div>
+                <Button 
+                  size="sm" 
+                  variant="flat" 
+                  color="primary"
+                  startContent={<Edit className="h-4 w-4" />}
+                >
+                  Редактировать
+                </Button>
               </div>
             </CardHeader>
             <CardBody className="space-y-6">
-              <div className="flex items-center space-x-4">
-                <Avatar
-                  src={userInfo.avatar}
-                  alt={userInfo.name}
-                  className="w-16 h-16"
-                  isBordered
-                  color="primary"
-                />
-                <div>
-                  <h4 className="text-xl font-semibold text-gray-900">
-                    {userInfo.name}
-                  </h4>
-                  <p className="text-gray-600">{userInfo.position}</p>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <Avatar
+                    src={userInfo.avatar}
+                    alt={userInfo.name}
+                    className="w-16 h-16"
+                    isBordered
+                    color="primary"
+                  />
+                  <div>
+                    <h4 className="text-xl font-semibold text-gray-900">
+                      {userInfo.name}
+                    </h4>
+                    <p className="text-gray-600">{userInfo.position}</p>
+                  </div>
                 </div>
+                <Button 
+                  size="sm" 
+                  variant="light"
+                  isIconOnly
+                  color="primary"
+                >
+                  <Edit className="h-4 w-4" />
+                </Button>
               </div>
 
               <Divider />
 
               <div className="space-y-4">
-                <div className="flex items-center space-x-3">
-                  <Mail className="h-5 w-5 text-gray-500" />
-                  <div>
-                    <p className="text-sm text-gray-600">Email</p>
-                    <p className="font-medium text-gray-900">{userInfo.email}</p>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <Mail className="h-5 w-5 text-gray-500" />
+                    <div>
+                      <p className="text-sm text-gray-600">Email</p>
+                      <p className="font-medium text-gray-900">{userInfo.email}</p>
+                    </div>
                   </div>
+                  <Button size="sm" variant="light" isIconOnly>
+                    <Edit className="h-3 w-3" />
+                  </Button>
                 </div>
 
-                <div className="flex items-center space-x-3">
-                  <Phone className="h-5 w-5 text-gray-500" />
-                  <div>
-                    <p className="text-sm text-gray-600">Телефон</p>
-                    <p className="font-medium text-gray-900">{userInfo.phone}</p>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <Phone className="h-5 w-5 text-gray-500" />
+                    <div>
+                      <p className="text-sm text-gray-600">Телефон</p>
+                      <p className="font-medium text-gray-900">{userInfo.phone}</p>
+                    </div>
                   </div>
+                  <Button size="sm" variant="light" isIconOnly>
+                    <Edit className="h-3 w-3" />
+                  </Button>
                 </div>
 
                 <div className="flex items-center space-x-3">
@@ -128,11 +158,21 @@ const Profile = () => {
           {/* Organization Information */}
           <Card className="bg-white">
             <CardHeader className="pb-3">
-              <div className="flex items-center gap-3">
-                <Building className="h-6 w-6 text-green-600" />
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Информация об организации
-                </h3>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-3">
+                  <Building className="h-6 w-6 text-green-600" />
+                  <h3 className="text-lg font-semibold text-gray-900">
+                    Информация об организации
+                  </h3>
+                </div>
+                <Button 
+                  size="sm" 
+                  variant="flat" 
+                  color="success"
+                  startContent={<Edit className="h-4 w-4" />}
+                >
+                  Редактировать
+                </Button>
               </div>
             </CardHeader>
             <CardBody className="space-y-6">
