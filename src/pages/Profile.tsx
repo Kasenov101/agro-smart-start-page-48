@@ -9,7 +9,10 @@ import {
   Edit,
   ArrowLeft,
   Shield,
-  Briefcase
+  Briefcase,
+  Search,
+  Bell,
+  Settings
 } from "lucide-react";
 
 const Profile = () => {
@@ -38,77 +41,76 @@ const Profile = () => {
       <header className="bg-white shadow-sm border-b">
         <div className="flex items-center justify-between px-6 py-4">
           <div className="flex items-center">
+            <div className="bg-blue-600 p-2 rounded-lg mr-3">
+              <User className="h-6 w-6 text-white" />
+            </div>
+            <h1 className="text-xl font-bold text-gray-900">Профиль пользователя</h1>
+          </div>
+          <div className="flex items-center gap-4">
+            <Button isIconOnly variant="light">
+              <Search className="h-5 w-5" />
+            </Button>
+            <Button isIconOnly variant="light">
+              <Bell className="h-5 w-5" />
+            </Button>
+            <Button isIconOnly variant="light">
+              <Settings className="h-5 w-5" />
+            </Button>
             <Button 
               isIconOnly 
-              variant="light" 
-              className="mr-3"
+              variant="light"
               as="a"
               href="/dashboard"
             >
               <ArrowLeft className="h-5 w-5" />
             </Button>
-            <h1 className="text-xl font-bold text-gray-900">Профиль</h1>
           </div>
-          <Button 
-            color="primary" 
-            startContent={<Edit className="h-4 w-4" />}
-          >
-            Редактировать
-          </Button>
         </div>
       </header>
 
       <div className="p-6 max-w-6xl mx-auto">
+        {/* Profile Header with Edit Button */}
+        <div className="bg-white rounded-lg shadow-sm border p-6 mb-6">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <Avatar
+                src={userInfo.avatar}
+                alt={userInfo.name}
+                className="w-20 h-20"
+                isBordered
+                color="primary"
+              />
+              <div>
+                <h2 className="text-2xl font-bold text-gray-900">
+                  {userInfo.name}
+                </h2>
+                <p className="text-gray-600 text-lg">{userInfo.position}</p>
+                <p className="text-gray-500 text-sm">{organizationInfo.name}</p>
+              </div>
+            </div>
+            <Button 
+              color="primary" 
+              size="lg"
+              startContent={<Edit className="h-4 w-4" />}
+              className="animate-fade-in"
+            >
+              Редактировать профиль
+            </Button>
+          </div>
+        </div>
+
         <div className="grid lg:grid-cols-2 gap-6">
           {/* Personal Information */}
           <Card className="bg-white">
             <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <User className="h-6 w-6 text-blue-600" />
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    Личная информация
-                  </h3>
-                </div>
-                <Button 
-                  size="sm" 
-                  variant="flat" 
-                  color="primary"
-                  startContent={<Edit className="h-4 w-4" />}
-                >
-                  Редактировать
-                </Button>
+              <div className="flex items-center gap-3">
+                <User className="h-6 w-6 text-blue-600" />
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Личная информация
+                </h3>
               </div>
             </CardHeader>
             <CardBody className="space-y-6">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center space-x-4">
-                  <Avatar
-                    src={userInfo.avatar}
-                    alt={userInfo.name}
-                    className="w-16 h-16"
-                    isBordered
-                    color="primary"
-                  />
-                  <div>
-                    <h4 className="text-xl font-semibold text-gray-900">
-                      {userInfo.name}
-                    </h4>
-                    <p className="text-gray-600">{userInfo.position}</p>
-                  </div>
-                </div>
-                <Button 
-                  size="sm" 
-                  variant="light"
-                  isIconOnly
-                  color="primary"
-                >
-                  <Edit className="h-4 w-4" />
-                </Button>
-              </div>
-
-              <Divider />
-
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-3">
@@ -158,21 +160,11 @@ const Profile = () => {
           {/* Organization Information */}
           <Card className="bg-white">
             <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <Building className="h-6 w-6 text-green-600" />
-                  <h3 className="text-lg font-semibold text-gray-900">
-                    Информация об организации
-                  </h3>
-                </div>
-                <Button 
-                  size="sm" 
-                  variant="flat" 
-                  color="success"
-                  startContent={<Edit className="h-4 w-4" />}
-                >
-                  Редактировать
-                </Button>
+              <div className="flex items-center gap-3">
+                <Building className="h-6 w-6 text-green-600" />
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Информация об организации
+                </h3>
               </div>
             </CardHeader>
             <CardBody className="space-y-6">
