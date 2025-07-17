@@ -92,6 +92,14 @@ const Dashboard = () => {
             <Button isIconOnly variant="light">
               <Settings className="h-5 w-5" />
             </Button>
+            <Button 
+              isIconOnly 
+              variant="light"
+              as="a"
+              href="/profile"
+            >
+              <Users className="h-5 w-5" />
+            </Button>
           </div>
         </div>
       </header>
