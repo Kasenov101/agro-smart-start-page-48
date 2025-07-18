@@ -80,40 +80,42 @@ const Profile = () => {
         </div>
       </header>
 
-      <div className="flex h-[calc(100vh-73px)]">
-        {/* Sidebar Navigation */}
-        <aside className="w-64 bg-white border-r border-gray-200 p-4">
-          <nav className="space-y-2">
-            {navigationItems.map((item) => {
-              const Icon = item.icon;
-              const isActive = currentPath === item.path;
-              
-              return (
-                <NavLink
-                  key={item.id}
-                  to={item.path}
-                  className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
-                    isActive 
-                      ? 'bg-blue-50 text-blue-700 border border-blue-200' 
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  <Icon className={`h-5 w-5 ${isActive ? 'text-blue-600' : item.color}`} />
-                  <span className="font-medium">{item.label}</span>
-                </NavLink>
-              );
-            })}
-          </nav>
-        </aside>
+      <div className="p-6 max-w-7xl mx-auto">
+        <div className="flex gap-6 h-[calc(100vh-125px)]">
+          {/* Sidebar Navigation */}
+          <aside className="w-64 bg-white border border-gray-200 rounded-lg p-4">
+            <nav className="space-y-2">
+              {navigationItems.map((item) => {
+                const Icon = item.icon;
+                const isActive = currentPath === item.path;
+                
+                return (
+                  <NavLink
+                    key={item.id}
+                    to={item.path}
+                    className={`flex items-center space-x-3 px-3 py-2 rounded-lg transition-colors ${
+                      isActive 
+                        ? 'bg-blue-50 text-blue-700 border border-blue-200' 
+                        : 'text-gray-700 hover:bg-gray-50'
+                    }`}
+                  >
+                    <Icon className={`h-5 w-5 ${isActive ? 'text-blue-600' : item.color}`} />
+                    <span className="font-medium">{item.label}</span>
+                  </NavLink>
+                );
+              })}
+            </nav>
+          </aside>
 
-        {/* Main Content */}
-        <main className="flex-1 p-6 overflow-y-auto">
-          <Card className="bg-white h-full">
-            <CardBody className="p-6">
-              <Outlet />
-            </CardBody>
-          </Card>
-        </main>
+          {/* Main Content */}
+          <main className="flex-1 overflow-y-auto">
+            <Card className="bg-white h-full">
+              <CardBody className="p-6">
+                <Outlet />
+              </CardBody>
+            </Card>
+          </main>
+        </div>
       </div>
     </div>
   );
