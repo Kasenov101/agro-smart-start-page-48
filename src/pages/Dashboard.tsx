@@ -16,12 +16,12 @@ import {
   User,
   LogOut
 } from "lucide-react";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+import { 
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu as NextUIDropdownMenu,
+  DropdownItem
+} from "@nextui-org/react";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -104,39 +104,41 @@ const Dashboard = () => {
             </Button>
             
             {/* Language Switcher */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+            <Dropdown>
+              <DropdownTrigger>
                 <Button isIconOnly variant="light" className="text-gray-600">
                   <Globe className="h-5 w-5" />
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white">
-                <DropdownMenuItem className="cursor-pointer">🇷🇺 Русский</DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">🇺🇸 English</DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer">🇰🇿 Қазақша</DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+              </DropdownTrigger>
+              <NextUIDropdownMenu aria-label="Language Selection">
+                <DropdownItem key="ru">🇷🇺 Русский</DropdownItem>
+                <DropdownItem key="en">🇺🇸 English</DropdownItem>
+                <DropdownItem key="kz">🇰🇿 Қазақша</DropdownItem>
+              </NextUIDropdownMenu>
+            </Dropdown>
 
             {/* User Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
+            <Dropdown>
+              <DropdownTrigger>
                 <Button isIconOnly variant="light" className="text-gray-600">
                   <User className="h-5 w-5" />
                 </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent className="bg-white">
-                <DropdownMenuItem asChild className="cursor-pointer">
-                  <Link to="/profile/personal" className="flex items-center gap-2">
+              </DropdownTrigger>
+              <NextUIDropdownMenu aria-label="User Menu">
+                <DropdownItem key="profile" as={Link} href="/profile/personal" className="text-inherit">
+                  <div className="flex items-center gap-2">
                     <User className="h-4 w-4" />
                     Личный кабинет
-                  </Link>
-                </DropdownMenuItem>
-                <DropdownMenuItem className="cursor-pointer text-red-600">
-                  <LogOut className="h-4 w-4 mr-2" />
-                  Выход
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  </div>
+                </DropdownItem>
+                <DropdownItem key="logout" className="text-danger" color="danger">
+                  <div className="flex items-center gap-2">
+                    <LogOut className="h-4 w-4" />
+                    Выход
+                  </div>
+                </DropdownItem>
+              </NextUIDropdownMenu>
+            </Dropdown>
           </div>
         </div>
       </header>

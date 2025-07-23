@@ -1,14 +1,21 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, NavbarMenuToggle, NavbarMenu, NavbarMenuItem, Button } from '@nextui-org/react';
-import { Sprout, Menu, X, Globe, User, LogOut } from 'lucide-react';
-import {
+import { 
+  Navbar, 
+  NavbarBrand, 
+  NavbarContent, 
+  NavbarItem, 
+  NavbarMenuToggle, 
+  NavbarMenu, 
+  NavbarMenuItem, 
+  Button,
+  Dropdown,
+  DropdownTrigger,
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
+  DropdownItem
+} from '@nextui-org/react';
+import { Sprout, Menu, X, Globe, User, LogOut } from 'lucide-react';
 
 export const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -61,41 +68,43 @@ export const Header = () => {
         
         {/* Language Switcher */}
         <NavbarItem>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+          <Dropdown>
+            <DropdownTrigger>
               <Button isIconOnly variant="light" className="text-gray-600">
                 <Globe className="h-5 w-5" />
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-white">
-              <DropdownMenuItem className="cursor-pointer">🇷🇺 Русский</DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">🇺🇸 English</DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer">🇰🇿 Қазақша</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+            </DropdownTrigger>
+            <DropdownMenu aria-label="Language Selection">
+              <DropdownItem key="ru">🇷🇺 Русский</DropdownItem>
+              <DropdownItem key="en">🇺🇸 English</DropdownItem>
+              <DropdownItem key="kz">🇰🇿 Қазақша</DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </NavbarItem>
 
         {/* User Dropdown */}
         <NavbarItem>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
+          <Dropdown>
+            <DropdownTrigger>
               <Button isIconOnly variant="light" className="text-gray-600">
                 <User className="h-5 w-5" />
               </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent className="bg-white">
-              <DropdownMenuItem asChild className="cursor-pointer">
-                <Link to="/profile/personal" className="flex items-center gap-2">
+            </DropdownTrigger>
+            <DropdownMenu aria-label="User Menu">
+              <DropdownItem key="profile" as={Link} href="/profile/personal" className="text-inherit">
+                <div className="flex items-center gap-2">
                   <User className="h-4 w-4" />
                   Личный кабинет
-                </Link>
-              </DropdownMenuItem>
-              <DropdownMenuItem className="cursor-pointer text-red-600">
-                <LogOut className="h-4 w-4 mr-2" />
-                Выход
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+                </div>
+              </DropdownItem>
+              <DropdownItem key="logout" className="text-danger" color="danger">
+                <div className="flex items-center gap-2">
+                  <LogOut className="h-4 w-4" />
+                  Выход
+                </div>
+              </DropdownItem>
+            </DropdownMenu>
+          </Dropdown>
         </NavbarItem>
         
         <NavbarItem>
