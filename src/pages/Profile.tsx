@@ -1,5 +1,5 @@
-import { Outlet, NavLink, useLocation } from "react-router-dom";
-import { Card, CardBody } from "@nextui-org/react";
+import { Outlet, NavLink, useLocation, Link } from "react-router-dom";
+import { Card, CardBody, Button } from "@nextui-org/react";
 import { 
   User, 
   Building, 
@@ -7,8 +7,16 @@ import {
   Calendar,
   Users,
   CreditCard,
-  Building2
+  Building2,
+  Globe,
+  LogOut
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Profile = () => {
   const location = useLocation();
@@ -76,6 +84,43 @@ const Profile = () => {
               <User className="h-6 w-6 text-white" />
             </div>
             <h1 className="text-xl font-bold text-gray-900">Профиль</h1>
+          </div>
+          
+          <div className="flex items-center gap-4">
+            {/* Language Switcher */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button isIconOnly variant="light" className="text-gray-600">
+                  <Globe className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white">
+                <DropdownMenuItem className="cursor-pointer">🇷🇺 Русский</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">🇺🇸 English</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">🇰🇿 Қазақша</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* User Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button isIconOnly variant="light" className="text-gray-600">
+                  <User className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white">
+                <DropdownMenuItem asChild className="cursor-pointer">
+                  <Link to="/profile/personal" className="flex items-center gap-2">
+                    <User className="h-4 w-4" />
+                    Личный кабинет
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer text-red-600">
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Выход
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </header>

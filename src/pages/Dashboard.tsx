@@ -1,6 +1,7 @@
 
 import { useState } from "react";
 import { Card, CardBody, CardHeader, Button, Progress, Chip, Divider } from "@nextui-org/react";
+import { Link } from 'react-router-dom';
 import { 
   BarChart3, 
   TrendingUp, 
@@ -10,8 +11,17 @@ import {
   MapPin,
   Settings,
   Bell,
-  Search
+  Search,
+  Globe,
+  User,
+  LogOut
 } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -92,14 +102,41 @@ const Dashboard = () => {
             <Button isIconOnly variant="light">
               <Settings className="h-5 w-5" />
             </Button>
-            <Button 
-              isIconOnly 
-              variant="light"
-              as="a"
-              href="/profile"
-            >
-              <Users className="h-5 w-5" />
-            </Button>
+            
+            {/* Language Switcher */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button isIconOnly variant="light" className="text-gray-600">
+                  <Globe className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white">
+                <DropdownMenuItem className="cursor-pointer">🇷🇺 Русский</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">🇺🇸 English</DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer">🇰🇿 Қазақша</DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* User Dropdown */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button isIconOnly variant="light" className="text-gray-600">
+                  <User className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="bg-white">
+                <DropdownMenuItem asChild className="cursor-pointer">
+                  <Link to="/profile/personal" className="flex items-center gap-2">
+                    <User className="h-4 w-4" />
+                    Личный кабинет
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem className="cursor-pointer text-red-600">
+                  <LogOut className="h-4 w-4 mr-2" />
+                  Выход
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </div>
         </div>
       </header>
