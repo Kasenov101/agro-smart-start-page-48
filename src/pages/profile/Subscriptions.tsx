@@ -1,7 +1,9 @@
 import { Card, CardBody, CardHeader, Button, Chip, Divider } from "@nextui-org/react";
 import { CreditCard, Check, X } from "lucide-react";
+import { useCustomToast } from '@/hooks/use-custom-toast';
 
 const Subscriptions = () => {
+  const { success } = useCustomToast();
   const currentSubscription = {
     name: "Профессиональный",
     price: "15,000 ₸/месяц",
@@ -51,6 +53,11 @@ const Subscriptions = () => {
       current: false
     }
   ];
+
+  const handleSelectPlan = (planName: string) => {
+    // Создаем запрос на подключение плана
+    success(`Запрос на подключение плана "${planName}" отправлен администратору`);
+  };
 
   return (
     <div className="space-y-6">
@@ -134,8 +141,9 @@ const Subscriptions = () => {
                       color="primary" 
                       size="sm"
                       variant={plan.name === "Корпоративный" ? "solid" : "flat"}
+                      onPress={() => handleSelectPlan(plan.name)}
                     >
-                      Выбрать план
+                      Отправить запрос
                     </Button>
                   )}
                 </div>
