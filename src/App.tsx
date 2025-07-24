@@ -18,11 +18,17 @@ import PlanRequests from "./pages/admin/PlanRequests";
 import ToastPage from "./pages/ToastPage";
 import NotFound from "./pages/NotFound";
 
+// Mobile pages
+import MobileIndex from "./pages/mobile/Index";
+import MobileLogin from "./pages/mobile/Login";
+import MobileDashboard from "./pages/mobile/Dashboard";
+
 const queryClient = new QueryClient();
 
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <Routes>
+      {/* Desktop routes */}
       <Route path="/" element={<Index />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
@@ -39,6 +45,25 @@ const App = () => (
       </Route>
       <Route path="/admin/plan-requests" element={<PlanRequests />} />
       <Route path="/toast" element={<ToastPage />} />
+
+      {/* Mobile routes */}
+      <Route path="/mobile" element={<MobileIndex />} />
+      <Route path="/mobile/login" element={<MobileLogin />} />
+      <Route path="/mobile/register" element={<Register />} />
+      <Route path="/mobile/register/step2" element={<RegisterStep2 />} />
+      <Route path="/mobile/dashboard" element={<MobileDashboard />} />
+      <Route path="/mobile/profile" element={<Profile />}>
+        <Route path="personal" element={<PersonalInfo />} />
+        <Route path="organization" element={<OrganizationInfo />} />
+        <Route path="security" element={<Security />} />
+        <Route path="activity" element={<Activity />} />
+        <Route path="users" element={<UsersList />} />
+        <Route path="subscriptions" element={<Subscriptions />} />
+        <Route path="organizations" element={<Organizations />} />
+      </Route>
+      <Route path="/mobile/admin/plan-requests" element={<PlanRequests />} />
+      <Route path="/mobile/toast" element={<ToastPage />} />
+
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
       <Route path="*" element={<NotFound />} />
     </Routes>
