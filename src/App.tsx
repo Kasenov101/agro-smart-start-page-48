@@ -14,7 +14,8 @@ import Activity from "./pages/profile/Activity";
 import UsersList from "./pages/profile/Users";
 import Subscriptions from "./pages/profile/Subscriptions";
 import Organizations from "./pages/profile/Organizations";
-import PlanRequests from "./pages/admin/PlanRequests";
+import AdminLayout from "./pages/admin/AdminLayout";
+import PlanRequestsContent from "./pages/admin/PlanRequestsContent";
 import ToastPage from "./pages/ToastPage";
 import NotFound from "./pages/NotFound";
 
@@ -43,7 +44,9 @@ const App = () => (
         <Route path="subscriptions" element={<Subscriptions />} />
         <Route path="organizations" element={<Organizations />} />
       </Route>
-      <Route path="/admin/plan-requests" element={<PlanRequests />} />
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route path="plan-requests" element={<PlanRequestsContent />} />
+      </Route>
       <Route path="/toast" element={<ToastPage />} />
 
       {/* Mobile routes */}
@@ -61,7 +64,9 @@ const App = () => (
         <Route path="subscriptions" element={<Subscriptions />} />
         <Route path="organizations" element={<Organizations />} />
       </Route>
-      <Route path="/mobile/admin/plan-requests" element={<PlanRequests />} />
+      <Route path="/mobile/admin" element={<AdminLayout />}>
+        <Route path="plan-requests" element={<PlanRequestsContent />} />
+      </Route>
       <Route path="/mobile/toast" element={<ToastPage />} />
 
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
