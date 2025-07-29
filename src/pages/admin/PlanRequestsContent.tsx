@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Card, CardBody, CardHeader, Button, Chip, Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, useDisclosure, Divider } from "@nextui-org/react";
+import { Card, CardBody, CardHeader, Button, Chip, Divider } from "@nextui-org/react";
 import { 
   Table, 
   TableHeader, 
@@ -8,7 +8,7 @@ import {
   TableHead, 
   TableCell 
 } from "@/components/ui/table";
-import { Building, User, Calendar, Mail, Phone, MapPin, Check, X, Eye, Users, Award, FileText, Clock } from "lucide-react";
+import { Building, User, Calendar, Mail, Phone, MapPin, Check, X, ChevronDown, ChevronUp, Users, Award, FileText, Clock } from "lucide-react";
 import { useCustomToast } from '@/hooks/use-custom-toast';
 
 interface PlanRequest {
@@ -31,8 +31,7 @@ interface PlanRequest {
 }
 
 const PlanRequestsContent = () => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [selectedRequest, setSelectedRequest] = useState<PlanRequest | null>(null);
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const { success, danger } = useCustomToast();
 
   // Mock data for plan requests
@@ -93,9 +92,16 @@ const PlanRequestsContent = () => {
     }
   ]);
 
-  const handleViewDetails = (request: PlanRequest) => {
-    setSelectedRequest(request);
-    onOpen();
+  const toggleRowExpansion = (requestId: string) => {
+    setExpandedRows(prev => {
+      const newSet = new Set(prev);
+      if (newSet.has(requestId)) {
+        newSet.delete(requestId);
+      } else {
+        newSet.add(requestId);
+      }
+      return newSet;
+    });
   };
 
   const handleApprove = (requestId: string) => {
@@ -203,221 +209,184 @@ const PlanRequestsContent = () => {
             <TableHeader>
               <TableRow className="border-b">
                 <TableHead className="font-semibold">Организация</TableHead>
-                <TableHead className="font-semibold">План</TableHead>
                 <TableHead className="font-semibold">Дата запроса</TableHead>
                 <TableHead className="font-semibold">Статус</TableHead>
-                <TableHead className="font-semibold">Действия</TableHead>
+                <TableHead className="font-semibold w-20"></TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {requests.map((request) => (
-                <TableRow key={request.id} className="hover:bg-gray-50">
-                  <TableCell>
-                    <div className="flex items-center space-x-3">
-                      <div className="p-2 bg-gray-100 rounded-lg">
-                        <Building className="h-4 w-4 text-gray-600" />
+                <>
+                  <TableRow key={request.id} className="hover:bg-gray-50 cursor-pointer">
+                    <TableCell>
+                      <div className="flex items-center space-x-3">
+                        <div className="p-2 bg-gray-100 rounded-lg">
+                          <Building className="h-4 w-4 text-gray-600" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-900">{request.organizationName}</p>
+                          <p className="text-sm text-gray-500">Нажмите для просмотра деталей</p>
+                        </div>
                       </div>
-                      <div>
-                        <p className="font-medium text-gray-900">{request.organizationName}</p>
-                        <p className="text-sm text-gray-500">{request.organizationInfo.contactPerson}</p>
-                      </div>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Chip 
-                      color="primary" 
-                      variant="flat" 
-                      size="sm"
-                      className="font-medium"
-                    >
-                      {request.planType}
-                    </Chip>
-                  </TableCell>
-                  <TableCell className="text-gray-700">
-                    {new Date(request.requestDate).toLocaleDateString('ru-RU')}
-                  </TableCell>
-                  <TableCell>
-                    <Chip 
-                      color={getStatusColor(request.status)}
-                      variant="flat"
-                      size="sm"
-                      className="font-medium"
-                    >
-                      {getStatusText(request.status)}
-                    </Chip>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-2">
+                    </TableCell>
+                    <TableCell className="text-gray-700">
+                      {new Date(request.requestDate).toLocaleDateString('ru-RU')}
+                    </TableCell>
+                    <TableCell>
+                      <Chip 
+                        color={getStatusColor(request.status)}
+                        variant="flat"
+                        size="sm"
+                        className="font-medium"
+                      >
+                        {getStatusText(request.status)}
+                      </Chip>
+                    </TableCell>
+                    <TableCell>
                       <Button
                         isIconOnly
                         size="sm"
                         variant="flat"
                         color="primary"
-                        onPress={() => handleViewDetails(request)}
+                        onPress={() => toggleRowExpansion(request.id)}
                         className="hover:scale-105 transition-transform"
                       >
-                        <Eye className="h-4 w-4" />
+                        {expandedRows.has(request.id) ? (
+                          <ChevronUp className="h-4 w-4" />
+                        ) : (
+                          <ChevronDown className="h-4 w-4" />
+                        )}
                       </Button>
-                      {request.status === 'pending' && (
-                        <>
-                          <Button
-                            isIconOnly
-                            size="sm"
-                            color="success"
-                            variant="flat"
-                            onPress={() => handleApprove(request.id)}
-                            className="hover:scale-105 transition-transform"
-                          >
-                            <Check className="h-4 w-4" />
-                          </Button>
-                          <Button
-                            isIconOnly
-                            size="sm"
-                            color="danger"
-                            variant="flat"
-                            onPress={() => handleReject(request.id)}
-                            className="hover:scale-105 transition-transform"
-                          >
-                            <X className="h-4 w-4" />
-                          </Button>
-                        </>
-                      )}
-                    </div>
-                  </TableCell>
-                </TableRow>
+                    </TableCell>
+                  </TableRow>
+                  
+                  {/* Expanded Details Row */}
+                  {expandedRows.has(request.id) && (
+                    <TableRow key={`${request.id}-details`}>
+                      <TableCell colSpan={4} className="bg-gray-50 p-0">
+                        <div className="p-6 space-y-6">
+                          {/* Plan and Actions Header */}
+                          <div className="flex items-center justify-between border-b pb-4">
+                            <div className="flex items-center space-x-4">
+                              <div className="bg-gradient-to-r from-indigo-50 to-blue-50 p-3 rounded-lg border border-indigo-200">
+                                <div className="flex items-center space-x-3">
+                                  <Award className="h-5 w-5 text-indigo-600" />
+                                  <div>
+                                    <p className="text-sm font-medium text-indigo-700">Запрашиваемый план</p>
+                                    <p className="text-lg font-bold text-indigo-900">{request.planType}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            {request.status === 'pending' && (
+                              <div className="flex space-x-2">
+                                <Button 
+                                  color="danger" 
+                                  variant="flat"
+                                  startContent={<X className="h-4 w-4" />}
+                                  onPress={() => handleReject(request.id)}
+                                >
+                                  Отклонить
+                                </Button>
+                                <Button 
+                                  color="success"
+                                  startContent={<Check className="h-4 w-4" />}
+                                  onPress={() => handleApprove(request.id)}
+                                >
+                                  Одобрить
+                                </Button>
+                              </div>
+                            )}
+                          </div>
+
+                          {/* Organization Details */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="space-y-4">
+                              <h4 className="font-semibold text-gray-900 border-b pb-2">Основная информация</h4>
+                              <div className="space-y-3">
+                                <div className="flex items-start space-x-3">
+                                  <Building className="h-5 w-5 text-gray-400 mt-0.5" />
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-700">Название</p>
+                                    <p className="text-gray-900">{request.organizationInfo.name}</p>
+                                  </div>
+                                </div>
+                                <div className="flex items-start space-x-3">
+                                  <FileText className="h-5 w-5 text-gray-400 mt-0.5" />
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-700">Идентификатор</p>
+                                    <p className="text-gray-900">{request.organizationInfo.identifier}</p>
+                                  </div>
+                                </div>
+                                <div className="flex items-start space-x-3">
+                                  <MapPin className="h-5 w-5 text-gray-400 mt-0.5" />
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-700">Адрес</p>
+                                    <p className="text-gray-900">{request.organizationInfo.address}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            
+                            <div className="space-y-4">
+                              <h4 className="font-semibold text-gray-900 border-b pb-2">Контактная информация</h4>
+                              <div className="space-y-3">
+                                <div className="flex items-start space-x-3">
+                                  <Phone className="h-5 w-5 text-gray-400 mt-0.5" />
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-700">Телефон</p>
+                                    <p className="text-gray-900">{request.organizationInfo.phone}</p>
+                                  </div>
+                                </div>
+                                <div className="flex items-start space-x-3">
+                                  <Mail className="h-5 w-5 text-gray-400 mt-0.5" />
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-700">Email</p>
+                                    <p className="text-gray-900">{request.organizationInfo.email}</p>
+                                  </div>
+                                </div>
+                                <div className="flex items-start space-x-3">
+                                  <User className="h-5 w-5 text-gray-400 mt-0.5" />
+                                  <div>
+                                    <p className="text-sm font-medium text-gray-700">Контактное лицо</p>
+                                    <p className="text-gray-900">{request.organizationInfo.contactPerson}</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div className="flex items-center space-x-3 p-3 bg-white rounded-lg border">
+                              <Users className="h-5 w-5 text-gray-400" />
+                              <div>
+                                <p className="text-sm font-medium text-gray-700">Количество сотрудников</p>
+                                <p className="text-lg font-bold text-gray-900">{request.organizationInfo.employees}</p>
+                              </div>
+                            </div>
+                            <div className="flex items-center space-x-3 p-3 bg-white rounded-lg border">
+                              <Calendar className="h-5 w-5 text-gray-400" />
+                              <div>
+                                <p className="text-sm font-medium text-gray-700">Год основания</p>
+                                <p className="text-lg font-bold text-gray-900">{request.organizationInfo.foundingYear}</p>
+                              </div>
+                            </div>
+                          </div>
+                          
+                          <div className="space-y-3">
+                            <h4 className="font-semibold text-gray-900 border-b pb-2">Описание деятельности</h4>
+                            <p className="text-gray-700 leading-relaxed bg-white p-4 rounded-lg border">{request.organizationInfo.description}</p>
+                          </div>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  )}
+                </>
               ))}
             </TableBody>
           </Table>
         </CardBody>
       </Card>
-
-      {/* Organization Details Modal */}
-      <Modal isOpen={isOpen} onClose={onClose} size="3xl">
-        <ModalContent>
-          <ModalHeader className="flex flex-col gap-1 border-b pb-3">
-            <h3 className="text-xl font-bold text-gray-900">Информация об организации</h3>
-            <p className="text-sm text-gray-600">Детальная информация о запросе</p>
-          </ModalHeader>
-          <ModalBody className="py-6">
-            {selectedRequest && (
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="space-y-4">
-                    <h4 className="font-semibold text-gray-900 border-b pb-2">Основная информация</h4>
-                    <div className="space-y-3">
-                      <div className="flex items-start space-x-3">
-                        <Building className="h-5 w-5 text-gray-400 mt-0.5" />
-                        <div>
-                          <p className="text-sm font-medium text-gray-700">Название</p>
-                          <p className="text-gray-900">{selectedRequest.organizationInfo.name}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start space-x-3">
-                        <FileText className="h-5 w-5 text-gray-400 mt-0.5" />
-                        <div>
-                          <p className="text-sm font-medium text-gray-700">Идентификатор</p>
-                          <p className="text-gray-900">{selectedRequest.organizationInfo.identifier}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start space-x-3">
-                        <MapPin className="h-5 w-5 text-gray-400 mt-0.5" />
-                        <div>
-                          <p className="text-sm font-medium text-gray-700">Адрес</p>
-                          <p className="text-gray-900">{selectedRequest.organizationInfo.address}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <div className="space-y-4">
-                    <h4 className="font-semibold text-gray-900 border-b pb-2">Контактная информация</h4>
-                    <div className="space-y-3">
-                      <div className="flex items-start space-x-3">
-                        <Phone className="h-5 w-5 text-gray-400 mt-0.5" />
-                        <div>
-                          <p className="text-sm font-medium text-gray-700">Телефон</p>
-                          <p className="text-gray-900">{selectedRequest.organizationInfo.phone}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start space-x-3">
-                        <Mail className="h-5 w-5 text-gray-400 mt-0.5" />
-                        <div>
-                          <p className="text-sm font-medium text-gray-700">Email</p>
-                          <p className="text-gray-900">{selectedRequest.organizationInfo.email}</p>
-                        </div>
-                      </div>
-                      <div className="flex items-start space-x-3">
-                        <User className="h-5 w-5 text-gray-400 mt-0.5" />
-                        <div>
-                          <p className="text-sm font-medium text-gray-700">Контактное лицо</p>
-                          <p className="text-gray-900">{selectedRequest.organizationInfo.contactPerson}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                    <Users className="h-5 w-5 text-gray-400" />
-                    <div>
-                      <p className="text-sm font-medium text-gray-700">Количество сотрудников</p>
-                      <p className="text-lg font-bold text-gray-900">{selectedRequest.organizationInfo.employees}</p>
-                    </div>
-                  </div>
-                  <div className="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg">
-                    <Calendar className="h-5 w-5 text-gray-400" />
-                    <div>
-                      <p className="text-sm font-medium text-gray-700">Год основания</p>
-                      <p className="text-lg font-bold text-gray-900">{selectedRequest.organizationInfo.foundingYear}</p>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="space-y-3">
-                  <h4 className="font-semibold text-gray-900 border-b pb-2">Описание деятельности</h4>
-                  <p className="text-gray-700 leading-relaxed">{selectedRequest.organizationInfo.description}</p>
-                </div>
-                
-                <div className="bg-gradient-to-r from-indigo-50 to-blue-50 p-4 rounded-lg border border-indigo-200">
-                  <h4 className="font-semibold text-indigo-900 mb-2">Запрашиваемый план</h4>
-                  <Chip color="primary" variant="solid" size="lg" className="font-semibold">
-                    {selectedRequest.planType}
-                  </Chip>
-                </div>
-              </div>
-            )}
-          </ModalBody>
-          <ModalFooter className="border-t pt-4">
-            <Button color="default" variant="flat" onPress={onClose}>
-              Закрыть
-            </Button>
-            {selectedRequest?.status === 'pending' && (
-              <div className="flex space-x-2">
-                <Button 
-                  color="danger" 
-                  variant="flat"
-                  onPress={() => {
-                    handleReject(selectedRequest.id);
-                    onClose();
-                  }}
-                >
-                  Отклонить
-                </Button>
-                <Button 
-                  color="success" 
-                  onPress={() => {
-                    handleApprove(selectedRequest.id);
-                    onClose();
-                  }}
-                >
-                  Одобрить
-                </Button>
-              </div>
-            )}
-          </ModalFooter>
-        </ModalContent>
-      </Modal>
     </div>
   );
 };
