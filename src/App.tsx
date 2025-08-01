@@ -16,6 +16,7 @@ import Subscriptions from "./pages/profile/Subscriptions";
 import Organizations from "./pages/profile/Organizations";
 import AdminLayout from "./pages/admin/AdminLayout";
 import PlanRequestsContent from "./pages/admin/PlanRequestsContent";
+import MobileAdminLayout from "./pages/mobile/AdminLayout";
 import ToastPage from "./pages/ToastPage";
 import NotFound from "./pages/NotFound";
 
@@ -23,6 +24,10 @@ import NotFound from "./pages/NotFound";
 import MobileIndex from "./pages/mobile/Index";
 import MobileLogin from "./pages/mobile/Login";
 import MobileDashboard from "./pages/mobile/Dashboard";
+import MobileRegister from "./pages/mobile/Register";
+import MobileRegisterStep2 from "./pages/mobile/RegisterStep2";
+import MobileProfile from "./pages/mobile/Profile";
+import MobileToastPage from "./pages/mobile/ToastPage";
 
 const queryClient = new QueryClient();
 
@@ -52,10 +57,10 @@ const App = () => (
       {/* Mobile routes */}
       <Route path="/mobile" element={<MobileIndex />} />
       <Route path="/mobile/login" element={<MobileLogin />} />
-      <Route path="/mobile/register" element={<Register />} />
-      <Route path="/mobile/register/step2" element={<RegisterStep2 />} />
+      <Route path="/mobile/register" element={<MobileRegister />} />
+      <Route path="/mobile/register/step2" element={<MobileRegisterStep2 />} />
       <Route path="/mobile/dashboard" element={<MobileDashboard />} />
-      <Route path="/mobile/profile" element={<Profile />}>
+      <Route path="/mobile/profile" element={<MobileProfile />}>
         <Route path="personal" element={<PersonalInfo />} />
         <Route path="organization" element={<OrganizationInfo />} />
         <Route path="security" element={<Security />} />
@@ -64,10 +69,10 @@ const App = () => (
         <Route path="subscriptions" element={<Subscriptions />} />
         <Route path="organizations" element={<Organizations />} />
       </Route>
-      <Route path="/mobile/admin" element={<AdminLayout />}>
+      <Route path="/mobile/admin" element={<MobileAdminLayout />}>
         <Route path="plan-requests" element={<PlanRequestsContent />} />
       </Route>
-      <Route path="/mobile/toast" element={<ToastPage />} />
+      <Route path="/mobile/toast" element={<MobileToastPage />} />
 
       {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
       <Route path="*" element={<NotFound />} />
