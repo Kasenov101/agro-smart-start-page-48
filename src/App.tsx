@@ -14,6 +14,7 @@ import Activity from "./pages/profile/Activity";
 import UsersList from "./pages/profile/Users";
 import Subscriptions from "./pages/profile/Subscriptions";
 import Organizations from "./pages/profile/Organizations";
+import Integrations from "./pages/profile/Integrations";
 import AdminLayout from "./pages/admin/AdminLayout";
 import PlanRequestsContent from "./pages/admin/PlanRequestsContent";
 import MobileAdminLayout from "./pages/mobile/AdminLayout";
@@ -48,6 +49,7 @@ const App = () => (
         <Route path="users" element={<UsersList />} />
         <Route path="subscriptions" element={<Subscriptions />} />
         <Route path="organizations" element={<Organizations />} />
+        <Route path="integrations" element={<Integrations />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route path="plan-requests" element={<PlanRequestsContent />} />
@@ -68,6 +70,7 @@ const App = () => (
         <Route path="users" element={<UsersList />} />
         <Route path="subscriptions" element={<Subscriptions />} />
         <Route path="organizations" element={<Organizations />} />
+        <Route path="integrations" element={<Integrations />} />
       </Route>
       <Route path="/mobile/admin" element={<MobileAdminLayout />}>
         <Route path="plan-requests" element={<PlanRequestsContent />} />
