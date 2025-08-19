@@ -71,6 +71,13 @@ const Profile = () => {
       icon: Building2,
       path: '/profile/organizations',
       color: 'text-emerald-600'
+    },
+    {
+      id: 'integrations',
+      label: 'Интеграции',
+      icon: Globe,
+      path: '/profile/integrations',
+      color: 'text-teal-600'
     }
   ];
 
