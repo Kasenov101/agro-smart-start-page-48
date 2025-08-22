@@ -1,5 +1,5 @@
-import { Card, CardBody, CardHeader, Button, Divider } from "@nextui-org/react";
-import { Shield } from "lucide-react";
+import { Card, CardBody, CardHeader } from "@nextui-org/react";
+import { Shield, Construction, Clock } from "lucide-react";
 
 const Security = () => {
   return (
@@ -13,27 +13,28 @@ const Security = () => {
             </h3>
           </div>
         </CardHeader>
-        <CardBody className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div>
-              <h4 className="font-medium text-gray-900">Пароль</h4>
-              <p className="text-sm text-gray-600">Последнее изменение: 15 дней назад</p>
+        <CardBody>
+          <div className="flex flex-col items-center justify-center py-12 text-center">
+            <div className="relative mb-4">
+              <Construction className="h-16 w-16 text-orange-500" />
+              <Clock className="absolute -top-1 -right-1 h-6 w-6 text-orange-600 animate-pulse" />
             </div>
-            <Button size="sm" variant="flat" color="primary">
-              Изменить
-            </Button>
-          </div>
-          
-          <Divider />
-          
-          <div className="flex items-center justify-between">
-            <div>
-              <h4 className="font-medium text-gray-900">Двухфакторная аутентификация</h4>
-              <p className="text-sm text-gray-600">Не активирована</p>
+            <h4 className="text-xl font-semibold text-gray-900 mb-2">
+              Раздел в разработке
+            </h4>
+            <p className="text-gray-600 mb-4 max-w-md">
+              Мы работаем над улучшением настроек безопасности. 
+              Этот раздел будет доступен в ближайшее время.
+            </p>
+            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4 max-w-md">
+              <p className="text-sm text-orange-800">
+                <strong>Ожидаемые функции:</strong><br />
+                • Смена пароля<br />
+                • Двухфакторная аутентификация<br />
+                • История входов<br />
+                • Управление сессиями
+              </p>
             </div>
-            <Button size="sm" variant="flat" color="success">
-              Включить
-            </Button>
           </div>
         </CardBody>
       </Card>
