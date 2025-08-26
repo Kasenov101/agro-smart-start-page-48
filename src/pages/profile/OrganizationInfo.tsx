@@ -6,10 +6,15 @@ import {
   Mail, 
   User, 
   Calendar,
-  Edit
+  Edit,
+  DollarSign,
+  Gift
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const OrganizationInfo = () => {
+  const navigate = useNavigate();
+  
   const organizationInfo = {
     name: "ТОО \"АгроТех Казахстан\"",
     identifier: "БИН: 123456789012",
@@ -91,6 +96,54 @@ const OrganizationInfo = () => {
                 <p className="font-medium text-gray-900">{organizationInfo.founded}</p>
               </div>
             </div>
+          </div>
+        </CardBody>
+      </Card>
+
+      {/* Bonus Balance Card */}
+      <Card>
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex items-center gap-3">
+              <Gift className="h-6 w-6 text-green-600" />
+              <h3 className="text-lg font-semibold text-gray-900">
+                Бонусный баланс
+              </h3>
+            </div>
+          </div>
+        </CardHeader>
+        <CardBody className="space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-4">
+              <div className="bg-green-100 p-3 rounded-lg">
+                <DollarSign className="h-8 w-8 text-green-600" />
+              </div>
+              <div>
+                <p className="text-2xl font-bold text-green-600">$2,450.75</p>
+                <p className="text-sm text-gray-600">Доступно к использованию</p>
+              </div>
+            </div>
+            <Button 
+              size="sm" 
+              variant="flat" 
+              color="primary"
+              onClick={() => navigate('/profile/organization/bonuses')}
+            >
+              Подробнее
+            </Button>
+          </div>
+          
+          <Divider />
+          
+          <div className="bg-blue-50 p-4 rounded-lg">
+            <div className="flex items-center gap-2 mb-2">
+              <Gift className="h-4 w-4 text-blue-600" />
+              <span className="text-sm font-medium text-blue-900">Программа лояльности</span>
+            </div>
+            <p className="text-xs text-blue-700">
+              За каждую покупку начисляется 2% бонусов. 
+              Используйте бонусы для оплаты до 50% от суммы заказа.
+            </p>
           </div>
         </CardBody>
       </Card>

@@ -15,6 +15,7 @@ import UsersList from "./pages/profile/Users";
 import Subscriptions from "./pages/profile/Subscriptions";
 import Organizations from "./pages/profile/Organizations";
 import Integrations from "./pages/profile/Integrations";
+import Bonuses from "./pages/profile/Bonuses";
 import AdminLayout from "./pages/admin/AdminLayout";
 import PlanRequestsContent from "./pages/admin/PlanRequestsContent";
 import MobileAdminLayout from "./pages/mobile/AdminLayout";
@@ -44,6 +45,7 @@ const App = () => (
       <Route path="/profile" element={<Profile />}>
         <Route path="personal" element={<PersonalInfo />} />
         <Route path="organization" element={<OrganizationInfo />} />
+        <Route path="organization/bonuses" element={<Bonuses />} />
         <Route path="security" element={<Security />} />
         <Route path="activity" element={<Activity />} />
         <Route path="users" element={<UsersList />} />
@@ -65,6 +67,7 @@ const App = () => (
       <Route path="/mobile/profile" element={<MobileProfile />}>
         <Route path="personal" element={<PersonalInfo />} />
         <Route path="organization" element={<OrganizationInfo />} />
+        <Route path="organization/bonuses" element={<Bonuses />} />
         <Route path="security" element={<Security />} />
         <Route path="activity" element={<Activity />} />
         <Route path="users" element={<UsersList />} />
