@@ -8,12 +8,16 @@ import {
   Calendar,
   Edit,
   DollarSign,
-  Gift
+  Gift,
+  Lock
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 const OrganizationInfo = () => {
   const navigate = useNavigate();
+  
+  // Для демонстрации - можно переключить на false чтобы увидеть неподключенное состояние
+  const isBonusServiceEnabled = true;
   
   const organizationInfo = {
     name: "ТОО \"АгроТех Казахстан\"",
@@ -113,38 +117,79 @@ const OrganizationInfo = () => {
           </div>
         </CardHeader>
         <CardBody className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <div className="bg-green-100 p-3 rounded-lg">
-                <DollarSign className="h-8 w-8 text-green-600" />
+          {isBonusServiceEnabled ? (
+            // Активный бонусный баланс
+            <>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="bg-green-100 p-3 rounded-lg">
+                    <DollarSign className="h-8 w-8 text-green-600" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-green-600">$2,450.75</p>
+                    <p className="text-sm text-gray-600">Доступно к использованию</p>
+                  </div>
+                </div>
+                <Button 
+                  size="sm" 
+                  variant="flat" 
+                  color="primary"
+                  onClick={() => navigate('/profile/organization/bonuses')}
+                >
+                  Подробнее
+                </Button>
               </div>
-              <div>
-                <p className="text-2xl font-bold text-green-600">$2,450.75</p>
-                <p className="text-sm text-gray-600">Доступно к использованию</p>
+              
+              <Divider />
+              
+              <div className="bg-blue-50 p-4 rounded-lg">
+                <div className="flex items-center gap-2 mb-2">
+                  <Gift className="h-4 w-4 text-blue-600" />
+                  <span className="text-sm font-medium text-blue-900">Программа лояльности</span>
+                </div>
+                <p className="text-xs text-blue-700">
+                  За каждую покупку начисляется 2% бонусов. 
+                  Используйте бонусы для оплаты до 50% от суммы заказа.
+                </p>
               </div>
-            </div>
-            <Button 
-              size="sm" 
-              variant="flat" 
-              color="primary"
-              onClick={() => navigate('/profile/organization/bonuses')}
-            >
-              Подробнее
-            </Button>
-          </div>
-          
-          <Divider />
-          
-          <div className="bg-blue-50 p-4 rounded-lg">
-            <div className="flex items-center gap-2 mb-2">
-              <Gift className="h-4 w-4 text-blue-600" />
-              <span className="text-sm font-medium text-blue-900">Программа лояльности</span>
-            </div>
-            <p className="text-xs text-blue-700">
-              За каждую покупку начисляется 2% бонусов. 
-              Используйте бонусы для оплаты до 50% от суммы заказа.
-            </p>
-          </div>
+            </>
+          ) : (
+            // Неподключенная бонусная система
+            <>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <div className="bg-gray-100 p-3 rounded-lg">
+                    <Lock className="h-8 w-8 text-gray-500" />
+                  </div>
+                  <div>
+                    <p className="text-2xl font-bold text-gray-500">Недоступно</p>
+                    <p className="text-sm text-gray-600">Услуга не подключена</p>
+                  </div>
+                </div>
+                <Button 
+                  size="sm" 
+                  variant="flat" 
+                  color="primary"
+                  onClick={() => navigate('/profile/subscriptions')}
+                >
+                  Подключить
+                </Button>
+              </div>
+              
+              <Divider />
+              
+              <div className="bg-orange-50 p-4 rounded-lg">
+                <div className="flex items-center gap-2 mb-2">
+                  <Gift className="h-4 w-4 text-orange-600" />
+                  <span className="text-sm font-medium text-orange-900">Программа лояльности</span>
+                </div>
+                <p className="text-xs text-orange-700">
+                  Подключите бонусную систему в подписках, чтобы получать 2% бонусов 
+                  за каждую покупку и оплачивать ими до 50% от суммы заказа.
+                </p>
+              </div>
+            </>
+          )}
         </CardBody>
       </Card>
     </div>
