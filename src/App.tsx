@@ -18,6 +18,7 @@ import Integrations from "./pages/profile/Integrations";
 import Bonuses from "./pages/profile/Bonuses";
 import AdminLayout from "./pages/admin/AdminLayout";
 import PlanRequestsContent from "./pages/admin/PlanRequestsContent";
+import ECoin from "./pages/admin/ECoin";
 import MobileAdminLayout from "./pages/mobile/AdminLayout";
 import ToastPage from "./pages/ToastPage";
 import NotFound from "./pages/NotFound";
@@ -55,6 +56,7 @@ const App = () => (
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route path="plan-requests" element={<PlanRequestsContent />} />
+        <Route path="ecoin" element={<ECoin />} />
       </Route>
       <Route path="/toast" element={<ToastPage />} />
 
@@ -77,6 +79,7 @@ const App = () => (
       </Route>
       <Route path="/mobile/admin" element={<MobileAdminLayout />}>
         <Route path="plan-requests" element={<PlanRequestsContent />} />
+        <Route path="ecoin" element={<ECoin />} />
       </Route>
       <Route path="/mobile/toast" element={<MobileToastPage />} />
 

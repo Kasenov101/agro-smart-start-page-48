@@ -2,6 +2,7 @@ import { Outlet, NavLink, useLocation, Link } from "react-router-dom";
 import { Card, CardBody, Button } from "@nextui-org/react";
 import { 
   Award, 
+  Coins,
   CreditCard,
   Globe,
   LogOut,
@@ -25,6 +26,13 @@ const AdminLayout = () => {
       icon: CreditCard,
       path: '/admin/plan-requests',
       color: 'text-indigo-600'
+    },
+    {
+      id: 'ecoin',
+      label: 'eCoin',
+      icon: Coins,
+      path: '/admin/ecoin',
+      color: 'text-amber-600'
     }
   ];
 
