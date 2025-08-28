@@ -1,14 +1,20 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button, Input, Card, CardBody, CardHeader, Checkbox } from "@nextui-org/react";
-import { Sprout, Eye, EyeOff } from "lucide-react";
+import { Button, Input, Card, CardBody, CardHeader, Checkbox, Tabs, Tab } from "@nextui-org/react";
+import { Sprout, Eye, EyeOff, Phone, Building2, MessageSquare } from "lucide-react";
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const [loginMethod, setLoginMethod] = useState("email");
+  const [step, setStep] = useState(1); // 1 - login form, 2 - SMS verification
+  const [timer, setTimer] = useState(0);
   const [loginData, setLoginData] = useState({
     email: "",
     password: "",
+    phone: "",
+    bin: "",
+    smsCode: "",
     rememberMe: false,
   });
 
@@ -24,8 +30,32 @@ const Login = () => {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Login data:", loginData);
+    if (loginMethod === "phone" && step === 1) {
+      // Симуляция отправки SMS
+      setStep(2);
+      setTimer(60);
+    } else {
+      console.log("Login data:", loginData);
+    }
   };
+
+  const handleSmsSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log("SMS verification:", loginData.smsCode);
+  };
+
+  const resendSms = () => {
+    setTimer(60);
+  };
+
+  useEffect(() => {
+    if (timer > 0) {
+      const interval = setInterval(() => {
+        setTimer(prev => prev - 1);
+      }, 1000);
+      return () => clearInterval(interval);
+    }
+  }, [timer]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center px-4">
@@ -44,77 +74,214 @@ const Login = () => {
           </CardHeader>
 
           <CardBody className="p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <Input
-                name="email"
-                type="email"
-                label="Email адрес"
-                placeholder="ivan@example.com"
-                value={loginData.email}
-                onChange={handleInputChange}
-                isRequired
-                classNames={{
-                  label: "text-gray-700",
-                  input: "text-gray-900",
-                }}
-              />
-
-              <Input
-                name="password"
-                label="Пароль"
-                placeholder="Введите пароль"
-                value={loginData.password}
-                onChange={handleInputChange}
-                isRequired
-                endContent={
-                  <button
-                    className="focus:outline-none"
-                    type="button"
-                    onClick={toggleVisibility}
-                  >
-                    {isVisible ? (
-                      <EyeOff className="h-5 w-5 text-gray-400" />
-                    ) : (
-                      <Eye className="h-5 w-5 text-gray-400" />
-                    )}
-                  </button>
-                }
-                type={isVisible ? "text" : "password"}
-                classNames={{
-                  label: "text-gray-700",
-                  input: "text-gray-900",
-                }}
-              />
-
-              <div className="flex items-center justify-between">
-                <Checkbox
-                  name="rememberMe"
-                  isSelected={loginData.rememberMe}
-                  onValueChange={(checked) =>
-                    setLoginData({ ...loginData, rememberMe: checked })
-                  }
+            {step === 1 ? (
+              <>
+                <Tabs 
+                  selectedKey={loginMethod} 
+                  onSelectionChange={(key) => setLoginMethod(key as string)}
+                  className="mb-6"
                   classNames={{
-                    label: "text-gray-700",
+                    tabList: "bg-gray-100",
+                    tab: "text-gray-600",
+                    cursor: "bg-white shadow-sm",
                   }}
                 >
-                  Запомнить меня
-                </Checkbox>
-                <Link
-                  to="/forgot-password"
-                  className="text-sm text-green-600 hover:text-green-700"
-                >
-                  Забыли пароль?
-                </Link>
-              </div>
+                  <Tab key="email" title="Email">
+                    <form onSubmit={handleSubmit} className="space-y-6 mt-6">
+                      <Input
+                        name="email"
+                        type="email"
+                        label="Email адрес"
+                        placeholder="ivan@example.com"
+                        value={loginData.email}
+                        onChange={handleInputChange}
+                        isRequired
+                        classNames={{
+                          label: "text-gray-700",
+                          input: "text-gray-900",
+                        }}
+                      />
 
-              <Button
-                type="submit"
-                className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-6"
-                size="lg"
-              >
-                Войти
-              </Button>
-            </form>
+                      <Input
+                        name="password"
+                        label="Пароль"
+                        placeholder="Введите пароль"
+                        value={loginData.password}
+                        onChange={handleInputChange}
+                        isRequired
+                        endContent={
+                          <button
+                            className="focus:outline-none"
+                            type="button"
+                            onClick={toggleVisibility}
+                          >
+                            {isVisible ? (
+                              <EyeOff className="h-5 w-5 text-gray-400" />
+                            ) : (
+                              <Eye className="h-5 w-5 text-gray-400" />
+                            )}
+                          </button>
+                        }
+                        type={isVisible ? "text" : "password"}
+                        classNames={{
+                          label: "text-gray-700",
+                          input: "text-gray-900",
+                        }}
+                      />
+
+                      <div className="flex items-center justify-between">
+                        <Checkbox
+                          name="rememberMe"
+                          isSelected={loginData.rememberMe}
+                          onValueChange={(checked) =>
+                            setLoginData({ ...loginData, rememberMe: checked })
+                          }
+                          classNames={{
+                            label: "text-gray-700",
+                          }}
+                        >
+                          Запомнить меня
+                        </Checkbox>
+                        <Link
+                          to="/forgot-password"
+                          className="text-sm text-green-600 hover:text-green-700"
+                        >
+                          Забыли пароль?
+                        </Link>
+                      </div>
+
+                      <Button
+                        type="submit"
+                        className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-6"
+                        size="lg"
+                      >
+                        Войти
+                      </Button>
+                    </form>
+                  </Tab>
+                  <Tab key="phone" title={
+                    <div className="flex items-center gap-2">
+                      <Phone className="h-4 w-4" />
+                      Телефон
+                    </div>
+                  }>
+                    <form onSubmit={handleSubmit} className="space-y-6 mt-6">
+                      <Input
+                        name="phone"
+                        type="tel"
+                        label="Номер телефона"
+                        placeholder="+7 (___) ___-__-__"
+                        value={loginData.phone}
+                        onChange={handleInputChange}
+                        isRequired
+                        startContent={<Phone className="h-4 w-4 text-gray-400" />}
+                        classNames={{
+                          label: "text-gray-700",
+                          input: "text-gray-900",
+                        }}
+                      />
+
+                      <Input
+                        name="bin"
+                        type="text"
+                        label="БИН организации"
+                        placeholder="123456789012"
+                        value={loginData.bin}
+                        onChange={handleInputChange}
+                        isRequired
+                        startContent={<Building2 className="h-4 w-4 text-gray-400" />}
+                        classNames={{
+                          label: "text-gray-700",
+                          input: "text-gray-900",
+                        }}
+                      />
+
+                      <div className="flex items-center justify-between">
+                        <Checkbox
+                          name="rememberMe"
+                          isSelected={loginData.rememberMe}
+                          onValueChange={(checked) =>
+                            setLoginData({ ...loginData, rememberMe: checked })
+                          }
+                          classNames={{
+                            label: "text-gray-700",
+                          }}
+                        >
+                          Запомнить меня
+                        </Checkbox>
+                      </div>
+
+                      <Button
+                        type="submit"
+                        className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-6"
+                        size="lg"
+                      >
+                        Отправить SMS
+                      </Button>
+                    </form>
+                  </Tab>
+                </Tabs>
+              </>
+            ) : (
+              <form onSubmit={handleSmsSubmit} className="space-y-6">
+                <div className="text-center mb-6">
+                  <MessageSquare className="h-12 w-12 text-green-600 mx-auto mb-3" />
+                  <h3 className="text-lg font-semibold text-gray-900">Введите код из SMS</h3>
+                  <p className="text-sm text-gray-600 mt-1">
+                    Код отправлен на номер {loginData.phone}
+                  </p>
+                </div>
+
+                <Input
+                  name="smsCode"
+                  type="text"
+                  label="SMS код"
+                  placeholder="_ _ _ _ _ _"
+                  value={loginData.smsCode}
+                  onChange={handleInputChange}
+                  isRequired
+                  maxLength={6}
+                  className="text-center text-2xl tracking-widest"
+                  classNames={{
+                    label: "text-gray-700",
+                    input: "text-gray-900 text-center text-xl tracking-[0.5em]",
+                  }}
+                />
+
+                <div className="text-center">
+                  {timer > 0 ? (
+                    <p className="text-sm text-gray-600">
+                      Повторная отправка через {timer} сек
+                    </p>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={resendSms}
+                      className="text-sm text-green-600 hover:text-green-700 font-medium"
+                    >
+                      Отправить код повторно
+                    </button>
+                  )}
+                </div>
+
+                <Button
+                  type="submit"
+                  className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-6"
+                  size="lg"
+                >
+                  Подтвердить
+                </Button>
+
+                <Button
+                  type="button"
+                  variant="ghost"
+                  className="w-full text-gray-600"
+                  onClick={() => setStep(1)}
+                >
+                  ← Назад
+                </Button>
+              </form>
+            )}
 
             <div className="mt-6 text-center">
               <p className="text-gray-600">
