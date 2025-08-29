@@ -299,16 +299,6 @@ const Login = () => {
               </form>
             )}
 
-            {/* SMS Timer Demo - постоянно видимый */}
-            <div className="mt-6">
-              <SmsTimer 
-                initialTime={60}
-                onResend={() => console.log('SMS отправлен повторно')}
-                isActive={true}
-                phoneNumber={loginData.phone || "+7 (777) 123-45-67"}
-              />
-            </div>
-
             <div className="mt-6 text-center">
               <p className="text-gray-600">
                 Нет аккаунта?{" "}
