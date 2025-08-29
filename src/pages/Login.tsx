@@ -2,7 +2,7 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Input, Card, CardBody, CardHeader, Checkbox } from "@nextui-org/react";
-import { Sprout, Eye, EyeOff, Phone, Building2, MessageSquare, Mail } from "lucide-react";
+import { Sprout, Eye, EyeOff, Phone, Building2, MessageSquare, User } from "lucide-react";
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -88,8 +88,8 @@ const Login = () => {
                           : "text-gray-600 hover:text-gray-800"
                       }`}
                     >
-                      <Mail className="h-4 w-4" />
-                      Email
+                      <User className="h-4 w-4" />
+                      Логин
                     </button>
                     <button
                       type="button"
@@ -100,8 +100,8 @@ const Login = () => {
                           : "text-gray-600 hover:text-gray-800"
                       }`}
                     >
-                      <Phone className="h-4 w-4" />
-                      Телефон
+                      <MessageSquare className="h-4 w-4" />
+                      СМС
                     </button>
                   </div>
                 </div>
@@ -117,7 +117,7 @@ const Login = () => {
                       value={loginData.email}
                       onChange={handleInputChange}
                       isRequired
-                      startContent={<Mail className="h-4 w-4 text-gray-400" />}
+                      startContent={<User className="h-4 w-4 text-gray-400" />}
                       classNames={{
                         label: "text-gray-700",
                         input: "text-gray-900",
