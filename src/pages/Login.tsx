@@ -1,8 +1,8 @@
 
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Button, Input, Card, CardBody, CardHeader, Checkbox, Tabs, Tab } from "@nextui-org/react";
-import { Sprout, Eye, EyeOff, Phone, Building2, MessageSquare } from "lucide-react";
+import { Button, Input, Card, CardBody, CardHeader, Checkbox } from "@nextui-org/react";
+import { Sprout, Eye, EyeOff, Phone, Building2, MessageSquare, Mail } from "lucide-react";
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -76,151 +76,166 @@ const Login = () => {
           <CardBody className="p-8">
             {step === 1 ? (
               <>
-                <Tabs 
-                  selectedKey={loginMethod} 
-                  onSelectionChange={(key) => setLoginMethod(key as string)}
-                  className="mb-6"
-                  classNames={{
-                    tabList: "bg-gray-100",
-                    tab: "text-gray-600",
-                    cursor: "bg-white shadow-sm",
-                  }}
-                >
-                  <Tab key="email" title="Email">
-                    <form onSubmit={handleSubmit} className="space-y-6 mt-6">
-                      <Input
-                        name="email"
-                        type="email"
-                        label="Email адрес"
-                        placeholder="ivan@example.com"
-                        value={loginData.email}
-                        onChange={handleInputChange}
-                        isRequired
-                        classNames={{
-                          label: "text-gray-700",
-                          input: "text-gray-900",
-                        }}
-                      />
-
-                      <Input
-                        name="password"
-                        label="Пароль"
-                        placeholder="Введите пароль"
-                        value={loginData.password}
-                        onChange={handleInputChange}
-                        isRequired
-                        endContent={
-                          <button
-                            className="focus:outline-none"
-                            type="button"
-                            onClick={toggleVisibility}
-                          >
-                            {isVisible ? (
-                              <EyeOff className="h-5 w-5 text-gray-400" />
-                            ) : (
-                              <Eye className="h-5 w-5 text-gray-400" />
-                            )}
-                          </button>
-                        }
-                        type={isVisible ? "text" : "password"}
-                        classNames={{
-                          label: "text-gray-700",
-                          input: "text-gray-900",
-                        }}
-                      />
-
-                      <div className="flex items-center justify-between">
-                        <Checkbox
-                          name="rememberMe"
-                          isSelected={loginData.rememberMe}
-                          onValueChange={(checked) =>
-                            setLoginData({ ...loginData, rememberMe: checked })
-                          }
-                          classNames={{
-                            label: "text-gray-700",
-                          }}
-                        >
-                          Запомнить меня
-                        </Checkbox>
-                        <Link
-                          to="/forgot-password"
-                          className="text-sm text-green-600 hover:text-green-700"
-                        >
-                          Забыли пароль?
-                        </Link>
-                      </div>
-
-                      <Button
-                        type="submit"
-                        className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-6"
-                        size="lg"
-                      >
-                        Войти
-                      </Button>
-                    </form>
-                  </Tab>
-                  <Tab key="phone" title={
-                    <div className="flex items-center gap-2">
+                {/* Method Selection */}
+                <div className="mb-6">
+                  <div className="flex bg-gray-100 rounded-lg p-1 gap-1">
+                    <button
+                      type="button"
+                      onClick={() => setLoginMethod("email")}
+                      className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-md text-sm font-medium transition-all ${
+                        loginMethod === "email"
+                          ? "bg-white text-green-600 shadow-sm"
+                          : "text-gray-600 hover:text-gray-800"
+                      }`}
+                    >
+                      <Mail className="h-4 w-4" />
+                      Email
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => setLoginMethod("phone")}
+                      className={`flex-1 flex items-center justify-center gap-2 py-2 px-4 rounded-md text-sm font-medium transition-all ${
+                        loginMethod === "phone"
+                          ? "bg-white text-green-600 shadow-sm"
+                          : "text-gray-600 hover:text-gray-800"
+                      }`}
+                    >
                       <Phone className="h-4 w-4" />
                       Телефон
-                    </div>
-                  }>
-                    <form onSubmit={handleSubmit} className="space-y-6 mt-6">
-                      <Input
-                        name="phone"
-                        type="tel"
-                        label="Номер телефона"
-                        placeholder="+7 (___) ___-__-__"
-                        value={loginData.phone}
-                        onChange={handleInputChange}
-                        isRequired
-                        startContent={<Phone className="h-4 w-4 text-gray-400" />}
-                        classNames={{
-                          label: "text-gray-700",
-                          input: "text-gray-900",
-                        }}
-                      />
+                    </button>
+                  </div>
+                </div>
 
-                      <Input
-                        name="bin"
-                        type="text"
-                        label="БИН организации"
-                        placeholder="123456789012"
-                        value={loginData.bin}
-                        onChange={handleInputChange}
-                        isRequired
-                        startContent={<Building2 className="h-4 w-4 text-gray-400" />}
-                        classNames={{
-                          label: "text-gray-700",
-                          input: "text-gray-900",
-                        }}
-                      />
+                {/* Login Forms */}
+                {loginMethod === "email" ? (
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <Input
+                      name="email"
+                      type="email"
+                      label="Email адрес"
+                      placeholder="ivan@example.com"
+                      value={loginData.email}
+                      onChange={handleInputChange}
+                      isRequired
+                      startContent={<Mail className="h-4 w-4 text-gray-400" />}
+                      classNames={{
+                        label: "text-gray-700",
+                        input: "text-gray-900",
+                      }}
+                    />
 
-                      <div className="flex items-center justify-between">
-                        <Checkbox
-                          name="rememberMe"
-                          isSelected={loginData.rememberMe}
-                          onValueChange={(checked) =>
-                            setLoginData({ ...loginData, rememberMe: checked })
-                          }
-                          classNames={{
-                            label: "text-gray-700",
-                          }}
+                    <Input
+                      name="password"
+                      label="Пароль"
+                      placeholder="Введите пароль"
+                      value={loginData.password}
+                      onChange={handleInputChange}
+                      isRequired
+                      endContent={
+                        <button
+                          className="focus:outline-none"
+                          type="button"
+                          onClick={toggleVisibility}
                         >
-                          Запомнить меня
-                        </Checkbox>
-                      </div>
+                          {isVisible ? (
+                            <EyeOff className="h-5 w-5 text-gray-400" />
+                          ) : (
+                            <Eye className="h-5 w-5 text-gray-400" />
+                          )}
+                        </button>
+                      }
+                      type={isVisible ? "text" : "password"}
+                      classNames={{
+                        label: "text-gray-700",
+                        input: "text-gray-900",
+                      }}
+                    />
 
-                      <Button
-                        type="submit"
-                        className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-6"
-                        size="lg"
+                    <div className="flex items-center justify-between">
+                      <Checkbox
+                        name="rememberMe"
+                        isSelected={loginData.rememberMe}
+                        onValueChange={(checked) =>
+                          setLoginData({ ...loginData, rememberMe: checked })
+                        }
+                        classNames={{
+                          label: "text-gray-700",
+                        }}
                       >
-                        Отправить SMS
-                      </Button>
-                    </form>
-                  </Tab>
-                </Tabs>
+                        Запомнить меня
+                      </Checkbox>
+                      <Link
+                        to="/forgot-password"
+                        className="text-sm text-green-600 hover:text-green-700"
+                      >
+                        Забыли пароль?
+                      </Link>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-6"
+                      size="lg"
+                    >
+                      Войти
+                    </Button>
+                  </form>
+                ) : (
+                  <form onSubmit={handleSubmit} className="space-y-6">
+                    <Input
+                      name="phone"
+                      type="tel"
+                      label="Номер телефона"
+                      placeholder="+7 (___) ___-__-__"
+                      value={loginData.phone}
+                      onChange={handleInputChange}
+                      isRequired
+                      startContent={<Phone className="h-4 w-4 text-gray-400" />}
+                      classNames={{
+                        label: "text-gray-700",
+                        input: "text-gray-900",
+                      }}
+                    />
+
+                    <Input
+                      name="bin"
+                      type="text"
+                      label="БИН организации"
+                      placeholder="123456789012"
+                      value={loginData.bin}
+                      onChange={handleInputChange}
+                      isRequired
+                      startContent={<Building2 className="h-4 w-4 text-gray-400" />}
+                      classNames={{
+                        label: "text-gray-700",
+                        input: "text-gray-900",
+                      }}
+                    />
+
+                    <div className="flex items-center justify-between">
+                      <Checkbox
+                        name="rememberMe"
+                        isSelected={loginData.rememberMe}
+                        onValueChange={(checked) =>
+                          setLoginData({ ...loginData, rememberMe: checked })
+                        }
+                        classNames={{
+                          label: "text-gray-700",
+                        }}
+                      >
+                        Запомнить меня
+                      </Checkbox>
+                    </div>
+
+                    <Button
+                      type="submit"
+                      className="w-full bg-green-600 hover:bg-green-700 text-white font-medium py-6"
+                      size="lg"
+                    >
+                      Отправить SMS
+                    </Button>
+                  </form>
+                )}
               </>
             ) : (
               <form onSubmit={handleSmsSubmit} className="space-y-6">
