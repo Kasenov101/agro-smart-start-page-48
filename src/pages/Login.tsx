@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Input, Card, CardBody, CardHeader, Checkbox } from "@nextui-org/react";
 import { Sprout, Eye, EyeOff, Phone, Building2, MessageSquare, User } from "lucide-react";
+import { SmsTimer } from "@/components/ui/sms-timer";
 
 const Login = () => {
   const [isVisible, setIsVisible] = useState(false);
@@ -297,6 +298,16 @@ const Login = () => {
                 </Button>
               </form>
             )}
+
+            {/* SMS Timer Demo - постоянно видимый */}
+            <div className="mt-6">
+              <SmsTimer 
+                initialTime={60}
+                onResend={() => console.log('SMS отправлен повторно')}
+                isActive={true}
+                phoneNumber={loginData.phone || "+7 (777) 123-45-67"}
+              />
+            </div>
 
             <div className="mt-6 text-center">
               <p className="text-gray-600">
