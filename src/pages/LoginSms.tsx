@@ -59,15 +59,6 @@ const LoginSms = () => {
           </CardHeader>
 
           <CardBody className="p-8">
-            {/* Информация об отправленных данных */}
-            <div className="bg-green-50 rounded-lg p-4 mb-6 border border-green-200">
-              <h3 className="font-semibold text-green-800 mb-2">Данные отправлены</h3>
-              <div className="space-y-1 text-sm text-green-700">
-                <p><span className="font-medium">Телефон:</span> {mockData.phone}</p>
-                <p><span className="font-medium">БИН:</span> {mockData.bin}</p>
-              </div>
-            </div>
-
             {/* SMS Timer */}
             <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-4 border border-green-200 mb-6">
               <div className="flex items-center gap-3 mb-3">
@@ -77,6 +68,7 @@ const LoginSms = () => {
                 <div>
                   <h3 className="font-semibold text-gray-900">SMS Верификация</h3>
                   <p className="text-sm text-gray-600">Код отправлен на {mockData.phone}</p>
+                  <p className="text-xs text-gray-500">БИН: {mockData.bin}</p>
                 </div>
               </div>
               
