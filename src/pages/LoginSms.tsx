@@ -1,12 +1,14 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Input, Card, CardBody, CardHeader } from "@nextui-org/react";
-import { Sprout, MessageSquare, ArrowLeft, RotateCcw } from "lucide-react";
+import { Sprout, MessageSquare, ArrowLeft, RotateCcw, AlertCircle } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 const LoginSms = () => {
   const [smsCode, setSmsCode] = useState("");
   const [timer, setTimer] = useState(60);
   const [isActive, setIsActive] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   // Имитация данных пользователя
   const mockData = {
@@ -28,11 +30,20 @@ const LoginSms = () => {
   const handleResend = () => {
     setTimer(60);
     setIsActive(true);
+    setError(null); // Очищаем ошибку при повторной отправке
     console.log('SMS отправлен повторно');
   };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    // Имитация проверки кода - если код "000000", показываем ошибку
+    if (smsCode === "000000") {
+      setError("Номер телефона не соответствует данным организации. Проверьте правильность введенных данных.");
+      return;
+    }
+    
+    setError(null);
     console.log("SMS код:", smsCode);
   };
 
@@ -105,6 +116,16 @@ const LoginSms = () => {
                 </div>
               )}
             </div>
+
+            {/* Error Alert */}
+            {error && (
+              <Alert variant="destructive" className="mb-6">
+                <AlertCircle className="h-4 w-4" />
+                <AlertDescription>
+                  {error}
+                </AlertDescription>
+              </Alert>
+            )}
 
             {/* SMS Code Input */}
             <form onSubmit={handleSubmit} className="space-y-6">
