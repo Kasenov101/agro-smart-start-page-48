@@ -1,12 +1,13 @@
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Card, CardBody } from "@nextui-org/react";
-import { Sprout, ArrowLeft, Building2, Phone, Mail, CreditCard } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Sprout, ArrowLeft, Building2, Phone, Mail, CreditCard, MessageSquare, RotateCcw, CheckCircle } from "lucide-react";
 
 const RegisterStep2 = () => {
   const navigate = useNavigate();
@@ -17,6 +18,15 @@ const RegisterStep2 = () => {
     identifier: "",
     email: "",
     phone: "",
+  });
+
+  const [smsState, setSmsState] = useState({
+    isSent: false,
+    isVerified: false,
+    timer: 0,
+    isActive: false,
+    smsCode: "",
+    error: null as string | null,
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,8 +44,81 @@ const RegisterStep2 = () => {
     });
   };
 
+  useEffect(() => {
+    if (smsState.isActive && smsState.timer > 0) {
+      const interval = setInterval(() => {
+        setSmsState(prev => ({
+          ...prev,
+          timer: prev.timer - 1
+        }));
+      }, 1000);
+      return () => clearInterval(interval);
+    } else if (smsState.timer === 0) {
+      setSmsState(prev => ({
+        ...prev,
+        isActive: false
+      }));
+    }
+  }, [smsState.timer, smsState.isActive]);
+
+  const handleSendSms = () => {
+    if (!organizationData.phone) return;
+    
+    setSmsState({
+      ...smsState,
+      isSent: true,
+      timer: 60,
+      isActive: true,
+      error: null,
+    });
+    console.log("SMS отправлен на:", organizationData.phone);
+  };
+
+  const handleResendSms = () => {
+    setSmsState({
+      ...smsState,
+      timer: 60,
+      isActive: true,
+      error: null,
+    });
+    console.log("SMS отправлен повторно на:", organizationData.phone);
+  };
+
+  const handleSmsCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSmsState({
+      ...smsState,
+      smsCode: e.target.value,
+      error: null,
+    });
+  };
+
+  const handleVerifySms = () => {
+    // Имитация проверки кода
+    if (smsState.smsCode === "123456") {
+      setSmsState({
+        ...smsState,
+        isVerified: true,
+        error: null,
+      });
+    } else {
+      setSmsState({
+        ...smsState,
+        error: "Неверный код подтверждения",
+      });
+    }
+  };
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!smsState.isVerified) {
+      setSmsState({
+        ...smsState,
+        error: "Необходимо подтвердить номер телефона",
+      });
+      return;
+    }
+    
     console.log("Organization registration:", organizationData);
     // Здесь будет логика регистрации организации
     // После успешной регистрации перенаправляем на dashboard
@@ -51,6 +134,12 @@ const RegisterStep2 = () => {
       default:
         return "Выберите тип идентификатора";
     }
+  };
+
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
   };
 
   return (
@@ -187,19 +276,92 @@ const RegisterStep2 = () => {
                 <Label htmlFor="phone" className="text-sm font-medium text-gray-700">
                   Телефон *
                 </Label>
-                <div className="relative">
-                  <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
-                  <Input
-                    id="phone"
-                    name="phone"
-                    type="tel"
-                    placeholder="+7 (777) 123-45-67"
-                    value={organizationData.phone}
-                    onChange={handleInputChange}
-                    required
-                    className="pl-10"
-                  />
+                <div className="flex gap-2">
+                  <div className="relative flex-1">
+                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      placeholder="+7 (777) 123-45-67"
+                      value={organizationData.phone}
+                      onChange={handleInputChange}
+                      required
+                      className="pl-10"
+                      disabled={smsState.isVerified}
+                    />
+                    {smsState.isVerified && (
+                      <CheckCircle className="absolute right-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-green-600" />
+                    )}
+                  </div>
+                  {!smsState.isVerified && (
+                    <Button
+                      type="button"
+                      variant="outline"
+                      onClick={smsState.isSent ? handleResendSms : handleSendSms}
+                      disabled={!organizationData.phone || (smsState.isActive && smsState.timer > 0)}
+                      className="whitespace-nowrap"
+                    >
+                      {smsState.isSent ? 
+                        (smsState.timer > 0 ? `${formatTime(smsState.timer)}` : "Отправить") 
+                        : "SMS"
+                      }
+                    </Button>
+                  )}
                 </div>
+
+                {/* SMS Verification Panel */}
+                {smsState.isSent && !smsState.isVerified && (
+                  <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-4 border border-green-200 mt-4">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="bg-green-600 p-2 rounded-lg">
+                        <MessageSquare className="h-4 w-4 text-white" />
+                      </div>
+                      <div>
+                        <h3 className="font-semibold text-gray-900 text-sm">SMS Верификация</h3>
+                        <p className="text-xs text-gray-600">Код отправлен на {organizationData.phone}</p>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-3">
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="Введите код"
+                          value={smsState.smsCode}
+                          onChange={handleSmsCodeChange}
+                          maxLength={6}
+                          className="flex-1 text-center"
+                        />
+                        <Button
+                          type="button"
+                          onClick={handleVerifySms}
+                          disabled={smsState.smsCode.length < 6}
+                          size="sm"
+                        >
+                          Проверить
+                        </Button>
+                      </div>
+                      
+                      {smsState.timer > 0 && (
+                        <div className="w-full bg-gray-200 rounded-full h-1">
+                          <div 
+                            className="bg-gradient-to-r from-green-500 to-blue-500 h-1 rounded-full transition-all duration-1000"
+                            style={{ width: `${((60 - smsState.timer) / 60) * 100}%` }}
+                          />
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+                {/* SMS Error */}
+                {smsState.error && (
+                  <Alert variant="destructive" className="mt-2">
+                    <AlertDescription className="text-sm">
+                      {smsState.error}
+                    </AlertDescription>
+                  </Alert>
+                )}
               </div>
 
               {/* Submit button */}
