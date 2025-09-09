@@ -21,10 +21,10 @@ const RegisterStep2 = () => {
   });
 
   const [smsState, setSmsState] = useState({
-    isSent: false,
+    isSent: true,
     isVerified: false,
-    timer: 0,
-    isActive: false,
+    timer: 60,
+    isActive: true,
     smsCode: "",
     error: null as string | null,
   });
