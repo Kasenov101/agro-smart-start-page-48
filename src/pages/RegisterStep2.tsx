@@ -312,89 +312,44 @@ const RegisterStep2 = () => {
 
                 {/* SMS Verification Panel */}
                 {smsState.isSent && !smsState.isVerified && (
-                  <div className="bg-white rounded border border-gray-200 p-2 mt-2">
-                    <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-1">
-                        <div className="bg-green-600 p-1 rounded">
-                          <MessageSquare className="h-2 w-2 text-white" />
-                        </div>
-                        <div>
-                          <h3 className="font-medium text-gray-900 text-xs">SMS код</h3>
-                          <p className="text-xs text-gray-500">{organizationData.phone}</p>
-                        </div>
+                  <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-4 border border-green-200 mt-4">
+                    <div className="flex items-center gap-3 mb-3">
+                      <div className="bg-green-600 p-2 rounded-lg">
+                        <MessageSquare className="h-4 w-4 text-white" />
                       </div>
-                      {smsState.timer > 0 && (
-                        <span className="text-xs font-mono text-green-600 bg-green-50 px-1 py-0.5 rounded">
-                          {formatTime(smsState.timer)}
-                        </span>
-                      )}
+                      <div>
+                        <h3 className="font-semibold text-gray-900 text-sm">SMS Верификация</h3>
+                        <p className="text-xs text-gray-600">Код отправлен на {organizationData.phone}</p>
+                      </div>
                     </div>
                     
-                    <div className="space-y-1">
-                      <div className="flex gap-1">
-                        {[...Array(6)].map((_, index) => (
-                          <Input
-                            key={index}
-                            type="text"
-                            inputMode="numeric"
-                            maxLength={1}
-                            value={smsState.smsCode[index] || ''}
-                            onChange={(e) => {
-                              const newCode = smsState.smsCode.split('');
-                              newCode[index] = e.target.value;
-                              setSmsState({
-                                ...smsState,
-                                smsCode: newCode.join('').slice(0, 6),
-                                error: null,
-                              });
-                              
-                              // Auto-focus next input
-                              if (e.target.value && index < 5) {
-                                const nextInput = (e.target as HTMLInputElement).parentElement?.nextElementSibling?.querySelector('input');
-                                nextInput?.focus();
-                              }
-                            }}
-                            onKeyDown={(e) => {
-                              // Auto-focus previous input on backspace
-                              if (e.key === 'Backspace' && !e.currentTarget.value && index > 0) {
-                                const prevInput = (e.target as HTMLInputElement).parentElement?.previousElementSibling?.querySelector('input');
-                                prevInput?.focus();
-                              }
-                            }}
-                            className="text-center text-xs font-mono h-6 w-6 rounded border focus:border-green-500 focus:ring-1 focus:ring-green-500"
-                            placeholder="0"
-                          />
-                        ))}
+                    <div className="space-y-3">
+                      <div className="flex gap-2">
+                        <Input
+                          placeholder="Введите код"
+                          value={smsState.smsCode}
+                          onChange={handleSmsCodeChange}
+                          maxLength={6}
+                          className="flex-1 text-center"
+                        />
                         <Button
                           type="button"
                           onClick={handleVerifySms}
                           disabled={smsState.smsCode.length < 6}
-                          className="ml-1 bg-green-600 hover:bg-green-700 text-white px-2 py-1 text-xs h-6 rounded"
+                          size="sm"
                         >
-                          OK
+                          Проверить
                         </Button>
                       </div>
                       
-                      <div className="flex justify-between items-center">
-                        <Button
-                          type="button"
-                          variant="ghost"
-                          onClick={handleResendSms}
-                          disabled={smsState.timer > 0}
-                          className="text-xs h-auto p-1 text-gray-600 hover:text-green-600"
-                        >
-                          {smsState.timer > 0 ? 'Ожидание...' : 'Отправить снова'}
-                        </Button>
-                        
-                        {smsState.timer > 0 && (
-                          <div className="w-16 bg-gray-200 rounded-full h-0.5">
-                            <div 
-                              className="bg-green-500 h-0.5 rounded-full transition-all duration-1000"
-                              style={{ width: `${((60 - smsState.timer) / 60) * 100}%` }}
-                            />
-                          </div>
-                        )}
-                      </div>
+                      {smsState.timer > 0 && (
+                        <div className="w-full bg-gray-200 rounded-full h-1">
+                          <div 
+                            className="bg-gradient-to-r from-green-500 to-blue-500 h-1 rounded-full transition-all duration-1000"
+                            style={{ width: `${((60 - smsState.timer) / 60) * 100}%` }}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
