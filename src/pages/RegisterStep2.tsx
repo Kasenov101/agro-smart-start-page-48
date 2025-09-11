@@ -312,28 +312,26 @@ const RegisterStep2 = () => {
 
                 {/* SMS Verification Panel */}
                 {smsState.isSent && !smsState.isVerified && (
-                  <div className="bg-gradient-to-br from-primary/5 via-green-50 to-blue-50 rounded-lg p-3 border border-primary/20 mt-4 shadow-md">
+                  <div className="bg-white rounded border border-gray-200 p-2 mt-2">
                     <div className="flex items-center justify-between mb-2">
-                      <div className="flex items-center gap-2">
-                        <div className="bg-gradient-to-r from-green-600 to-green-700 p-1.5 rounded-lg shadow-sm">
-                          <MessageSquare className="h-3 w-3 text-white" />
+                      <div className="flex items-center gap-1">
+                        <div className="bg-green-600 p-1 rounded">
+                          <MessageSquare className="h-2 w-2 text-white" />
                         </div>
                         <div>
-                          <h3 className="font-bold text-gray-900 text-sm">SMS Верификация</h3>
-                          <p className="text-xs text-gray-600">Код отправлен на {organizationData.phone}</p>
+                          <h3 className="font-medium text-gray-900 text-xs">SMS код</h3>
+                          <p className="text-xs text-gray-500">{organizationData.phone}</p>
                         </div>
                       </div>
                       {smsState.timer > 0 && (
-                        <div className="bg-white/80 backdrop-blur-sm rounded-full px-2 py-1 border border-gray-200">
-                          <span className="text-xs font-mono font-bold text-green-600">
-                            {formatTime(smsState.timer)}
-                          </span>
-                        </div>
+                        <span className="text-xs font-mono text-green-600 bg-green-50 px-1 py-0.5 rounded">
+                          {formatTime(smsState.timer)}
+                        </span>
                       )}
                     </div>
                     
-                    <div className="space-y-2">
-                      <div className="grid grid-cols-6 gap-1">
+                    <div className="space-y-1">
+                      <div className="flex gap-1">
                         {[...Array(6)].map((_, index) => (
                           <Input
                             key={index}
@@ -363,58 +361,39 @@ const RegisterStep2 = () => {
                                 prevInput?.focus();
                               }
                             }}
-                            className="text-center text-sm font-bold h-8 rounded-md border-2 focus:border-green-500 focus:ring-green-500/20"
-                            placeholder="•"
+                            className="text-center text-xs font-mono h-6 w-6 rounded border focus:border-green-500 focus:ring-1 focus:ring-green-500"
+                            placeholder="0"
                           />
                         ))}
-                      </div>
-                      
-                      <div className="flex gap-2">
                         <Button
                           type="button"
                           onClick={handleVerifySms}
                           disabled={smsState.smsCode.length < 6}
-                          className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-1.5 text-sm rounded-lg shadow-sm transition-all duration-200"
+                          className="ml-1 bg-green-600 hover:bg-green-700 text-white px-2 py-1 text-xs h-6 rounded"
                         >
-                          <CheckCircle className="h-3 w-3 mr-1" />
-                          Подтвердить
-                        </Button>
-                        
-                        <Button
-                          type="button"
-                          variant="outline"
-                          onClick={handleResendSms}
-                          disabled={smsState.timer > 0}
-                          className="px-3 py-1.5 text-sm rounded-lg border hover:bg-gray-50 transition-all duration-200"
-                        >
-                          <RotateCcw className="h-3 w-3 mr-1" />
-                          {smsState.timer > 0 ? 'Ожидание' : 'Снова'}
+                          OK
                         </Button>
                       </div>
                       
-                      {smsState.timer > 0 && (
-                        <div className="relative">
-                          <div className="w-full bg-gray-200/50 rounded-full h-1 overflow-hidden">
+                      <div className="flex justify-between items-center">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          onClick={handleResendSms}
+                          disabled={smsState.timer > 0}
+                          className="text-xs h-auto p-1 text-gray-600 hover:text-green-600"
+                        >
+                          {smsState.timer > 0 ? 'Ожидание...' : 'Отправить снова'}
+                        </Button>
+                        
+                        {smsState.timer > 0 && (
+                          <div className="w-16 bg-gray-200 rounded-full h-0.5">
                             <div 
-                              className="bg-gradient-to-r from-green-500 via-green-600 to-blue-500 h-1 rounded-full transition-all duration-1000"
+                              className="bg-green-500 h-0.5 rounded-full transition-all duration-1000"
                               style={{ width: `${((60 - smsState.timer) / 60) * 100}%` }}
                             />
                           </div>
-                          <div className="flex justify-between mt-1 text-xs text-gray-500">
-                            <span>Прогресс</span>
-                            <span>{Math.round(((60 - smsState.timer) / 60) * 100)}%</span>
-                          </div>
-                        </div>
-                      )}
-                      
-                      <div className="bg-blue-50/50 rounded-lg p-2 border border-blue-200/50">
-                        <div className="flex items-center gap-1 text-blue-700">
-                          <MessageSquare className="h-3 w-3" />
-                          <span className="text-xs font-medium">Не получили SMS?</span>
-                        </div>
-                        <p className="text-xs text-blue-600 mt-0.5">
-                          Проверьте спам или отправьте повторно через {formatTime(smsState.timer)}
-                        </p>
+                        )}
                       </div>
                     </div>
                   </div>
