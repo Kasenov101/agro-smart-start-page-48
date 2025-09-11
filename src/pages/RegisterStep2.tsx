@@ -312,44 +312,110 @@ const RegisterStep2 = () => {
 
                 {/* SMS Verification Panel */}
                 {smsState.isSent && !smsState.isVerified && (
-                  <div className="bg-gradient-to-r from-green-50 to-blue-50 rounded-xl p-4 border border-green-200 mt-4">
-                    <div className="flex items-center gap-3 mb-3">
-                      <div className="bg-green-600 p-2 rounded-lg">
-                        <MessageSquare className="h-4 w-4 text-white" />
+                  <div className="bg-gradient-to-br from-primary/5 via-green-50 to-blue-50 rounded-2xl p-6 border border-primary/20 mt-4 shadow-lg">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-3">
+                        <div className="bg-gradient-to-r from-green-600 to-green-700 p-3 rounded-xl shadow-md">
+                          <MessageSquare className="h-5 w-5 text-white" />
+                        </div>
+                        <div>
+                          <h3 className="font-bold text-gray-900 text-lg">SMS Верификация</h3>
+                          <p className="text-sm text-gray-600">Код отправлен на {organizationData.phone}</p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="font-semibold text-gray-900 text-sm">SMS Верификация</h3>
-                        <p className="text-xs text-gray-600">Код отправлен на {organizationData.phone}</p>
-                      </div>
+                      {smsState.timer > 0 && (
+                        <div className="bg-white/80 backdrop-blur-sm rounded-full px-4 py-2 border border-gray-200">
+                          <span className="text-sm font-mono font-bold text-green-600">
+                            {formatTime(smsState.timer)}
+                          </span>
+                        </div>
+                      )}
                     </div>
                     
-                    <div className="space-y-3">
-                      <div className="flex gap-2">
-                        <Input
-                          placeholder="Введите код"
-                          value={smsState.smsCode}
-                          onChange={handleSmsCodeChange}
-                          maxLength={6}
-                          className="flex-1 text-center"
-                        />
+                    <div className="space-y-4">
+                      <div className="grid grid-cols-6 gap-2">
+                        {[...Array(6)].map((_, index) => (
+                          <Input
+                            key={index}
+                            type="text"
+                            inputMode="numeric"
+                            maxLength={1}
+                            value={smsState.smsCode[index] || ''}
+                            onChange={(e) => {
+                              const newCode = smsState.smsCode.split('');
+                              newCode[index] = e.target.value;
+                              setSmsState({
+                                ...smsState,
+                                smsCode: newCode.join('').slice(0, 6),
+                                error: null,
+                              });
+                              
+                              // Auto-focus next input
+                              if (e.target.value && index < 5) {
+                                const nextInput = (e.target as HTMLInputElement).parentElement?.nextElementSibling?.querySelector('input');
+                                nextInput?.focus();
+                              }
+                            }}
+                            onKeyDown={(e) => {
+                              // Auto-focus previous input on backspace
+                              if (e.key === 'Backspace' && !e.currentTarget.value && index > 0) {
+                                const prevInput = (e.target as HTMLInputElement).parentElement?.previousElementSibling?.querySelector('input');
+                                prevInput?.focus();
+                              }
+                            }}
+                            className="text-center text-xl font-bold h-14 rounded-xl border-2 focus:border-green-500 focus:ring-green-500/20"
+                            placeholder="•"
+                          />
+                        ))}
+                      </div>
+                      
+                      <div className="flex gap-3">
                         <Button
                           type="button"
                           onClick={handleVerifySms}
                           disabled={smsState.smsCode.length < 6}
-                          size="sm"
+                          className="flex-1 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold py-3 rounded-xl shadow-md transition-all duration-200 transform hover:scale-[1.02]"
                         >
-                          Проверить
+                          <CheckCircle className="h-4 w-4 mr-2" />
+                          Подтвердить код
+                        </Button>
+                        
+                        <Button
+                          type="button"
+                          variant="outline"
+                          onClick={handleResendSms}
+                          disabled={smsState.timer > 0}
+                          className="px-6 py-3 rounded-xl border-2 hover:bg-gray-50 transition-all duration-200"
+                        >
+                          <RotateCcw className="h-4 w-4 mr-2" />
+                          {smsState.timer > 0 ? 'Ожидание' : 'Отправить снова'}
                         </Button>
                       </div>
                       
                       {smsState.timer > 0 && (
-                        <div className="w-full bg-gray-200 rounded-full h-1">
-                          <div 
-                            className="bg-gradient-to-r from-green-500 to-blue-500 h-1 rounded-full transition-all duration-1000"
-                            style={{ width: `${((60 - smsState.timer) / 60) * 100}%` }}
-                          />
+                        <div className="relative">
+                          <div className="w-full bg-gray-200/50 rounded-full h-2 overflow-hidden">
+                            <div 
+                              className="bg-gradient-to-r from-green-500 via-green-600 to-blue-500 h-2 rounded-full transition-all duration-1000 shadow-sm"
+                              style={{ width: `${((60 - smsState.timer) / 60) * 100}%` }}
+                            />
+                          </div>
+                          <div className="flex justify-between mt-2 text-xs text-gray-500">
+                            <span>Прогресс</span>
+                            <span>{Math.round(((60 - smsState.timer) / 60) * 100)}%</span>
+                          </div>
                         </div>
                       )}
+                      
+                      <div className="bg-blue-50/50 rounded-xl p-4 border border-blue-200/50">
+                        <div className="flex items-center gap-2 text-blue-700">
+                          <MessageSquare className="h-4 w-4" />
+                          <span className="text-sm font-medium">Не получили SMS?</span>
+                        </div>
+                        <p className="text-xs text-blue-600 mt-1">
+                          Проверьте папку спам или попробуйте отправить код повторно через {formatTime(smsState.timer)}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 )}
