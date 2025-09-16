@@ -32,6 +32,7 @@ import MobileRegister from "./pages/mobile/Register";
 import MobileRegisterStep2 from "./pages/mobile/RegisterStep2";
 import MobileProfile from "./pages/mobile/Profile";
 import MobileToastPage from "./pages/mobile/ToastPage";
+import MobileBonuses from "./pages/mobile/Bonuses";
 
 const queryClient = new QueryClient();
 
@@ -71,7 +72,7 @@ const App = () => (
       <Route path="/mobile/profile" element={<MobileProfile />}>
         <Route path="personal" element={<PersonalInfo />} />
         <Route path="organization" element={<OrganizationInfo />} />
-        <Route path="organization/bonuses" element={<Bonuses />} />
+        <Route path="organization/bonuses" element={<MobileBonuses />} />
         <Route path="security" element={<Security />} />
         <Route path="activity" element={<Activity />} />
         <Route path="users" element={<UsersList />} />
