@@ -116,17 +116,18 @@ const MobileProfile = () => {
         <div className="px-6 py-6 space-y-6">
           {/* User Info Card */}
           <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <div className="flex items-center gap-4 mb-4">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
-                <User className="h-8 w-8 text-white" />
+            <div className="text-center">
+              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                <User className="h-10 w-10 text-white" />
               </div>
-              <div>
-                <h2 className="text-xl font-bold text-gray-900">Иван Иванов</h2>
-                <div className="flex items-center gap-4 mt-1">
-                  <p className="text-sm font-medium text-blue-600">ООО "ТехИнновации"</p>
-                  <p className="text-sm text-gray-500">• 45 сотрудников</p>
-                </div>
-                <p className="text-sm text-green-600 font-medium">Активный аккаунт</p>
+              <h2 className="text-2xl font-bold text-gray-900 mb-2">Иван Иванов</h2>
+              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-3 mb-3">
+                <p className="text-lg font-semibold text-blue-700 mb-1">ООО "ТехИнновации"</p>
+                <p className="text-sm text-blue-600 font-medium">45 сотрудников</p>
+              </div>
+              <div className="inline-flex items-center gap-2 bg-green-100 px-3 py-1 rounded-full">
+                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                <span className="text-sm text-green-700 font-medium">Активный аккаунт</span>
               </div>
             </div>
           </div>
