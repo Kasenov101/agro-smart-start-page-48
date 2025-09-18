@@ -121,24 +121,17 @@ const MobileProfile = () => {
                 <User className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-gray-900">Иван Иванов</h2>
+                <h2 className="text-xl font-bold text-gray-900">Иван</h2>
                 <p className="text-gray-600">ivan@example.com</p>
+                <div className="flex items-center gap-4 mt-2">
+                  <p className="text-sm font-medium text-blue-600">ООО "ТехИнновации"</p>
+                  <p className="text-sm text-gray-500">• 45 сотрудников</p>
+                </div>
                 <p className="text-sm text-green-600 font-medium">Активный аккаунт</p>
               </div>
             </div>
           </div>
 
-          {/* Stats Cards */}
-          <div className="grid grid-cols-2 gap-4">
-            <div className="bg-white rounded-2xl p-4 shadow-sm">
-              <div className="text-2xl font-bold text-gray-900 mb-1">24</div>
-              <div className="text-sm text-gray-600">Проекта</div>
-            </div>
-            <div className="bg-white rounded-2xl p-4 shadow-sm">
-              <div className="text-2xl font-bold text-gray-900 mb-1">156</div>
-              <div className="text-sm text-gray-600">Пользователей</div>
-            </div>
-          </div>
 
           {/* Navigation Menu */}
           <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
