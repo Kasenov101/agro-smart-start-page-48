@@ -115,19 +115,32 @@ const MobileProfile = () => {
         /* Main Profile Navigation */
         <div className="px-6 py-6 space-y-6">
           {/* User Info Card */}
-          <div className="bg-white rounded-2xl p-6 shadow-sm">
-            <div className="text-center">
-              <div className="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                <User className="h-10 w-10 text-white" />
+          <div className="bg-gradient-to-br from-white to-gray-50 rounded-2xl p-6 shadow-lg border border-gray-100">
+            <div className="flex items-start gap-5">
+              <div className="w-18 h-18 bg-gradient-to-br from-blue-500 via-blue-600 to-indigo-600 rounded-2xl flex items-center justify-center shadow-lg">
+                <User className="h-9 w-9 text-white" />
               </div>
-              <h2 className="text-2xl font-bold text-gray-900 mb-2">Иван Иванов</h2>
-              <div className="bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg p-3 mb-3">
-                <p className="text-lg font-semibold text-blue-700 mb-1">ООО "ТехИнновации"</p>
-                <p className="text-sm text-blue-600 font-medium">45 сотрудников</p>
-              </div>
-              <div className="inline-flex items-center gap-2 bg-green-100 px-3 py-1 rounded-full">
-                <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                <span className="text-sm text-green-700 font-medium">Активный аккаунт</span>
+              <div className="flex-1 space-y-3">
+                <div>
+                  <h2 className="text-2xl font-bold text-gray-900 leading-tight">Иван Иванов</h2>
+                  <p className="text-gray-500 text-sm font-medium">Руководитель</p>
+                </div>
+                
+                <div className="space-y-2">
+                  <div className="flex items-center gap-2">
+                    <Building className="h-4 w-4 text-blue-500" />
+                    <span className="text-gray-800 font-semibold">ООО "ТехИнновации"</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <Users className="h-4 w-4 text-orange-500" />
+                    <span className="text-gray-600">45 сотрудников</span>
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-2 bg-gradient-to-r from-green-500/10 to-emerald-500/10 px-3 py-2 rounded-lg border border-green-200">
+                  <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                  <span className="text-green-700 font-semibold text-sm">Активный аккаунт</span>
+                </div>
               </div>
             </div>
           </div>
