@@ -121,9 +121,8 @@ const MobileProfile = () => {
                 <User className="h-8 w-8 text-white" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-gray-900">Иван</h2>
-                <p className="text-gray-600">ivan@example.com</p>
-                <div className="flex items-center gap-4 mt-2">
+                <h2 className="text-xl font-bold text-gray-900">Иван Иванов</h2>
+                <div className="flex items-center gap-4 mt-1">
                   <p className="text-sm font-medium text-blue-600">ООО "ТехИнновации"</p>
                   <p className="text-sm text-gray-500">• 45 сотрудников</p>
                 </div>
