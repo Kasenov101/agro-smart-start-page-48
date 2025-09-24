@@ -20,112 +20,100 @@ import {
 const Integrations = () => {
   const integrations = [
     {
-      id: 'zapier',
-      name: 'Zapier',
-      description: 'Автоматизируйте рабочие процессы с помощью тысяч приложений',
-      icon: Zap,
-      color: 'bg-orange-500',
-      status: 'available',
-      category: 'Автоматизация'
-    },
-    {
-      id: 'gmail',
-      name: 'Gmail',
-      description: 'Интеграция с электронной почтой для уведомлений',
-      icon: Mail,
-      color: 'bg-red-500',
-      status: 'connected',
-      category: 'Почта'
-    },
-    {
-      id: 'slack',
-      name: 'Slack',
-      description: 'Получайте уведомления в командном чате',
-      icon: MessageSquare,
-      color: 'bg-purple-500',
-      status: 'available',
-      category: 'Коммуникации'
-    },
-    {
-      id: 'calendar',
-      name: 'Google Calendar',
-      description: 'Синхронизация событий и планирование встреч',
-      icon: Calendar,
-      color: 'bg-blue-500',
-      status: 'available',
-      category: 'Планирование'
-    },
-    {
-      id: 'salesforce',
-      name: 'Salesforce',
-      description: 'CRM интеграция для управления клиентами',
-      icon: Database,
-      color: 'bg-cyan-500',
-      status: 'premium',
-      category: 'CRM'
-    },
-    {
-      id: 'dropbox',
-      name: 'Dropbox',
-      description: 'Облачное хранилище для файлов проекта',
-      icon: Cloud,
-      color: 'bg-blue-600',
-      status: 'connected',
-      category: 'Хранилище'
-    },
-    {
-      id: 'telegram',
-      name: 'Telegram Bot',
-      description: 'Уведомления через Telegram бота',
-      icon: Smartphone,
-      color: 'bg-blue-400',
-      status: 'available',
-      category: 'Мессенджеры'
-    },
-    {
-      id: 'analytics',
-      name: 'Google Analytics',
-      description: 'Отслеживание метрик и аналитики',
+      id: 'johndeere',
+      name: 'John Deere Operations Center',
+      description: 'Синхронизация данных с техникой John Deere для мониторинга работы',
       icon: BarChart3,
-      color: 'bg-yellow-500',
-      status: 'available',
-      category: 'Аналитика'
-    },
-    {
-      id: 'notion',
-      name: 'Notion',
-      description: 'Синхронизация документации и заметок',
-      icon: FileText,
-      color: 'bg-gray-700',
-      status: 'premium',
-      category: 'Документы'
-    },
-    {
-      id: 'teams',
-      name: 'Microsoft Teams',
-      description: 'Интеграция с корпоративным мессенджером',
-      icon: Users,
-      color: 'bg-indigo-500',
-      status: 'available',
-      category: 'Коммуникации'
-    },
-    {
-      id: 'stripe',
-      name: 'Stripe',
-      description: 'Обработка платежей и биллинг',
-      icon: DollarSign,
-      color: 'bg-purple-600',
-      status: 'premium',
-      category: 'Платежи'
-    },
-    {
-      id: 'okta',
-      name: 'Okta',
-      description: 'Single Sign-On и управление доступом',
-      icon: Shield,
       color: 'bg-green-600',
-      status: 'enterprise',
-      category: 'Безопасность'
+      status: 'available'
+    },
+    {
+      id: 'fieldclimate',
+      name: 'FieldClimate',
+      description: 'Метеорологические данные и мониторинг условий полей',
+      icon: Cloud,
+      color: 'bg-blue-500',
+      status: 'connected'
+    },
+    {
+      id: 'claas',
+      name: 'CLAAS Telematics',
+      description: 'Телематика комбайнов и другой техники CLAAS',
+      icon: Smartphone,
+      color: 'bg-orange-600',
+      status: 'available'
+    },
+    {
+      id: 'newholland',
+      name: 'New Holland PLM Connect',
+      description: 'Система точного земледелия и управления техникой',
+      icon: Database,
+      color: 'bg-blue-700',
+      status: 'available'
+    },
+    {
+      id: 'trimble',
+      name: 'Trimble Agriculture',
+      description: 'GPS-навигация и системы точного земледелия',
+      icon: Shield,
+      color: 'bg-purple-600',
+      status: 'premium'
+    },
+    {
+      id: 'agleader',
+      name: 'Ag Leader Technology',
+      description: 'Системы контроля высева и внесения удобрений',
+      icon: BarChart3,
+      color: 'bg-green-500',
+      status: 'available'
+    },
+    {
+      id: 'climate',
+      name: 'Climate FieldView',
+      description: 'Цифровая платформа для анализа полей и урожайности',
+      icon: FileText,
+      color: 'bg-teal-600',
+      status: 'premium'
+    },
+    {
+      id: 'topcon',
+      name: 'Topcon Agriculture',
+      description: 'Прецизионные системы земледелия и автопилот',
+      icon: Zap,
+      color: 'bg-red-600',
+      status: 'available'
+    },
+    {
+      id: 'raven',
+      name: 'Raven Slingshot',
+      description: 'Платформа для управления операциями и данными поля',
+      icon: Calendar,
+      color: 'bg-gray-700',
+      status: 'enterprise'
+    },
+    {
+      id: 'valtra',
+      name: 'Valtra Connect',
+      description: 'Телематические решения для тракторов Valtra',
+      icon: Users,
+      color: 'bg-red-500',
+      status: 'available'
+    },
+    {
+      id: 'case',
+      name: 'Case IH AFS Connect',
+      description: 'Система управления фермой и мониторинга техники',
+      icon: DollarSign,
+      color: 'bg-red-700',
+      status: 'available'
+    },
+    {
+      id: 'fendt',
+      name: 'Fendt Connect',
+      description: 'Телематика и цифровые сервисы для техники Fendt',
+      icon: Smartphone,
+      color: 'bg-green-700',
+      status: 'premium'
     }
   ];
 
@@ -168,54 +156,49 @@ const Integrations = () => {
     }
   };
 
-  const categories = Array.from(new Set(integrations.map(i => i.category)));
-
   return (
     <div className="space-y-8">
-      {categories.map(category => (
-        <div key={category} className="space-y-6">
-          <div className="relative">
-            <h3 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent pb-3">
-              {category}
-            </h3>
-            <div className="absolute bottom-0 left-0 w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {integrations
-              .filter(integration => integration.category === category)
-              .map((integration) => {
-                const Icon = integration.icon;
-                return (
-                  <Card key={integration.id} className="group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-gradient-to-br from-white to-gray-50 border-0 shadow-lg">
-                    <CardHeader className="pb-3">
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center space-x-3">
-                          <div className={`w-12 h-12 ${integration.color} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                            <Icon className="h-6 w-6 text-white" />
-                          </div>
-                          <CardTitle className="text-lg group-hover:text-blue-600 transition-colors">{integration.name}</CardTitle>
-                        </div>
-                        {getStatusBadge(integration.status)}
-                      </div>
-                    </CardHeader>
-                    <CardContent className="pt-0">
-                      <p className="text-gray-600 text-sm mb-4 line-clamp-2 leading-relaxed">
-                        {integration.description}
-                      </p>
-                      <Button 
-                        variant={getButtonVariant(integration.status)}
-                        className="w-full group-hover:shadow-md transition-all duration-300"
-                        disabled={integration.status === 'enterprise'}
-                      >
-                        {getButtonText(integration.status)}
-                      </Button>
-                    </CardContent>
-                  </Card>
-                );
-              })}
-          </div>
-        </div>
-      ))}
+      {/* Описание интеграций */}
+      <div className="text-center max-w-2xl mx-auto">
+        <p className="text-gray-600 leading-relaxed">
+          Подключите вашу сельскохозяйственную технику и системы мониторинга для автоматического сбора данных, 
+          оптимизации работы полей и повышения эффективности операций.
+        </p>
+      </div>
+
+      {/* Сетка интеграций */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {integrations.map((integration) => {
+          const Icon = integration.icon;
+          return (
+            <Card key={integration.id} className="group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-gradient-to-br from-white to-gray-50 border-0 shadow-lg">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-3">
+                    <div className={`w-12 h-12 ${integration.color} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                      <Icon className="h-6 w-6 text-white" />
+                    </div>
+                    <CardTitle className="text-lg group-hover:text-blue-600 transition-colors">{integration.name}</CardTitle>
+                  </div>
+                  {getStatusBadge(integration.status)}
+                </div>
+              </CardHeader>
+              <CardContent className="pt-0">
+                <p className="text-gray-600 text-sm mb-4 line-clamp-2 leading-relaxed">
+                  {integration.description}
+                </p>
+                <Button 
+                  variant={getButtonVariant(integration.status)}
+                  className="w-full group-hover:shadow-md transition-all duration-300"
+                  disabled={integration.status === 'enterprise'}
+                >
+                  {getButtonText(integration.status)}
+                </Button>
+              </CardContent>
+            </Card>
+          );
+        })}
+      </div>
 
       <Card className="bg-gradient-to-br from-blue-500 via-blue-600 to-purple-600 border-0 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
         <CardContent className="p-8">
