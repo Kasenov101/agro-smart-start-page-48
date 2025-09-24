@@ -171,44 +171,40 @@ const Integrations = () => {
   const categories = Array.from(new Set(integrations.map(i => i.category)));
 
   return (
-    <div className="space-y-6">
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-2">Интеграции</h2>
-        <p className="text-gray-600">
-          Подключите внешние сервисы для расширения функциональности платформы
-        </p>
-      </div>
-
+    <div className="space-y-8">
       {categories.map(category => (
-        <div key={category} className="space-y-4">
-          <h3 className="text-lg font-semibold text-gray-800 border-b border-gray-200 pb-2">
-            {category}
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div key={category} className="space-y-6">
+          <div className="relative">
+            <h3 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent pb-3">
+              {category}
+            </h3>
+            <div className="absolute bottom-0 left-0 w-20 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {integrations
               .filter(integration => integration.category === category)
               .map((integration) => {
                 const Icon = integration.icon;
                 return (
-                  <Card key={integration.id} className="hover:shadow-md transition-shadow">
+                  <Card key={integration.id} className="group hover:shadow-xl hover:-translate-y-1 transition-all duration-300 bg-gradient-to-br from-white to-gray-50 border-0 shadow-lg">
                     <CardHeader className="pb-3">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center space-x-3">
-                          <div className={`w-10 h-10 ${integration.color} rounded-lg flex items-center justify-center`}>
-                            <Icon className="h-5 w-5 text-white" />
+                          <div className={`w-12 h-12 ${integration.color} rounded-xl flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300`}>
+                            <Icon className="h-6 w-6 text-white" />
                           </div>
-                          <CardTitle className="text-lg">{integration.name}</CardTitle>
+                          <CardTitle className="text-lg group-hover:text-blue-600 transition-colors">{integration.name}</CardTitle>
                         </div>
                         {getStatusBadge(integration.status)}
                       </div>
                     </CardHeader>
                     <CardContent className="pt-0">
-                      <p className="text-gray-600 text-sm mb-4 line-clamp-2">
+                      <p className="text-gray-600 text-sm mb-4 line-clamp-2 leading-relaxed">
                         {integration.description}
                       </p>
                       <Button 
                         variant={getButtonVariant(integration.status)}
-                        className="w-full"
+                        className="w-full group-hover:shadow-md transition-all duration-300"
                         disabled={integration.status === 'enterprise'}
                       >
                         {getButtonText(integration.status)}
@@ -221,20 +217,20 @@ const Integrations = () => {
         </div>
       ))}
 
-      <Card className="bg-blue-50 border-blue-200">
-        <CardContent className="p-6">
-          <div className="flex items-center space-x-3 mb-3">
-            <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
-              <Zap className="h-4 w-4 text-white" />
+      <Card className="bg-gradient-to-br from-blue-500 via-blue-600 to-purple-600 border-0 shadow-xl hover:shadow-2xl hover:-translate-y-1 transition-all duration-300">
+        <CardContent className="p-8">
+          <div className="flex items-center space-x-4 mb-4">
+            <div className="w-12 h-12 bg-white/20 backdrop-blur-sm rounded-xl flex items-center justify-center">
+              <Zap className="h-6 w-6 text-white" />
             </div>
-            <h3 className="text-lg font-semibold text-blue-900">
+            <h3 className="text-xl font-bold text-white">
               Нужна кастомная интеграция?
             </h3>
           </div>
-          <p className="text-blue-700 mb-4">
+          <p className="text-blue-100 mb-6 leading-relaxed">
             Мы можем разработать индивидуальную интеграцию специально для ваших потребностей.
           </p>
-          <Button className="bg-blue-600 hover:bg-blue-700 text-white">
+          <Button className="bg-white text-blue-600 hover:bg-blue-50 hover:text-blue-700 font-semibold shadow-lg hover:shadow-xl transition-all duration-300">
             Связаться с нами
           </Button>
         </CardContent>
