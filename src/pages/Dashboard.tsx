@@ -22,7 +22,6 @@ import {
   DropdownMenu as NextUIDropdownMenu,
   DropdownItem
 } from "@nextui-org/react";
-import { CombineMap } from "@/components/CombineMap";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -178,15 +177,11 @@ const Dashboard = () => {
           ))}
         </div>
 
-        <div className="space-y-6">
-          {/* Combine Map */}
-          <CombineMap />
-
-          <div className="grid lg:grid-cols-3 gap-6">
-            {/* Main Content */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Chart Card */}
-              <Card className="bg-white">
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Main Content */}
+          <div className="lg:col-span-2 space-y-6">
+            {/* Chart Card */}
+            <Card className="bg-white">
               <CardHeader className="pb-3">
                 <h3 className="text-lg font-semibold text-gray-900">
                   Динамика прибыли
@@ -250,10 +245,10 @@ const Dashboard = () => {
                 </div>
               </CardBody>
             </Card>
-            </div>
+          </div>
 
-            {/* Sidebar */}
-            <div className="space-y-6">
+          {/* Sidebar */}
+          <div className="space-y-6">
             {/* Recent Activity */}
             <Card className="bg-white">
               <CardHeader className="pb-3">
@@ -341,7 +336,6 @@ const Dashboard = () => {
                 </Button>
               </CardBody>
             </Card>
-            </div>
           </div>
         </div>
       </div>
