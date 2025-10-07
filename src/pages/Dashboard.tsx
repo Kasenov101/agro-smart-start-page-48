@@ -16,7 +16,6 @@ import {
   User,
   LogOut
 } from "lucide-react";
-import CombineMap from "@/components/CombineMap";
 import { 
   Dropdown,
   DropdownTrigger,
@@ -181,8 +180,22 @@ const Dashboard = () => {
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Main Content */}
           <div className="lg:col-span-2 space-y-6">
-            {/* Карта комбайнов */}
-            <CombineMap />
+            {/* Chart Card */}
+            <Card className="bg-white">
+              <CardHeader className="pb-3">
+                <h3 className="text-lg font-semibold text-gray-900">
+                  Динамика прибыли
+                </h3>
+              </CardHeader>
+              <CardBody>
+                <div className="h-64 flex items-center justify-center bg-gray-50 rounded-lg">
+                  <div className="text-center">
+                    <BarChart3 className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+                    <p className="text-gray-600">График будет здесь</p>
+                  </div>
+                </div>
+              </CardBody>
+            </Card>
 
             {/* Projects */}
             <Card className="bg-white">

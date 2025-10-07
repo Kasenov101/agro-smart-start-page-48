@@ -21,7 +21,6 @@ import {
 } from "lucide-react";
 import { WeatherWidget } from "@/components/mobile/WeatherWidget";
 import { EquipmentPanel } from "@/components/mobile/EquipmentPanel";
-import MobileCombineMap from "@/components/mobile/CombineMap";
 
 const MobileDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -143,9 +142,6 @@ const MobileDashboard = () => {
             ))}
           </div>
         </div>
-
-        {/* Карта комбайнов */}
-        <MobileCombineMap />
 
         {/* Weather Widget */}
         <WeatherWidget />
