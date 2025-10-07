@@ -101,3 +101,23 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* Leaflet map styles */
+@import 'leaflet/dist/leaflet.css';
+
+.leaflet-container {
+  font-family: inherit;
+}
+
+@keyframes slide-up {
+  from {
+    transform: translateY(100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-up 0.3s ease-out;
+}
