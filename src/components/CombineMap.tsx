@@ -1,20 +1,9 @@
 import { useState } from "react";
-import { MapContainer, TileLayer, Marker, Polyline, Popup } from "react-leaflet";
 import { Card, CardBody, CardHeader, Button } from "@nextui-org/react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { MapPin } from "lucide-react";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
-
-// Fix default marker icon issue with webpack
-delete (L.Icon.Default.prototype as any)._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png",
-  iconUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png",
-  shadowUrl: "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png",
-});
 
 const organizations = [
   { id: "1", name: "Агрохолдинг Казахстан" },
@@ -190,38 +179,16 @@ export const CombineMap = () => {
         </Dialog>
       </CardHeader>
       <CardBody>
-        <div className="h-64 rounded-lg overflow-hidden">
-          <MapContainer
-            center={[51.1694, 71.4491]}
-            zoom={13}
-            style={{ height: "100%", width: "100%" }}
-          >
-            <TileLayer
-              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            />
-            {combines.map((combine) => (
-              <Marker key={combine.id} position={combine.position}>
-                <Popup>
-                  <div className="text-sm">
-                    <strong>{combine.name}</strong>
-                    <br />
-                    <span>Оператор: {combine.operator}</span>
-                    <br />
-                    <span>VIN: {combine.vin}</span>
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
-            {showTrack && selectedCombineData && (
-              <Polyline
-                positions={selectedCombineData.track}
-                color="blue"
-                weight={3}
-                opacity={0.7}
-              />
+        <div className="h-64 rounded-lg bg-gray-100 flex items-center justify-center">
+          <div className="text-center">
+            <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+            <p className="text-gray-600">Здесь будет карта</p>
+            {selectedCombineData && (
+              <p className="text-sm text-gray-500 mt-2">
+                Выбран: {selectedCombineData.name}
+              </p>
             )}
-          </MapContainer>
+          </div>
         </div>
       </CardBody>
     </Card>
