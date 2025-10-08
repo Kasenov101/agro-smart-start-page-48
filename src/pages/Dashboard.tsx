@@ -197,49 +197,46 @@ const Dashboard = () => {
               </CardBody>
             </Card>
 
-            {/* Projects */}
+            {/* Equipment Errors */}
             <Card className="bg-white">
               <CardHeader className="pb-3">
                 <h3 className="text-lg font-semibold text-gray-900">
-                  Активные проекты
+                  Ошибки техники
                 </h3>
               </CardHeader>
               <CardBody className="space-y-4">
                 <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="font-medium text-gray-900">Посев пшеницы - Поле А</h4>
-                      <p className="text-sm text-gray-600">Завершено на 75%</p>
-                    </div>
-                    <div className="text-right">
-                      <Progress value={75} className="w-24" color="success" />
-                      <p className="text-xs text-gray-500 mt-1">15 дней</p>
-                    </div>
-                  </div>
-                  
-                  <Divider />
-                  
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="font-medium text-gray-900">Внесение удобрений - Поле Б</h4>
-                      <p className="text-sm text-gray-600">Завершено на 45%</p>
-                    </div>
-                    <div className="text-right">
-                      <Progress value={45} className="w-24" color="warning" />
-                      <p className="text-xs text-gray-500 mt-1">8 дней</p>
+                  <div className="border-l-4 border-red-500 pl-4 py-2">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-900">Комбайн CLAAS LEXION 780</h4>
+                        <p className="text-sm text-gray-600 mt-1">VIN: WCL78012345678901</p>
+                        <p className="text-sm text-red-600 mt-2">Ошибка: Перегрев двигателя. Требуется немедленная остановка и проверка системы охлаждения.</p>
+                      </div>
                     </div>
                   </div>
                   
                   <Divider />
                   
-                  <div className="flex items-center justify-between">
-                    <div>
-                      <h4 className="font-medium text-gray-900">Уборка урожая - Поле В</h4>
-                      <p className="text-sm text-gray-600">Завершено на 90%</p>
+                  <div className="border-l-4 border-orange-500 pl-4 py-2">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-900">Комбайн John Deere S790</h4>
+                        <p className="text-sm text-gray-600 mt-1">VIN: 1M0S790ABCD123456</p>
+                        <p className="text-sm text-orange-600 mt-2">Ошибка: Низкое давление масла. Рекомендуется проверка масляного фильтра.</p>
+                      </div>
                     </div>
-                    <div className="text-right">
-                      <Progress value={90} className="w-24" color="primary" />
-                      <p className="text-xs text-gray-500 mt-1">3 дня</p>
+                  </div>
+                  
+                  <Divider />
+                  
+                  <div className="border-l-4 border-yellow-500 pl-4 py-2">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1">
+                        <h4 className="font-medium text-gray-900">Комбайн New Holland CR10.90</h4>
+                        <p className="text-sm text-gray-600 mt-1">VIN: NHCR109087654321</p>
+                        <p className="text-sm text-yellow-700 mt-2">Ошибка: Датчик уровня зерна неисправен. Требуется калибровка или замена.</p>
+                      </div>
                     </div>
                   </div>
                 </div>

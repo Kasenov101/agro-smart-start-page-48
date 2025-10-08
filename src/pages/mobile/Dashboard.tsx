@@ -32,12 +32,6 @@ const MobileDashboard = () => {
     { title: "Урожайность", value: "89%", icon: Sprout, color: "bg-orange-500", change: "+5%" }
   ];
 
-  const projects = [
-    { name: "Пшеница - Поле A", progress: 85, status: "Активен", location: "Участок 1", deadline: "15 авг" },
-    { name: "Кукуруза - Поле B", progress: 65, status: "В процессе", location: "Участок 2", deadline: "22 авг" },
-    { name: "Соя - Поле C", progress: 40, status: "Планирование", location: "Участок 3", deadline: "30 авг" }
-  ];
-
   const activities = [
     { time: "10:30", action: "Полив поля A завершен", type: "success", icon: "✅" },
     { time: "09:15", action: "Датчик влажности требует внимания", type: "warning", icon: "⚠️" },
@@ -105,41 +99,32 @@ const MobileDashboard = () => {
           ))}
         </div>
 
-        {/* Active Projects */}
+        {/* Equipment Errors */}
         <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-100">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold text-gray-900">Активные проекты</h3>
+              <h3 className="text-lg font-bold text-gray-900">Ошибки техники</h3>
               <button className="text-green-600 text-sm font-medium">Все</button>
             </div>
           </div>
           <div className="p-6 space-y-4">
-            {projects.map((project, index) => (
-              <div key={index} className="space-y-3">
-                <div className="flex items-start justify-between">
-                  <div className="flex-1">
-                    <h4 className="font-semibold text-gray-900 mb-1">{project.name}</h4>
-                    <div className="flex items-center gap-4 text-xs text-gray-500">
-                      <div className="flex items-center gap-1">
-                        <MapPin className="h-3 w-3" />
-                        {project.location}
-                      </div>
-                      <div className="flex items-center gap-1">
-                        <Calendar className="h-3 w-3" />
-                        {project.deadline}
-                      </div>
-                    </div>
-                  </div>
-                  <span className="text-sm font-medium text-gray-900">{project.progress}%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className="bg-green-500 h-2 rounded-full transition-all duration-300"
-                    style={{ width: `${project.progress}%` }}
-                  ></div>
-                </div>
-              </div>
-            ))}
+            <div className="border-l-4 border-red-500 pl-4 py-2 space-y-2">
+              <h4 className="font-semibold text-gray-900">Комбайн CLAAS LEXION 780</h4>
+              <p className="text-xs text-gray-600">VIN: WCL78012345678901</p>
+              <p className="text-sm text-red-600">Ошибка: Перегрев двигателя. Требуется немедленная остановка и проверка системы охлаждения.</p>
+            </div>
+            
+            <div className="border-l-4 border-orange-500 pl-4 py-2 space-y-2">
+              <h4 className="font-semibold text-gray-900">Комбайн John Deere S790</h4>
+              <p className="text-xs text-gray-600">VIN: 1M0S790ABCD123456</p>
+              <p className="text-sm text-orange-600">Ошибка: Низкое давление масла. Рекомендуется проверка масляного фильтра.</p>
+            </div>
+            
+            <div className="border-l-4 border-yellow-500 pl-4 py-2 space-y-2">
+              <h4 className="font-semibold text-gray-900">Комбайн New Holland CR10.90</h4>
+              <p className="text-xs text-gray-600">VIN: NHCR109087654321</p>
+              <p className="text-sm text-yellow-700">Ошибка: Датчик уровня зерна неисправен. Требуется калибровка или замена.</p>
+            </div>
           </div>
         </div>
 
