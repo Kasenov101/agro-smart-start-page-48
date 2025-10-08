@@ -14,7 +14,10 @@ import {
   Search,
   Globe,
   User,
-  LogOut
+  LogOut,
+  Coins,
+  Info,
+  Eye
 } from "lucide-react";
 import { CombineMap } from "@/components/CombineMap";
 import { 
@@ -33,28 +36,34 @@ const Dashboard = () => {
       value: "2,450,000 ₸",
       change: "+12.5%",
       color: "success",
-      icon: <TrendingUp className="h-6 w-6" />
+      icon: <TrendingUp className="h-6 w-6" />,
+      showButton: false
     },
     {
       title: "Активные проекты",
       value: "24",
       change: "+3",
       color: "primary",
-      icon: <BarChart3 className="h-6 w-6" />
+      icon: <BarChart3 className="h-6 w-6" />,
+      showButton: false
     },
     {
-      title: "Сотрудники",
-      value: "48",
-      change: "+2",
+      title: "E-Coin",
+      value: "15,340",
+      change: "+120",
       color: "secondary",
-      icon: <Users className="h-6 w-6" />
+      icon: <Coins className="h-6 w-6" />,
+      showButton: true,
+      buttonType: "icon"
     },
     {
-      title: "Урожайность",
-      value: "89%",
-      change: "+5.2%",
+      title: "E-Coin",
+      value: "15,340",
+      change: "+120",
       color: "warning",
-      icon: <Sprout className="h-6 w-6" />
+      icon: <Coins className="h-6 w-6" />,
+      showButton: true,
+      buttonType: "text"
     }
   ];
 
@@ -167,11 +176,36 @@ const Dashboard = () => {
                     {stat.change}
                   </Chip>
                 </div>
-                <div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-1">
-                    {stat.value}
-                  </h3>
-                  <p className="text-gray-600 text-sm">{stat.title}</p>
+                <div className="flex items-center justify-between">
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-1">
+                      {stat.value}
+                    </h3>
+                    <p className="text-gray-600 text-sm">{stat.title}</p>
+                  </div>
+                  {stat.showButton && stat.buttonType === "text" && (
+                    <Button 
+                      size="sm" 
+                      variant="flat"
+                      color={stat.color as any}
+                      as={Link}
+                      to="/profile/bonuses"
+                    >
+                      Подробнее
+                    </Button>
+                  )}
+                  {stat.showButton && stat.buttonType === "icon" && (
+                    <Button 
+                      size="sm" 
+                      isIconOnly
+                      variant="flat"
+                      color={stat.color as any}
+                      as={Link}
+                      to="/profile/bonuses"
+                    >
+                      <Eye className="h-4 w-4" />
+                    </Button>
+                  )}
                 </div>
               </CardBody>
             </Card>

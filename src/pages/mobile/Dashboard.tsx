@@ -17,7 +17,9 @@ import {
   ChevronRight,
   MapPin,
   Calendar,
-  AlertCircle
+  AlertCircle,
+  Coins,
+  Eye
 } from "lucide-react";
 import { WeatherWidget } from "@/components/mobile/WeatherWidget";
 import { EquipmentPanel } from "@/components/mobile/EquipmentPanel";
@@ -27,10 +29,10 @@ const MobileDashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
 
   const stats = [
-    { title: "Прибыль", value: "₸2.45М", icon: TrendingUp, color: "bg-green-500", change: "+12%" },
-    { title: "Проекты", value: "24", icon: Target, color: "bg-blue-500", change: "+3" },
-    { title: "Сотрудники", value: "156", icon: Users, color: "bg-purple-500", change: "+8" },
-    { title: "Урожайность", value: "89%", icon: Sprout, color: "bg-orange-500", change: "+5%" }
+    { title: "Прибыль", value: "₸2.45М", icon: TrendingUp, color: "bg-green-500", change: "+12%", showButton: false },
+    { title: "Проекты", value: "24", icon: Target, color: "bg-blue-500", change: "+3", showButton: false },
+    { title: "E-Coin", value: "15,340", icon: Coins, color: "bg-purple-500", change: "+120", showButton: true, buttonType: "icon" },
+    { title: "E-Coin", value: "15,340", icon: Coins, color: "bg-orange-500", change: "+120", showButton: true, buttonType: "text" }
   ];
 
   const activities = [
@@ -94,8 +96,26 @@ const MobileDashboard = () => {
                 </div>
                 <span className="text-xs text-green-600 font-medium">{stat.change}</span>
               </div>
-              <div className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</div>
-              <div className="text-sm text-gray-600">{stat.title}</div>
+              <div className="flex items-end justify-between">
+                <div>
+                  <div className="text-2xl font-bold text-gray-900 mb-1">{stat.value}</div>
+                  <div className="text-sm text-gray-600">{stat.title}</div>
+                </div>
+                {stat.showButton && stat.buttonType === "text" && (
+                  <Link to="/profile/bonuses">
+                    <button className="text-xs bg-gray-100 px-3 py-1.5 rounded-lg font-medium text-gray-700 hover:bg-gray-200">
+                      Подробнее
+                    </button>
+                  </Link>
+                )}
+                {stat.showButton && stat.buttonType === "icon" && (
+                  <Link to="/profile/bonuses">
+                    <button className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center hover:bg-gray-200">
+                      <Eye className="h-4 w-4 text-gray-700" />
+                    </button>
+                  </Link>
+                )}
+              </div>
             </div>
           ))}
         </div>
