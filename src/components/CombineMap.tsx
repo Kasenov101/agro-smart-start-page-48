@@ -1,8 +1,6 @@
 import { useState } from "react";
 import { Card, CardBody, CardHeader, Button } from "@nextui-org/react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Label } from "@/components/ui/label";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { MapPin, Tractor, Cloud } from "lucide-react";
 
 const organizations = [
@@ -74,24 +72,91 @@ const combines = [
   }
 ];
 
+const equipmentErrors = [
+  {
+    id: "1",
+    name: "Комбайн CLAAS LEXION 780",
+    vin: "WCL78012345678901",
+    error: "Перегрев двигателя. Требуется немедленная остановка и проверка системы охлаждения.",
+    severity: "error"
+  },
+  {
+    id: "2",
+    name: "Комбайн John Deere S790",
+    vin: "1M0S790ABCD123456",
+    error: "Низкое давление масла. Рекомендуется проверка масляного фильтра.",
+    severity: "warning"
+  },
+  {
+    id: "3",
+    name: "Комбайн New Holland CR10.90",
+    vin: "NHCR109087654321",
+    error: "Датчик уровня зерна неисправен. Требуется калибровка или замена.",
+    severity: "info"
+  }
+];
+
 export const CombineMap = () => {
+  const [errorsOpen, setErrorsOpen] = useState(false);
+
+  const getSeverityColor = (severity: string) => {
+    switch (severity) {
+      case "error": return "border-red-500";
+      case "warning": return "border-orange-500";
+      default: return "border-yellow-500";
+    }
+  };
+
+  const getSeverityTextColor = (severity: string) => {
+    switch (severity) {
+      case "error": return "text-red-600";
+      case "warning": return "text-orange-600";
+      default: return "text-yellow-700";
+    }
+  };
+
   return (
-    <Card className="bg-white">
-      <CardHeader className="pb-3 flex flex-row items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">Карта техники</h3>
-        <div className="flex items-center gap-3">
-          <Tractor className="h-5 w-5 text-gray-600" />
-          <Cloud className="h-5 w-5 text-gray-600" />
-        </div>
-      </CardHeader>
-      <CardBody>
-        <div className="h-64 rounded-lg bg-gray-100 flex items-center justify-center">
-          <div className="text-center">
-            <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600">Здесь будет карта</p>
+    <>
+      <Card className="bg-white">
+        <CardHeader className="pb-3 flex flex-row items-center justify-end">
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={() => setErrorsOpen(true)}
+              className="p-2.5 bg-green-50 hover:bg-green-100 rounded-xl transition-colors"
+            >
+              <Tractor className="h-5 w-5 text-green-600" />
+            </button>
+            <button className="p-2.5 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors">
+              <Cloud className="h-5 w-5 text-blue-600" />
+            </button>
           </div>
-        </div>
-      </CardBody>
-    </Card>
+        </CardHeader>
+        <CardBody>
+          <div className="h-64 rounded-lg bg-gray-100 flex items-center justify-center">
+            <div className="text-center">
+              <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+              <p className="text-gray-600">Здесь будет карта</p>
+            </div>
+          </div>
+        </CardBody>
+      </Card>
+
+      <Dialog open={errorsOpen} onOpenChange={setErrorsOpen}>
+        <DialogContent className="sm:max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Ошибки техники</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 max-h-[60vh] overflow-y-auto py-4">
+            {equipmentErrors.map((item) => (
+              <div key={item.id} className={`border-l-4 ${getSeverityColor(item.severity)} pl-4 py-2 space-y-2`}>
+                <h4 className="font-semibold text-gray-900">{item.name}</h4>
+                <p className="text-xs text-gray-600">VIN: {item.vin}</p>
+                <p className={`text-sm ${getSeverityTextColor(item.severity)}`}>Ошибка: {item.error}</p>
+              </div>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
