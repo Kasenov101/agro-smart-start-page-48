@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { Card, CardBody, CardHeader, Button } from "@nextui-org/react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Card, CardBody, CardHeader } from "@nextui-org/react";
 import { MapPin, Tractor, Cloud } from "lucide-react";
 
 const organizations = [
@@ -97,7 +96,7 @@ const equipmentErrors = [
 ];
 
 export const CombineMap = () => {
-  const [errorsOpen, setErrorsOpen] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -116,37 +115,32 @@ export const CombineMap = () => {
   };
 
   return (
-    <>
-      <Card className="bg-white">
-        <CardHeader className="pb-3 flex flex-row items-center justify-end">
-          <div className="flex items-center gap-2">
-            <button 
-              onClick={() => setErrorsOpen(true)}
-              className="p-2.5 bg-green-50 hover:bg-green-100 rounded-xl transition-colors"
-            >
-              <Tractor className="h-5 w-5 text-green-600" />
-            </button>
-            <button className="p-2.5 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors">
-              <Cloud className="h-5 w-5 text-blue-600" />
-            </button>
-          </div>
-        </CardHeader>
-        <CardBody>
+    <Card className="bg-white">
+      <CardHeader className="pb-3 flex flex-row items-center justify-end">
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={() => setShowErrors(!showErrors)}
+            className={`p-2.5 rounded-xl transition-colors ${
+              showErrors ? 'bg-green-600 text-white' : 'bg-green-50 hover:bg-green-100 text-green-600'
+            }`}
+          >
+            <Tractor className="h-5 w-5" />
+          </button>
+          <button className="p-2.5 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors">
+            <Cloud className="h-5 w-5 text-blue-600" />
+          </button>
+        </div>
+      </CardHeader>
+      <CardBody>
+        {!showErrors ? (
           <div className="h-64 rounded-lg bg-gray-100 flex items-center justify-center">
             <div className="text-center">
               <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
               <p className="text-gray-600">Здесь будет карта</p>
             </div>
           </div>
-        </CardBody>
-      </Card>
-
-      <Dialog open={errorsOpen} onOpenChange={setErrorsOpen}>
-        <DialogContent className="sm:max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>Ошибки техники</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4 max-h-[60vh] overflow-y-auto py-4">
+        ) : (
+          <div className="space-y-4 max-h-64 overflow-y-auto py-2">
             {equipmentErrors.map((item) => (
               <div key={item.id} className={`border-l-4 ${getSeverityColor(item.severity)} pl-4 py-2 space-y-2`}>
                 <h4 className="font-semibold text-gray-900">{item.name}</h4>
@@ -155,8 +149,8 @@ export const CombineMap = () => {
               </div>
             ))}
           </div>
-        </DialogContent>
-      </Dialog>
-    </>
+        )}
+      </CardBody>
+    </Card>
   );
 };

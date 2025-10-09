@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Sheet, SheetContent, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { MapPin, Tractor, Cloud } from "lucide-react";
 
 const organizations = [
@@ -96,7 +95,7 @@ const equipmentErrors = [
 ];
 
 export const CombineMap = () => {
-  const [errorsOpen, setErrorsOpen] = useState(false);
+  const [showErrors, setShowErrors] = useState(false);
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -115,45 +114,40 @@ export const CombineMap = () => {
   };
 
   return (
-    <>
-      <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-        <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-end">
-          <div className="flex items-center gap-2">
-            <button 
-              onClick={() => setErrorsOpen(true)}
-              className="p-2.5 bg-green-50 rounded-xl active:bg-green-100"
-            >
-              <Tractor className="h-5 w-5 text-green-600" />
-            </button>
-            <button className="p-2.5 bg-blue-50 rounded-xl active:bg-blue-100">
-              <Cloud className="h-5 w-5 text-blue-600" />
-            </button>
-          </div>
+    <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
+      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-end">
+        <div className="flex items-center gap-2">
+          <button 
+            onClick={() => setShowErrors(!showErrors)}
+            className={`p-2.5 rounded-xl transition-colors ${
+              showErrors ? 'bg-green-600' : 'bg-green-50 active:bg-green-100'
+            }`}
+          >
+            <Tractor className={`h-5 w-5 ${showErrors ? 'text-white' : 'text-green-600'}`} />
+          </button>
+          <button className="p-2.5 bg-blue-50 rounded-xl active:bg-blue-100">
+            <Cloud className="h-5 w-5 text-blue-600" />
+          </button>
         </div>
+      </div>
+      {!showErrors ? (
         <div className="h-64 bg-gray-100 flex items-center justify-center">
           <div className="text-center px-4">
             <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
             <p className="text-gray-600">Здесь будет карта</p>
           </div>
         </div>
-      </div>
-
-      <Sheet open={errorsOpen} onOpenChange={setErrorsOpen}>
-        <SheetContent side="bottom" className="h-[85vh]">
-          <SheetHeader>
-            <SheetTitle>Ошибки техники</SheetTitle>
-          </SheetHeader>
-          <div className="space-y-4 py-4 overflow-y-auto max-h-[calc(85vh-8rem)]">
-            {equipmentErrors.map((item) => (
-              <div key={item.id} className={`border-l-4 ${getSeverityColor(item.severity)} pl-4 py-2 space-y-2`}>
-                <h4 className="font-semibold text-gray-900">{item.name}</h4>
-                <p className="text-xs text-gray-600">VIN: {item.vin}</p>
-                <p className={`text-sm ${getSeverityTextColor(item.severity)}`}>Ошибка: {item.error}</p>
-              </div>
-            ))}
-          </div>
-        </SheetContent>
-      </Sheet>
-    </>
+      ) : (
+        <div className="space-y-4 p-6 max-h-64 overflow-y-auto">
+          {equipmentErrors.map((item) => (
+            <div key={item.id} className={`border-l-4 ${getSeverityColor(item.severity)} pl-4 py-2 space-y-2`}>
+              <h4 className="font-semibold text-gray-900">{item.name}</h4>
+              <p className="text-xs text-gray-600">VIN: {item.vin}</p>
+              <p className={`text-sm ${getSeverityTextColor(item.severity)}`}>Ошибка: {item.error}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 };
