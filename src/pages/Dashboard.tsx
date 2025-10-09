@@ -217,52 +217,6 @@ const Dashboard = () => {
           <div className="lg:col-span-2 space-y-6">
             {/* Map Card */}
             <CombineMap />
-
-            {/* Equipment Errors */}
-            <Card className="bg-white">
-              <CardHeader className="pb-3">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Ошибки техники
-                </h3>
-              </CardHeader>
-              <CardBody className="space-y-4">
-                <div className="space-y-4">
-                  <div className="border-l-4 border-red-500 pl-4 py-2">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900">Комбайн CLAAS LEXION 780</h4>
-                        <p className="text-sm text-gray-600 mt-1">VIN: WCL78012345678901</p>
-                        <p className="text-sm text-red-600 mt-2">Ошибка: Перегрев двигателя. Требуется немедленная остановка и проверка системы охлаждения.</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <Divider />
-                  
-                  <div className="border-l-4 border-orange-500 pl-4 py-2">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900">Комбайн John Deere S790</h4>
-                        <p className="text-sm text-gray-600 mt-1">VIN: 1M0S790ABCD123456</p>
-                        <p className="text-sm text-orange-600 mt-2">Ошибка: Низкое давление масла. Рекомендуется проверка масляного фильтра.</p>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  <Divider />
-                  
-                  <div className="border-l-4 border-yellow-500 pl-4 py-2">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-gray-900">Комбайн New Holland CR10.90</h4>
-                        <p className="text-sm text-gray-600 mt-1">VIN: NHCR109087654321</p>
-                        <p className="text-sm text-yellow-700 mt-2">Ошибка: Датчик уровня зерна неисправен. Требуется калибровка или замена.</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </CardBody>
-            </Card>
           </div>
 
           {/* Sidebar */}

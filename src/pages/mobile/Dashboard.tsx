@@ -120,35 +120,6 @@ const MobileDashboard = () => {
           ))}
         </div>
 
-        {/* Equipment Errors */}
-        <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-          <div className="px-6 py-4 border-b border-gray-100">
-            <div className="flex items-center justify-between">
-              <h3 className="text-lg font-bold text-gray-900">Ошибки техники</h3>
-              <button className="text-green-600 text-sm font-medium">Все</button>
-            </div>
-          </div>
-          <div className="p-6 space-y-4">
-            <div className="border-l-4 border-red-500 pl-4 py-2 space-y-2">
-              <h4 className="font-semibold text-gray-900">Комбайн CLAAS LEXION 780</h4>
-              <p className="text-xs text-gray-600">VIN: WCL78012345678901</p>
-              <p className="text-sm text-red-600">Ошибка: Перегрев двигателя. Требуется немедленная остановка и проверка системы охлаждения.</p>
-            </div>
-            
-            <div className="border-l-4 border-orange-500 pl-4 py-2 space-y-2">
-              <h4 className="font-semibold text-gray-900">Комбайн John Deere S790</h4>
-              <p className="text-xs text-gray-600">VIN: 1M0S790ABCD123456</p>
-              <p className="text-sm text-orange-600">Ошибка: Низкое давление масла. Рекомендуется проверка масляного фильтра.</p>
-            </div>
-            
-            <div className="border-l-4 border-yellow-500 pl-4 py-2 space-y-2">
-              <h4 className="font-semibold text-gray-900">Комбайн New Holland CR10.90</h4>
-              <p className="text-xs text-gray-600">VIN: NHCR109087654321</p>
-              <p className="text-sm text-yellow-700">Ошибка: Датчик уровня зерна неисправен. Требуется калибровка или замена.</p>
-            </div>
-          </div>
-        </div>
-
         {/* Map */}
         <CombineMap />
 
