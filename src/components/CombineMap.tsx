@@ -135,8 +135,8 @@ export const CombineMap = () => {
     <Card className="bg-white">
       <CardHeader className="pb-3">
         <h3 className="text-lg font-semibold text-gray-900 mb-3">Интеграции</h3>
-        <div className="overflow-x-auto -mx-6 px-6">
-          <div className="flex items-center gap-2 min-w-max">
+        <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent" style={{ scrollbarWidth: 'thin' }}>
+          <div className="flex items-center gap-2 w-fit">
             <button 
               onClick={() => {
                 setSelectedIntegration("operation-center");
@@ -158,6 +158,17 @@ export const CombineMap = () => {
               }`}
             >
               Field Climate
+            </button>
+            <button 
+              onClick={() => {
+                setSelectedIntegration("weather-api");
+                setShowFilters(false);
+              }}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors whitespace-nowrap ${
+                selectedIntegration === "weather-api" ? 'bg-purple-600 text-white' : 'bg-purple-50 hover:bg-purple-100 text-purple-600'
+              }`}
+            >
+              Weather API
             </button>
           </div>
         </div>
