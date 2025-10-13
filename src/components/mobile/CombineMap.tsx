@@ -13,103 +13,119 @@ const fields = [
   { id: "3", name: "Поле №3 Восточное", orgId: "2" }
 ];
 
-const combines = [
+const equipment = [
   {
     id: "1",
     name: "CLAAS LEXION 780",
-    fieldId: "1",
+    type: "Combine",
+    orgId: "1",
     manufacturer: "CLAAS",
     model: "LEXION 780",
     vin: "WCL78012345678901",
     year: "2022",
     operator: "Иванов И.И.",
-    status: "error",
-    position: [51.1694, 71.4491] as [number, number],
-    track: [
-      [51.1694, 71.4491] as [number, number],
-      [51.1704, 71.4501] as [number, number],
-      [51.1714, 71.4511] as [number, number],
-      [51.1724, 71.4521] as [number, number]
-    ]
+    status: "error"
   },
   {
     id: "2",
     name: "John Deere S790",
-    fieldId: "1",
+    type: "Combine",
+    orgId: "1",
     manufacturer: "John Deere",
     model: "S790",
     vin: "1M0S790ABCD123456",
     year: "2023",
     operator: "Петров П.П.",
-    status: "warning",
-    position: [51.1744, 71.4531] as [number, number],
-    track: [
-      [51.1744, 71.4531] as [number, number],
-      [51.1754, 71.4541] as [number, number],
-      [51.1764, 71.4551] as [number, number],
-      [51.1774, 71.4561] as [number, number]
-    ]
+    status: "warning"
   },
   {
     id: "3",
     name: "New Holland CR10.90",
-    fieldId: "2",
+    type: "Combine",
+    orgId: "2",
     manufacturer: "New Holland",
     model: "CR10.90",
     vin: "NHCR109087654321",
     year: "2021",
     operator: "Сидоров С.С.",
-    status: "ok",
-    position: [51.1794, 71.4571] as [number, number],
-    track: [
-      [51.1794, 71.4571] as [number, number],
-      [51.1804, 71.4581] as [number, number],
-      [51.1814, 71.4591] as [number, number],
-      [51.1824, 71.4601] as [number, number]
-    ]
+    status: "ok"
+  },
+  {
+    id: "4",
+    name: "John Deere 8R 410",
+    type: "Tractor",
+    orgId: "1",
+    manufacturer: "John Deere",
+    model: "8R 410",
+    vin: "1M08R410XYZ789012",
+    year: "2023",
+    operator: "Козлов К.К.",
+    status: "ok"
+  },
+  {
+    id: "5",
+    name: "Case IH Magnum 380",
+    type: "Tractor",
+    orgId: "2",
+    manufacturer: "Case IH",
+    model: "Magnum 380",
+    vin: "CIH380ABC456789",
+    year: "2022",
+    operator: "Морозов М.М.",
+    status: "warning"
+  },
+  {
+    id: "6",
+    name: "John Deere R4045",
+    type: "Sprayer",
+    orgId: "1",
+    manufacturer: "John Deere",
+    model: "R4045",
+    vin: "JDR4045DEF123456",
+    year: "2021",
+    operator: "Федоров Ф.Ф.",
+    status: "ok"
+  },
+  {
+    id: "7",
+    name: "Amazone UX 11200",
+    type: "Sprayer",
+    orgId: "3",
+    manufacturer: "Amazone",
+    model: "UX 11200",
+    vin: "AMZ11200GHI789",
+    year: "2023",
+    operator: "Воронов В.В.",
+    status: "ok"
   }
 ];
 
-const equipmentErrors = [
-  {
-    id: "1",
-    name: "Комбайн CLAAS LEXION 780",
-    vin: "WCL78012345678901",
-    error: "Перегрев двигателя. Требуется немедленная остановка и проверка системы охлаждения.",
-    severity: "error"
-  },
-  {
-    id: "2",
-    name: "Комбайн John Deere S790",
-    vin: "1M0S790ABCD123456",
-    error: "Низкое давление масла. Рекомендуется проверка масляного фильтра.",
-    severity: "warning"
-  },
-  {
-    id: "3",
-    name: "Комбайн New Holland CR10.90",
-    vin: "NHCR109087654321",
-    error: "Датчик уровня зерна неисправен. Требуется калибровка или замена.",
-    severity: "info"
-  }
-];
+const equipmentTypes = ["Все", "Combine", "Tractor", "Sprayer"];
 
 export const CombineMap = () => {
-  const [showErrors, setShowErrors] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+  const [selectedOrg, setSelectedOrg] = useState<string>("all");
+  const [selectedType, setSelectedType] = useState<string>("Все");
 
-  const getSeverityColor = (severity: string) => {
-    switch (severity) {
-      case "error": return "border-red-500";
-      case "warning": return "border-orange-500";
-      default: return "border-yellow-500";
+  const filteredEquipment = equipment.filter(item => {
+    const orgMatch = selectedOrg === "all" || item.orgId === selectedOrg;
+    const typeMatch = selectedType === "Все" || item.type === selectedType;
+    return orgMatch && typeMatch;
+  });
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case "error": return "bg-red-100 text-red-700";
+      case "warning": return "bg-orange-100 text-orange-700";
+      default: return "bg-green-100 text-green-700";
     }
   };
 
-  const getSeverityTextColor = (severity: string) => {
-    switch (severity) {
-      case "error": return "text-red-600";
-      case "warning": return "text-orange-600";
-      default: return "text-yellow-700";
+  const getStatusText = (status: string) => {
+    switch (status) {
+      case "error": return "Ошибка";
+      case "warning": return "Внимание";
+      default: return "Работает";
     }
   };
 
@@ -118,34 +134,78 @@ export const CombineMap = () => {
       <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-end">
         <div className="flex items-center gap-2">
           <button 
-            onClick={() => setShowErrors(!showErrors)}
+            onClick={() => setShowFilters(!showFilters)}
             className={`p-2.5 rounded-xl transition-colors ${
-              showErrors ? 'bg-green-600' : 'bg-green-50 active:bg-green-100'
+              showFilters ? 'bg-green-600' : 'bg-green-50 active:bg-green-100'
             }`}
           >
-            <Tractor className={`h-5 w-5 ${showErrors ? 'text-white' : 'text-green-600'}`} />
+            <Tractor className={`h-5 w-5 ${showFilters ? 'text-white' : 'text-green-600'}`} />
           </button>
           <button className="p-2.5 bg-blue-50 rounded-xl active:bg-blue-100">
             <Cloud className="h-5 w-5 text-blue-600" />
           </button>
         </div>
       </div>
-      {!showErrors ? (
-        <div className="h-64 bg-gray-100 flex items-center justify-center">
-          <div className="text-center px-4">
-            <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600">Здесь будет карта</p>
-          </div>
+      
+      <div className="h-64 bg-gray-100 flex items-center justify-center">
+        <div className="text-center px-4">
+          <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
+          <p className="text-gray-600">Здесь будет карта</p>
         </div>
-      ) : (
-        <div className="space-y-4 p-6 max-h-64 overflow-y-auto">
-          {equipmentErrors.map((item) => (
-            <div key={item.id} className={`border-l-4 ${getSeverityColor(item.severity)} pl-4 py-2 space-y-2`}>
-              <h4 className="font-semibold text-gray-900">{item.name}</h4>
-              <p className="text-xs text-gray-600">VIN: {item.vin}</p>
-              <p className={`text-sm ${getSeverityTextColor(item.severity)}`}>Ошибка: {item.error}</p>
+      </div>
+
+      {showFilters && (
+        <div className="p-6 space-y-4 border-t border-gray-100">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Организация</label>
+            <select 
+              value={selectedOrg}
+              onChange={(e) => setSelectedOrg(e.target.value)}
+              className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent"
+            >
+              <option value="all">Все организации</option>
+              {organizations.map(org => (
+                <option key={org.id} value={org.id}>{org.name}</option>
+              ))}
+            </select>
+          </div>
+          
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-2">Тип техники</label>
+            <div className="grid grid-cols-4 gap-2">
+              {equipmentTypes.map(type => (
+                <button
+                  key={type}
+                  onClick={() => setSelectedType(type)}
+                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+                    selectedType === type 
+                      ? 'bg-green-600 text-white' 
+                      : 'bg-gray-100 text-gray-700 active:bg-gray-200'
+                  }`}
+                >
+                  {type}
+                </button>
+              ))}
             </div>
-          ))}
+          </div>
+
+          <div className="space-y-3 max-h-96 overflow-y-auto">
+            <h4 className="text-sm font-semibold text-gray-900">Список техники ({filteredEquipment.length})</h4>
+            {filteredEquipment.map((item) => (
+              <div key={item.id} className="border border-gray-200 rounded-lg p-3 active:border-green-500 transition-colors">
+                <div className="flex items-start justify-between mb-2">
+                  <h5 className="font-semibold text-gray-900 text-sm">{item.name}</h5>
+                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(item.status)}`}>
+                    {getStatusText(item.status)}
+                  </span>
+                </div>
+                <p className="text-xs text-gray-600">{item.manufacturer} {item.model}</p>
+                <p className="text-xs text-gray-500 mt-1">VIN: {item.vin}</p>
+                <p className="text-xs text-gray-500">Оператор: {item.operator}</p>
+                <p className="text-xs text-gray-500">Год: {item.year}</p>
+              </div>
+            ))}
+          </div>
         </div>
       )}
     </div>
