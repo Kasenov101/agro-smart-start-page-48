@@ -103,7 +103,8 @@ const equipment = [
 const equipmentTypes = ["Все", "Combine", "Tractor", "Sprayer"];
 
 export const CombineMap = () => {
-  const [showFilters, setShowFilters] = useState(false);
+  const [selectedIntegration, setSelectedIntegration] = useState<string>("operation-center");
+  const [showFilters, setShowFilters] = useState(true);
   const [selectedOrg, setSelectedOrg] = useState<string>("all");
   const [selectedType, setSelectedType] = useState<string>("Все");
 
@@ -131,18 +132,30 @@ export const CombineMap = () => {
 
   return (
     <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-end">
+      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
+        <h3 className="text-lg font-semibold text-gray-900">Интеграции</h3>
         <div className="flex items-center gap-2">
           <button 
-            onClick={() => setShowFilters(!showFilters)}
-            className={`p-2.5 rounded-xl transition-colors ${
-              showFilters ? 'bg-green-600' : 'bg-green-50 active:bg-green-100'
+            onClick={() => {
+              setSelectedIntegration("operation-center");
+              setShowFilters(true);
+            }}
+            className={`px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
+              selectedIntegration === "operation-center" ? 'bg-green-600 text-white' : 'bg-green-50 text-green-600 active:bg-green-100'
             }`}
           >
-            <Tractor className={`h-5 w-5 ${showFilters ? 'text-white' : 'text-green-600'}`} />
+            Operation Center
           </button>
-          <button className="p-2.5 bg-blue-50 rounded-xl active:bg-blue-100">
-            <Cloud className="h-5 w-5 text-blue-600" />
+          <button 
+            onClick={() => {
+              setSelectedIntegration("field-climate");
+              setShowFilters(false);
+            }}
+            className={`px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
+              selectedIntegration === "field-climate" ? 'bg-blue-600 text-white' : 'bg-blue-50 text-blue-600 active:bg-blue-100'
+            }`}
+          >
+            Field Climate
           </button>
         </div>
       </div>
@@ -150,11 +163,13 @@ export const CombineMap = () => {
       <div className="h-64 bg-gray-100 flex items-center justify-center">
         <div className="text-center px-4">
           <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-          <p className="text-gray-600">Здесь будет карта</p>
+          <p className="text-gray-600">
+            {selectedIntegration === "operation-center" ? "Здесь будет карта техники" : "Здесь будет карта погоды"}
+          </p>
         </div>
       </div>
 
-      {showFilters && (
+      {selectedIntegration === "operation-center" && showFilters && (
         <div className="p-6 space-y-4 border-t border-gray-100">
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">Организация</label>

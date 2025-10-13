@@ -104,7 +104,8 @@ const equipment = [
 const equipmentTypes = ["Все", "Combine", "Tractor", "Sprayer"];
 
 export const CombineMap = () => {
-  const [showFilters, setShowFilters] = useState(false);
+  const [selectedIntegration, setSelectedIntegration] = useState<string>("operation-center");
+  const [showFilters, setShowFilters] = useState(true);
   const [selectedOrg, setSelectedOrg] = useState<string>("all");
   const [selectedType, setSelectedType] = useState<string>("Все");
 
@@ -132,18 +133,30 @@ export const CombineMap = () => {
 
   return (
     <Card className="bg-white">
-      <CardHeader className="pb-3 flex flex-row items-center justify-end">
+      <CardHeader className="pb-3 flex flex-row items-center justify-between">
+        <h3 className="text-lg font-semibold text-gray-900">Интеграции</h3>
         <div className="flex items-center gap-2">
           <button 
-            onClick={() => setShowFilters(!showFilters)}
-            className={`p-2.5 rounded-xl transition-colors ${
-              showFilters ? 'bg-green-600 text-white' : 'bg-green-50 hover:bg-green-100 text-green-600'
+            onClick={() => {
+              setSelectedIntegration("operation-center");
+              setShowFilters(true);
+            }}
+            className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+              selectedIntegration === "operation-center" ? 'bg-green-600 text-white' : 'bg-green-50 hover:bg-green-100 text-green-600'
             }`}
           >
-            <Tractor className="h-5 w-5" />
+            Operation Center
           </button>
-          <button className="p-2.5 bg-blue-50 hover:bg-blue-100 rounded-xl transition-colors">
-            <Cloud className="h-5 w-5 text-blue-600" />
+          <button 
+            onClick={() => {
+              setSelectedIntegration("field-climate");
+              setShowFilters(false);
+            }}
+            className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
+              selectedIntegration === "field-climate" ? 'bg-blue-600 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-600'
+            }`}
+          >
+            Field Climate
           </button>
         </div>
       </CardHeader>
@@ -151,11 +164,13 @@ export const CombineMap = () => {
         <div className="h-64 rounded-lg bg-gray-100 flex items-center justify-center">
           <div className="text-center">
             <MapPin className="h-16 w-16 text-gray-400 mx-auto mb-4" />
-            <p className="text-gray-600">Здесь будет карта</p>
+            <p className="text-gray-600">
+              {selectedIntegration === "operation-center" ? "Здесь будет карта техники" : "Здесь будет карта погоды"}
+            </p>
           </div>
         </div>
 
-        {showFilters && (
+        {selectedIntegration === "operation-center" && showFilters && (
           <div className="space-y-4 pt-4 border-t border-gray-200">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
