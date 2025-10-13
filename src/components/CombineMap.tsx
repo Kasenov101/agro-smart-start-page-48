@@ -133,31 +133,33 @@ export const CombineMap = () => {
 
   return (
     <Card className="bg-white">
-      <CardHeader className="pb-3 flex flex-row items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">Интеграции</h3>
-        <div className="flex items-center gap-2">
-          <button 
-            onClick={() => {
-              setSelectedIntegration("operation-center");
-              setShowFilters(true);
-            }}
-            className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
-              selectedIntegration === "operation-center" ? 'bg-green-600 text-white' : 'bg-green-50 hover:bg-green-100 text-green-600'
-            }`}
-          >
-            Operation Center
-          </button>
-          <button 
-            onClick={() => {
-              setSelectedIntegration("field-climate");
-              setShowFilters(false);
-            }}
-            className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors ${
-              selectedIntegration === "field-climate" ? 'bg-blue-600 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-600'
-            }`}
-          >
-            Field Climate
-          </button>
+      <CardHeader className="pb-3">
+        <h3 className="text-lg font-semibold text-gray-900 mb-3">Интеграции</h3>
+        <div className="overflow-x-auto -mx-6 px-6">
+          <div className="flex items-center gap-2 min-w-max">
+            <button 
+              onClick={() => {
+                setSelectedIntegration("operation-center");
+                setShowFilters(true);
+              }}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors whitespace-nowrap ${
+                selectedIntegration === "operation-center" ? 'bg-green-600 text-white' : 'bg-green-50 hover:bg-green-100 text-green-600'
+              }`}
+            >
+              Operation Center
+            </button>
+            <button 
+              onClick={() => {
+                setSelectedIntegration("field-climate");
+                setShowFilters(false);
+              }}
+              className={`px-4 py-2 rounded-xl text-sm font-medium transition-colors whitespace-nowrap ${
+                selectedIntegration === "field-climate" ? 'bg-blue-600 text-white' : 'bg-blue-50 hover:bg-blue-100 text-blue-600'
+              }`}
+            >
+              Field Climate
+            </button>
+          </div>
         </div>
       </CardHeader>
       <CardBody className="space-y-4">

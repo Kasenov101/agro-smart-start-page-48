@@ -132,31 +132,33 @@ export const CombineMap = () => {
 
   return (
     <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
-      <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between">
-        <h3 className="text-lg font-semibold text-gray-900">Интеграции</h3>
-        <div className="flex items-center gap-2">
-          <button 
-            onClick={() => {
-              setSelectedIntegration("operation-center");
-              setShowFilters(true);
-            }}
-            className={`px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
-              selectedIntegration === "operation-center" ? 'bg-green-600 text-white' : 'bg-green-50 text-green-600 active:bg-green-100'
-            }`}
-          >
-            Operation Center
-          </button>
-          <button 
-            onClick={() => {
-              setSelectedIntegration("field-climate");
-              setShowFilters(false);
-            }}
-            className={`px-3 py-2 rounded-xl text-sm font-medium transition-colors ${
-              selectedIntegration === "field-climate" ? 'bg-blue-600 text-white' : 'bg-blue-50 text-blue-600 active:bg-blue-100'
-            }`}
-          >
-            Field Climate
-          </button>
+      <div className="px-6 py-4 border-b border-gray-100">
+        <h3 className="text-lg font-semibold text-gray-900 mb-3">Интеграции</h3>
+        <div className="overflow-x-auto -mx-6 px-6">
+          <div className="flex items-center gap-2 min-w-max">
+            <button 
+              onClick={() => {
+                setSelectedIntegration("operation-center");
+                setShowFilters(true);
+              }}
+              className={`px-3 py-2 rounded-xl text-sm font-medium transition-colors whitespace-nowrap ${
+                selectedIntegration === "operation-center" ? 'bg-green-600 text-white' : 'bg-green-50 text-green-600 active:bg-green-100'
+              }`}
+            >
+              Operation Center
+            </button>
+            <button 
+              onClick={() => {
+                setSelectedIntegration("field-climate");
+                setShowFilters(false);
+              }}
+              className={`px-3 py-2 rounded-xl text-sm font-medium transition-colors whitespace-nowrap ${
+                selectedIntegration === "field-climate" ? 'bg-blue-600 text-white' : 'bg-blue-50 text-blue-600 active:bg-blue-100'
+              }`}
+            >
+              Field Climate
+            </button>
+          </div>
         </div>
       </div>
       
