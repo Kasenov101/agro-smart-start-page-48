@@ -110,7 +110,7 @@ export const CombineMap = () => {
   const [selectedOrg, setSelectedOrg] = useState<string>("all");
   const [selectedView, setSelectedView] = useState<string>("Все");
   const [selectedEquipmentType, setSelectedEquipmentType] = useState<string>("Все");
-  const [allViewFilter, setAllViewFilter] = useState<string | null>(null);
+  const [allViewFilter, setAllViewFilter] = useState<string>("Поля");
 
   const filteredEquipment = equipment.filter(item => {
     const orgMatch = selectedOrg === "all" || item.orgId === selectedOrg;
@@ -129,7 +129,6 @@ export const CombineMap = () => {
     if (selectedView === "Все") {
       if (allViewFilter === "Поля") return filteredFields;
       if (allViewFilter === "Техника") return filteredEquipment;
-      return [...filteredFields, ...filteredEquipment];
     }
     return [...filteredFields, ...filteredEquipment];
   };
@@ -246,16 +245,6 @@ export const CombineMap = () => {
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">Фильтр</label>
               <div className="flex gap-2">
-                <button
-                  onClick={() => setAllViewFilter(null)}
-                  className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors flex-1 ${
-                    allViewFilter === null
-                      ? 'bg-blue-600 text-white' 
-                      : 'bg-blue-50 text-blue-600 active:bg-blue-100'
-                  }`}
-                >
-                  Все
-                </button>
                 {allViewFilters.map(filter => (
                   <button
                     key={filter}
