@@ -103,6 +103,7 @@ const equipment = [
 
 const viewTypes = ["Все", "Поля", "Техника"];
 const equipmentTypes = ["Все", "Combine", "Tractor", "Sprayer"];
+const allViewFilters = ["Поля", "Техника"];
 
 export const CombineMap = () => {
   const [selectedIntegration, setSelectedIntegration] = useState<string>("operation-center");
@@ -110,6 +111,7 @@ export const CombineMap = () => {
   const [selectedOrg, setSelectedOrg] = useState<string>("all");
   const [selectedView, setSelectedView] = useState<string>("Все");
   const [selectedEquipmentType, setSelectedEquipmentType] = useState<string>("Все");
+  const [allViewFilter, setAllViewFilter] = useState<string | null>(null);
 
   const filteredEquipment = equipment.filter(item => {
     const orgMatch = selectedOrg === "all" || item.orgId === selectedOrg;
@@ -125,6 +127,11 @@ export const CombineMap = () => {
   const getDisplayItems = () => {
     if (selectedView === "Поля") return filteredFields;
     if (selectedView === "Техника") return filteredEquipment;
+    if (selectedView === "Все") {
+      if (allViewFilter === "Поля") return filteredFields;
+      if (allViewFilter === "Техника") return filteredEquipment;
+      return [...filteredFields, ...filteredEquipment];
+    }
     return [...filteredFields, ...filteredEquipment];
   };
 
@@ -221,7 +228,10 @@ export const CombineMap = () => {
                   {viewTypes.map(type => (
                     <button
                       key={type}
-                      onClick={() => setSelectedView(type)}
+                      onClick={() => {
+                        setSelectedView(type);
+                        if (type !== "Все") setAllViewFilter(null);
+                      }}
                       className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
                         selectedView === type 
                           ? 'bg-green-600 text-white' 
@@ -235,24 +245,49 @@ export const CombineMap = () => {
               </div>
             </div>
 
-            {(selectedView === "Техника" || selectedView === "Все") && (
+            {selectedView === "Все" && (
               <div className="pt-4">
-                <label className="block text-sm font-medium text-gray-700 mb-2">Тип техники</label>
+                <label className="block text-sm font-medium text-gray-700 mb-2">Фильтр</label>
                 <div className="flex gap-2">
-                  {equipmentTypes.map(type => (
+                  <button
+                    onClick={() => setAllViewFilter(null)}
+                    className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex-1 ${
+                      allViewFilter === null
+                        ? 'bg-blue-600 text-white' 
+                        : 'bg-blue-50 text-blue-600 hover:bg-blue-100'
+                    }`}
+                  >
+                    Все
+                  </button>
+                  {allViewFilters.map(filter => (
                     <button
-                      key={type}
-                      onClick={() => setSelectedEquipmentType(type)}
-                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                        selectedEquipmentType === type 
-                          ? 'bg-green-600 text-white' 
-                          : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                      key={filter}
+                      onClick={() => setAllViewFilter(filter)}
+                      className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors flex-1 ${
+                        allViewFilter === filter
+                          ? 'bg-blue-600 text-white' 
+                          : 'bg-blue-50 text-blue-600 hover:bg-blue-100'
                       }`}
                     >
-                      {type}
+                      {filter}
                     </button>
                   ))}
                 </div>
+              </div>
+            )}
+
+            {(selectedView === "Техника" || (selectedView === "Все" && allViewFilter === "Техника")) && (
+              <div className="pt-4">
+                <label className="block text-sm font-medium text-gray-700 mb-2">Тип техники</label>
+                <select 
+                  value={selectedEquipmentType}
+                  onChange={(e) => setSelectedEquipmentType(e.target.value)}
+                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
+                >
+                  {equipmentTypes.map(type => (
+                    <option key={type} value={type}>{type}</option>
+                  ))}
+                </select>
               </div>
             )}
 
