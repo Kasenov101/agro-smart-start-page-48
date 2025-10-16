@@ -100,19 +100,34 @@ const equipment = [
   }
 ];
 
+const viewTypes = ["Все", "Поля", "Техника"];
 const equipmentTypes = ["Все", "Combine", "Tractor", "Sprayer"];
 
 export const CombineMap = () => {
   const [selectedIntegration, setSelectedIntegration] = useState<string>("operation-center");
   const [showFilters, setShowFilters] = useState(true);
   const [selectedOrg, setSelectedOrg] = useState<string>("all");
-  const [selectedType, setSelectedType] = useState<string>("Все");
+  const [selectedView, setSelectedView] = useState<string>("Все");
+  const [selectedEquipmentType, setSelectedEquipmentType] = useState<string>("Все");
 
   const filteredEquipment = equipment.filter(item => {
     const orgMatch = selectedOrg === "all" || item.orgId === selectedOrg;
-    const typeMatch = selectedType === "Все" || item.type === selectedType;
+    const typeMatch = selectedEquipmentType === "Все" || item.type === selectedEquipmentType;
     return orgMatch && typeMatch;
   });
+
+  const filteredFields = fields.filter(field => {
+    const orgMatch = selectedOrg === "all" || field.orgId === selectedOrg;
+    return orgMatch;
+  });
+
+  const getDisplayItems = () => {
+    if (selectedView === "Поля") return filteredFields;
+    if (selectedView === "Техника") return filteredEquipment;
+    return [...filteredFields, ...filteredEquipment];
+  };
+
+  const displayItems = getDisplayItems();
 
   const getStatusColor = (status: string) => {
     switch (status) {
@@ -199,14 +214,14 @@ export const CombineMap = () => {
           </div>
           
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-2">Тип техники</label>
-            <div className="grid grid-cols-4 gap-2">
-              {equipmentTypes.map(type => (
+            <label className="block text-sm font-medium text-gray-700 mb-2">Отображение</label>
+            <div className="grid grid-cols-3 gap-2">
+              {viewTypes.map(type => (
                 <button
                   key={type}
-                  onClick={() => setSelectedType(type)}
+                  onClick={() => setSelectedView(type)}
                   className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
-                    selectedType === type 
+                    selectedView === type 
                       ? 'bg-green-600 text-white' 
                       : 'bg-gray-100 text-gray-700 active:bg-gray-200'
                   }`}
@@ -217,22 +232,64 @@ export const CombineMap = () => {
             </div>
           </div>
 
-          <div className="space-y-3 max-h-96 overflow-y-auto">
-            <h4 className="text-sm font-semibold text-gray-900">Список техники ({filteredEquipment.length})</h4>
-            {filteredEquipment.map((item) => (
-              <div key={item.id} className="border border-gray-200 rounded-lg p-3 active:border-green-500 transition-colors">
-                <div className="flex items-start justify-between mb-2">
-                  <h5 className="font-semibold text-gray-900 text-sm">{item.name}</h5>
-                  <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(item.status)}`}>
-                    {getStatusText(item.status)}
-                  </span>
-                </div>
-                <p className="text-xs text-gray-600">{item.manufacturer} {item.model}</p>
-                <p className="text-xs text-gray-500 mt-1">VIN: {item.vin}</p>
-                <p className="text-xs text-gray-500">Оператор: {item.operator}</p>
-                <p className="text-xs text-gray-500">Год: {item.year}</p>
+          {(selectedView === "Техника" || selectedView === "Все") && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-2">Тип техники</label>
+              <div className="grid grid-cols-4 gap-2">
+                {equipmentTypes.map(type => (
+                  <button
+                    key={type}
+                    onClick={() => setSelectedEquipmentType(type)}
+                    className={`px-3 py-2 rounded-lg text-xs font-medium transition-colors ${
+                      selectedEquipmentType === type 
+                        ? 'bg-green-600 text-white' 
+                        : 'bg-gray-100 text-gray-700 active:bg-gray-200'
+                    }`}
+                  >
+                    {type}
+                  </button>
+                ))}
               </div>
-            ))}
+            </div>
+          )}
+
+          <div className="space-y-3 max-h-96 overflow-y-auto">
+            <h4 className="text-sm font-semibold text-gray-900">
+              {selectedView === "Поля" ? `Список полей (${displayItems.length})` : 
+               selectedView === "Техника" ? `Список техники (${displayItems.length})` :
+               `Все объекты (${displayItems.length})`}
+            </h4>
+            {displayItems.map((item: any) => {
+              const isField = 'name' in item && !('manufacturer' in item);
+              
+              if (isField) {
+                return (
+                  <div key={`field-${item.id}`} className="border border-gray-200 rounded-lg p-3 active:border-green-500 transition-colors">
+                    <div className="flex items-start justify-between">
+                      <h5 className="font-semibold text-gray-900 text-sm">{item.name}</h5>
+                      <span className="px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700">
+                        Поле
+                      </span>
+                    </div>
+                  </div>
+                );
+              }
+              
+              return (
+                <div key={`equipment-${item.id}`} className="border border-gray-200 rounded-lg p-3 active:border-green-500 transition-colors">
+                  <div className="flex items-start justify-between mb-2">
+                    <h5 className="font-semibold text-gray-900 text-sm">{item.name}</h5>
+                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(item.status)}`}>
+                      {getStatusText(item.status)}
+                    </span>
+                  </div>
+                  <p className="text-xs text-gray-600">{item.manufacturer} {item.model}</p>
+                  <p className="text-xs text-gray-500 mt-1">VIN: {item.vin}</p>
+                  <p className="text-xs text-gray-500">Оператор: {item.operator}</p>
+                  <p className="text-xs text-gray-500">Год: {item.year}</p>
+                </div>
+              );
+            })}
           </div>
         </div>
       )}
