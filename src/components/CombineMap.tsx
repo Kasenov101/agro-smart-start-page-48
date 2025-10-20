@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
-import { MapPin, Bell } from "lucide-react";
+import { MapPin, Bell, Check } from "lucide-react";
 
 const organizations = [
   { id: "1", name: "Агрохолдинг Казахстан" },
@@ -112,6 +112,7 @@ export const CombineMap = () => {
   const [selectedView, setSelectedView] = useState<string>("Все");
   const [selectedEquipmentType, setSelectedEquipmentType] = useState<string>("Все");
   const [allViewFilter, setAllViewFilter] = useState<string>("Поля");
+  const [selectedEquipmentIds, setSelectedEquipmentIds] = useState<string[]>([]);
 
   const filteredEquipment = equipment.filter(item => {
     const orgMatch = selectedOrg === "all" || item.orgId === selectedOrg;
@@ -135,6 +136,23 @@ export const CombineMap = () => {
   };
 
   const displayItems = getDisplayItems();
+
+  const toggleEquipmentSelection = (id: string) => {
+    setSelectedEquipmentIds(prev => 
+      prev.includes(id) ? prev.filter(i => i !== id) : [...prev, id]
+    );
+  };
+
+  const toggleSelectAll = () => {
+    const equipmentItems = displayItems.filter((item: any) => 'manufacturer' in item);
+    if (selectedEquipmentIds.length === equipmentItems.length) {
+      setSelectedEquipmentIds([]);
+    } else {
+      setSelectedEquipmentIds(equipmentItems.map((item: any) => item.id));
+    }
+  };
+
+  const isEquipmentView = selectedView === "Техника" || (selectedView === "Все" && allViewFilter === "Техника");
 
   return (
     <Card className="bg-white">
@@ -264,12 +282,22 @@ export const CombineMap = () => {
               </div>
             )}
 
-            <div className="space-y-3 max-h-96 overflow-y-auto">
+          <div className="space-y-3 max-h-96 overflow-y-auto">
+            <div className="flex items-center justify-between">
               <h4 className="text-sm font-semibold text-gray-900">
                 {selectedView === "Поля" ? `Список полей (${displayItems.length})` : 
                  selectedView === "Техника" ? `Список техники (${displayItems.length})` :
                  `Все объекты (${displayItems.length})`}
               </h4>
+              {isEquipmentView && displayItems.length > 0 && (
+                <button
+                  onClick={toggleSelectAll}
+                  className="text-sm font-medium text-green-600 hover:text-green-700"
+                >
+                  {selectedEquipmentIds.length === displayItems.length ? "Снять все" : "Выбрать все"}
+                </button>
+              )}
+            </div>
               {displayItems.map((item: any) => {
                 const isField = 'name' in item && !('manufacturer' in item);
                 
@@ -286,16 +314,30 @@ export const CombineMap = () => {
                   );
                 }
                 
+              const isSelected = selectedEquipmentIds.includes(item.id);
+              
               return (
-                <div key={`equipment-${item.id}`} className="border border-gray-200 rounded-lg p-4 hover:border-green-500 transition-colors">
-                  <div className="flex-1 mb-3">
-                    <h5 className="font-semibold text-gray-900">{item.name}</h5>
-                    <p className="text-xs text-gray-600 mt-1">{item.manufacturer} {item.model}</p>
-                    <p className="text-xs text-gray-500 mt-1">VIN: {item.vin}</p>
-                    <p className="text-xs text-gray-500">Оператор: {item.operator}</p>
-                    <p className="text-xs text-gray-500">Год: {item.year}</p>
+                <div key={`equipment-${item.id}`} className="group border border-gray-200 rounded-lg p-4 hover:border-green-500 transition-colors relative">
+                  <div className="flex items-start gap-3 mb-3">
+                    <button
+                      onClick={() => toggleEquipmentSelection(item.id)}
+                      className={`flex-shrink-0 w-5 h-5 rounded border-2 transition-colors flex items-center justify-center ${
+                        isSelected 
+                          ? 'bg-green-600 border-green-600' 
+                          : 'border-gray-300 hover:border-green-500'
+                      }`}
+                    >
+                      {isSelected && <Check className="h-3 w-3 text-white" />}
+                    </button>
+                    <div className="flex-1">
+                      <h5 className="font-semibold text-gray-900">{item.name}</h5>
+                      <p className="text-xs text-gray-600 mt-1">{item.manufacturer} {item.model}</p>
+                      <p className="text-xs text-gray-500 mt-1">VIN: {item.vin}</p>
+                      <p className="text-xs text-gray-500">Оператор: {item.operator}</p>
+                      <p className="text-xs text-gray-500">Год: {item.year}</p>
+                    </div>
                   </div>
-                  <div className="flex gap-2">
+                  <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors">
                       <Bell className="h-4 w-4" />
                       Уведомления
