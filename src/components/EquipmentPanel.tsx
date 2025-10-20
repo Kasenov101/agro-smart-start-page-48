@@ -1,5 +1,5 @@
 
-import { Tractor, Truck, Wrench, AlertTriangle, CheckCircle } from "lucide-react";
+import { Tractor, Truck, Bell, MapPin } from "lucide-react";
 
 const EquipmentPanel = () => {
   const equipment = [
@@ -37,31 +37,6 @@ const EquipmentPanel = () => {
     }
   ];
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "active":
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
-      case "maintenance":
-        return <Wrench className="h-5 w-5 text-yellow-500" />;
-      case "inactive":
-        return <AlertTriangle className="h-5 w-5 text-gray-500" />;
-      default:
-        return <CheckCircle className="h-5 w-5 text-green-500" />;
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case "active":
-        return "Работает";
-      case "maintenance":
-        return "Ремонт";
-      case "inactive":
-        return "Простой";
-      default:
-        return "Работает";
-    }
-  };
 
   const getEquipmentIcon = (name: string) => {
     if (name.includes("Трактор")) return <Tractor className="h-6 w-6 text-green-600" />;
@@ -86,13 +61,9 @@ const EquipmentPanel = () => {
                 <p className="text-sm text-gray-600">{item.location}</p>
               </div>
             </div>
-            <div className="flex items-center space-x-1">
-              {getStatusIcon(item.status)}
-              <span className="text-sm font-medium">{getStatusText(item.status)}</span>
-            </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-4 text-sm">
+          <div className="grid grid-cols-2 gap-4 text-sm mb-3">
             <div>
               <span className="text-gray-600">Топливо:</span>
               <div className="flex items-center space-x-2 mt-1">
@@ -113,6 +84,17 @@ const EquipmentPanel = () => {
               <span className="text-gray-600">Моточасы:</span>
               <div className="font-medium mt-1">{item.hours} ч</div>
             </div>
+          </div>
+
+          <div className="flex gap-2">
+            <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors">
+              <Bell className="h-4 w-4" />
+              Уведомления
+            </button>
+            <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-green-50 text-green-600 rounded-lg text-sm font-medium hover:bg-green-100 transition-colors">
+              <MapPin className="h-4 w-4" />
+              Локации
+            </button>
           </div>
         </div>
       ))}

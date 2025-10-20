@@ -4,11 +4,10 @@ import {
   Thermometer, 
   Camera,
   Battery,
-  AlertTriangle,
-  ChevronRight,
+  Bell,
+  MapPin,
   Wifi,
-  WifiOff,
-  CheckCircle
+  WifiOff
 } from "lucide-react";
 
 export const EquipmentPanel = () => {
@@ -55,34 +54,6 @@ export const EquipmentPanel = () => {
     }
   ];
 
-  const getStatusInfo = (status: string) => {
-    switch (status) {
-      case 'active': 
-        return { 
-          color: 'bg-green-100 text-green-800', 
-          text: 'Активно',
-          dot: 'bg-green-500'
-        };
-      case 'warning': 
-        return { 
-          color: 'bg-yellow-100 text-yellow-800', 
-          text: 'Внимание',
-          dot: 'bg-yellow-500'
-        };
-      case 'offline': 
-        return { 
-          color: 'bg-red-100 text-red-800', 
-          text: 'Офлайн',
-          dot: 'bg-red-500'
-        };
-      default: 
-        return { 
-          color: 'bg-gray-100 text-gray-800', 
-          text: 'Неизвестно',
-          dot: 'bg-gray-500'
-        };
-    }
-  };
 
   const getBatteryColor = (battery: number) => {
     if (battery > 60) return 'text-green-600';
@@ -101,7 +72,6 @@ export const EquipmentPanel = () => {
 
       <div className="p-6 space-y-4">
         {equipment.map((item) => {
-          const statusInfo = getStatusInfo(item.status);
           return (
             <div key={item.id} className="bg-gray-50 rounded-xl p-4">
               <div className="flex items-start justify-between mb-3">
@@ -114,29 +84,18 @@ export const EquipmentPanel = () => {
                     <p className="text-sm text-gray-600">{item.location}</p>
                   </div>
                 </div>
-                <ChevronRight className="h-5 w-5 text-gray-400" />
               </div>
 
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  {/* Status */}
-                  <div className="flex items-center gap-1">
-                    <div className={`w-2 h-2 rounded-full ${statusInfo.dot}`}></div>
-                    <span className="text-xs font-medium text-gray-700">{statusInfo.text}</span>
-                  </div>
-
-                  {/* Connection */}
-                  <div className="flex items-center gap-1">
-                    {item.connected ? (
-                      <Wifi className="h-3 w-3 text-green-600" />
-                    ) : (
-                      <WifiOff className="h-3 w-3 text-red-600" />
-                    )}
-                    <span className="text-xs text-gray-500">{item.lastUpdate}</span>
-                  </div>
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-1">
+                  {item.connected ? (
+                    <Wifi className="h-3 w-3 text-green-600" />
+                  ) : (
+                    <WifiOff className="h-3 w-3 text-red-600" />
+                  )}
+                  <span className="text-xs text-gray-500">{item.lastUpdate}</span>
                 </div>
 
-                {/* Battery */}
                 <div className="flex items-center gap-1">
                   <Battery className={`h-4 w-4 ${getBatteryColor(item.battery)}`} />
                   <span className={`text-sm font-medium ${getBatteryColor(item.battery)}`}>
@@ -145,8 +104,7 @@ export const EquipmentPanel = () => {
                 </div>
               </div>
 
-              {/* Battery Bar */}
-              <div className="mt-3">
+              <div className="mb-3">
                 <div className="w-full bg-gray-200 rounded-full h-1.5">
                   <div 
                     className={`h-1.5 rounded-full transition-all duration-300 ${
@@ -157,16 +115,20 @@ export const EquipmentPanel = () => {
                   ></div>
                 </div>
               </div>
+
+              <div className="flex gap-2">
+                <button className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg text-xs font-medium active:bg-blue-100 transition-colors">
+                  <Bell className="h-3.5 w-3.5" />
+                  Уведомления
+                </button>
+                <button className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-green-50 text-green-600 rounded-lg text-xs font-medium active:bg-green-100 transition-colors">
+                  <MapPin className="h-3.5 w-3.5" />
+                  Локации
+                </button>
+              </div>
             </div>
           );
         })}
-      </div>
-
-      <div className="px-6 pb-6">
-        <button className="w-full bg-gray-100 text-gray-900 py-3 px-4 rounded-xl font-medium flex items-center justify-center gap-2 hover:bg-gray-200 transition-colors">
-          <AlertTriangle className="h-4 w-4" />
-          Диагностика оборудования
-        </button>
       </div>
     </div>
   );
