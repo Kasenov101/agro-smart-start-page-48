@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Tractor, Cloud } from "lucide-react";
+import { MapPin, Bell } from "lucide-react";
 
 const organizations = [
   { id: "1", name: "Агрохолдинг Казахстан" },
@@ -134,22 +134,6 @@ export const CombineMap = () => {
   };
 
   const displayItems = getDisplayItems();
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "error": return "bg-red-100 text-red-700";
-      case "warning": return "bg-orange-100 text-orange-700";
-      default: return "bg-green-100 text-green-700";
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case "error": return "Ошибка";
-      case "warning": return "Внимание";
-      default: return "Работает";
-    }
-  };
 
   return (
     <div className="bg-white rounded-2xl shadow-sm overflow-hidden">
@@ -301,16 +285,23 @@ export const CombineMap = () => {
               
               return (
                 <div key={`equipment-${item.id}`} className="border border-gray-200 rounded-lg p-3 active:border-green-500 transition-colors">
-                  <div className="flex items-start justify-between mb-2">
+                  <div className="mb-3">
                     <h5 className="font-semibold text-gray-900 text-sm">{item.name}</h5>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(item.status)}`}>
-                      {getStatusText(item.status)}
-                    </span>
+                    <p className="text-xs text-gray-600 mt-1">{item.manufacturer} {item.model}</p>
+                    <p className="text-xs text-gray-500 mt-1">VIN: {item.vin}</p>
+                    <p className="text-xs text-gray-500">Оператор: {item.operator}</p>
+                    <p className="text-xs text-gray-500">Год: {item.year}</p>
                   </div>
-                  <p className="text-xs text-gray-600">{item.manufacturer} {item.model}</p>
-                  <p className="text-xs text-gray-500 mt-1">VIN: {item.vin}</p>
-                  <p className="text-xs text-gray-500">Оператор: {item.operator}</p>
-                  <p className="text-xs text-gray-500">Год: {item.year}</p>
+                  <div className="flex gap-2">
+                    <button className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg text-xs font-medium active:bg-blue-100 transition-colors">
+                      <Bell className="h-3.5 w-3.5" />
+                      Уведомления
+                    </button>
+                    <button className="flex-1 flex items-center justify-center gap-1 px-3 py-2 bg-green-50 text-green-600 rounded-lg text-xs font-medium active:bg-green-100 transition-colors">
+                      <MapPin className="h-3.5 w-3.5" />
+                      Локации
+                    </button>
+                  </div>
                 </div>
               );
             })}

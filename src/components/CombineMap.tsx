@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Card, CardBody, CardHeader } from "@nextui-org/react";
-import { MapPin, Tractor, Cloud } from "lucide-react";
+import { MapPin, Bell } from "lucide-react";
 
 const organizations = [
   { id: "1", name: "Агрохолдинг Казахстан" },
@@ -135,22 +135,6 @@ export const CombineMap = () => {
   };
 
   const displayItems = getDisplayItems();
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "error": return "bg-red-100 text-red-700";
-      case "warning": return "bg-orange-100 text-orange-700";
-      default: return "bg-green-100 text-green-700";
-    }
-  };
-
-  const getStatusText = (status: string) => {
-    switch (status) {
-      case "error": return "Ошибка";
-      case "warning": return "Внимание";
-      default: return "Работает";
-    }
-  };
 
   return (
     <Card className="bg-white">
@@ -302,22 +286,27 @@ export const CombineMap = () => {
                   );
                 }
                 
-                return (
-                  <div key={`equipment-${item.id}`} className="border border-gray-200 rounded-lg p-4 hover:border-green-500 transition-colors">
-                    <div className="flex items-start justify-between">
-                      <div className="flex-1">
-                        <h5 className="font-semibold text-gray-900">{item.name}</h5>
-                        <p className="text-xs text-gray-600 mt-1">{item.manufacturer} {item.model}</p>
-                        <p className="text-xs text-gray-500 mt-1">VIN: {item.vin}</p>
-                        <p className="text-xs text-gray-500">Оператор: {item.operator}</p>
-                        <p className="text-xs text-gray-500">Год: {item.year}</p>
-                      </div>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(item.status)}`}>
-                        {getStatusText(item.status)}
-                      </span>
-                    </div>
+              return (
+                <div key={`equipment-${item.id}`} className="border border-gray-200 rounded-lg p-4 hover:border-green-500 transition-colors">
+                  <div className="flex-1 mb-3">
+                    <h5 className="font-semibold text-gray-900">{item.name}</h5>
+                    <p className="text-xs text-gray-600 mt-1">{item.manufacturer} {item.model}</p>
+                    <p className="text-xs text-gray-500 mt-1">VIN: {item.vin}</p>
+                    <p className="text-xs text-gray-500">Оператор: {item.operator}</p>
+                    <p className="text-xs text-gray-500">Год: {item.year}</p>
                   </div>
-                );
+                  <div className="flex gap-2">
+                    <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-blue-50 text-blue-600 rounded-lg text-sm font-medium hover:bg-blue-100 transition-colors">
+                      <Bell className="h-4 w-4" />
+                      Уведомления
+                    </button>
+                    <button className="flex-1 flex items-center justify-center gap-2 px-3 py-2 bg-green-50 text-green-600 rounded-lg text-sm font-medium hover:bg-green-100 transition-colors">
+                      <MapPin className="h-4 w-4" />
+                      Локации
+                    </button>
+                  </div>
+                </div>
+              );
               })}
             </div>
           </div>
