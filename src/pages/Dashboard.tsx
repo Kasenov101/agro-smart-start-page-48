@@ -17,7 +17,8 @@ import {
   LogOut,
   Coins,
   Info,
-  Eye
+  Eye,
+  BellRing
 } from "lucide-react";
 import { CombineMap } from "@/components/CombineMap";
 import { 
@@ -26,6 +27,8 @@ import {
   DropdownMenu as NextUIDropdownMenu,
   DropdownItem
 } from "@nextui-org/react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Badge } from "@/components/ui/badge";
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -73,23 +76,52 @@ const Dashboard = () => {
       action: "Обновлен план посева",
       time: "2 часа назад",
       user: "Алексей Иванов",
-      type: "success"
+      type: "success",
+      isRead: false
     },
     {
       id: 2,
       action: "Завершена обработка поля №5",
       time: "4 часа назад",
       user: "Мария Петрова",
-      type: "default"
+      type: "default",
+      isRead: false
     },
     {
       id: 3,
       action: "Новый отчет по удобрениям",
       time: "6 часов назад",
       user: "Система",
-      type: "warning"
+      type: "warning",
+      isRead: true
+    },
+    {
+      id: 4,
+      action: "Требуется техническое обслуживание",
+      time: "8 часов назад",
+      user: "Система",
+      type: "warning",
+      isRead: false
+    },
+    {
+      id: 5,
+      action: "Получена новая заявка",
+      time: "10 часов назад",
+      user: "Иван Сидоров",
+      type: "default",
+      isRead: true
+    },
+    {
+      id: 6,
+      action: "Завершена инвентаризация",
+      time: "12 часов назад",
+      user: "Анна Козлова",
+      type: "success",
+      isRead: true
     }
   ];
+
+  const unreadCount = recentActivities.filter(activity => !activity.isRead).length;
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -221,31 +253,59 @@ const Dashboard = () => {
 
           {/* Sidebar */}
           <div className="space-y-6">
-            {/* Recent Activity */}
+            {/* Notifications */}
             <Card className="bg-white">
               <CardHeader className="pb-3">
-                <h3 className="text-lg font-semibold text-gray-900">
-                  Последние действия
-                </h3>
-              </CardHeader>
-              <CardBody className="space-y-4">
-                {recentActivities.map((activity) => (
-                  <div key={activity.id} className="flex items-start space-x-3">
-                    <div className={`w-2 h-2 rounded-full mt-2 ${
-                      activity.type === 'success' ? 'bg-green-500' :
-                      activity.type === 'warning' ? 'bg-orange-500' :
-                      'bg-gray-400'
-                    }`} />
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900">
-                        {activity.action}
-                      </p>
-                      <p className="text-xs text-gray-500">
-                        {activity.user} • {activity.time}
-                      </p>
-                    </div>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <BellRing className="h-5 w-5 text-primary" />
+                    <h3 className="text-lg font-semibold text-gray-900">
+                      Уведомления
+                    </h3>
+                    {unreadCount > 0 && (
+                      <Badge variant="destructive" className="ml-1">
+                        {unreadCount}
+                      </Badge>
+                    )}
                   </div>
-                ))}
+                  <Button 
+                    size="sm" 
+                    variant="light"
+                    className="text-primary"
+                  >
+                    Все
+                  </Button>
+                </div>
+              </CardHeader>
+              <CardBody className="p-0">
+                <ScrollArea className="h-[400px]">
+                  <div className="space-y-0">
+                    {recentActivities.map((activity, index) => (
+                      <div key={activity.id}>
+                        <div className={`flex items-start space-x-3 p-4 hover:bg-gray-50 transition-colors ${
+                          !activity.isRead ? 'bg-blue-50/50' : ''
+                        }`}>
+                          <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${
+                            activity.type === 'success' ? 'bg-green-500' :
+                            activity.type === 'warning' ? 'bg-orange-500' :
+                            'bg-gray-400'
+                          }`} />
+                          <div className="flex-1 min-w-0">
+                            <p className={`text-sm ${!activity.isRead ? 'font-semibold text-gray-900' : 'font-medium text-gray-700'}`}>
+                              {activity.action}
+                            </p>
+                            <p className="text-xs text-gray-500 mt-1">
+                              {activity.user} • {activity.time}
+                            </p>
+                          </div>
+                        </div>
+                        {index < recentActivities.length - 1 && (
+                          <Divider />
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </ScrollArea>
               </CardBody>
             </Card>
 
