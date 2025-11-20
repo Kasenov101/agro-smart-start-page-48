@@ -17,6 +17,7 @@ import Subscriptions from "./pages/profile/Subscriptions";
 import Organizations from "./pages/profile/Organizations";
 import Integrations from "./pages/profile/Integrations";
 import Bonuses from "./pages/profile/Bonuses";
+import Notifications from "./pages/profile/Notifications";
 import AdminLayout from "./pages/admin/AdminLayout";
 import PlanRequestsContent from "./pages/admin/PlanRequestsContent";
 import ECoin from "./pages/admin/ECoin";
@@ -56,6 +57,7 @@ const App = () => (
         <Route path="subscriptions" element={<Subscriptions />} />
         <Route path="organizations" element={<Organizations />} />
         <Route path="integrations" element={<Integrations />} />
+        <Route path="notifications" element={<Notifications />} />
       </Route>
       <Route path="/admin" element={<AdminLayout />}>
         <Route path="plan-requests" element={<PlanRequestsContent />} />
@@ -79,6 +81,7 @@ const App = () => (
         <Route path="subscriptions" element={<Subscriptions />} />
         <Route path="organizations" element={<Organizations />} />
         <Route path="integrations" element={<Integrations />} />
+        <Route path="notifications" element={<Notifications />} />
       </Route>
       <Route path="/mobile/admin" element={<MobileAdminLayout />}>
         <Route path="plan-requests" element={<PlanRequestsContent />} />
