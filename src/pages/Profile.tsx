@@ -9,7 +9,8 @@ import {
   CreditCard,
   Building2,
   Globe,
-  LogOut
+  LogOut,
+  Bell
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -78,6 +79,13 @@ const Profile = () => {
       icon: Globe,
       path: '/profile/integrations',
       color: 'text-teal-600'
+    },
+    {
+      id: 'notifications',
+      label: 'Уведомления',
+      icon: Bell,
+      path: '/profile/notifications',
+      color: 'text-amber-600'
     }
   ];
 
