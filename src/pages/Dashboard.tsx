@@ -17,8 +17,7 @@ import {
   LogOut,
   Coins,
   Info,
-  Eye,
-  BellRing
+  Eye
 } from "lucide-react";
 import { CombineMap } from "@/components/CombineMap";
 import { 
@@ -255,26 +254,25 @@ const Dashboard = () => {
           <div className="space-y-6">
             {/* Notifications */}
             <Card className="bg-white">
-              <CardBody className="p-6">
-                <div className="flex items-start gap-4 mb-4">
-                  <div className="p-2 rounded-lg bg-amber-100 text-amber-600">
-                    <BellRing className="h-6 w-6" />
+              <CardBody className="p-4">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <Bell className="h-5 w-5 text-amber-500" />
+                    <span className="font-semibold text-gray-900">Уведомления</span>
+                    {unreadCount > 0 && (
+                      <Chip size="sm" color="warning" variant="flat" className="h-5 min-w-5">
+                        {unreadCount}
+                      </Chip>
+                    )}
                   </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <h3 className="text-2xl font-bold text-gray-900">
-                        {recentActivities.length}
-                      </h3>
-                      {unreadCount > 0 && (
-                        <Chip size="sm" color="warning" variant="flat">
-                          +{unreadCount}
-                        </Chip>
-                      )}
-                    </div>
-                    <p className="text-gray-600 text-sm">Уведомления</p>
-                  </div>
-                  <Button size="sm" variant="flat" color="warning">
-                    Все
+                  <Button 
+                    as={Link}
+                    to="/dashboard/notifications"
+                    size="sm" 
+                    variant="light"
+                    className="text-amber-600 hover:text-amber-700"
+                  >
+                    Все →
                   </Button>
                 </div>
                 <ScrollArea className="h-[300px]">
