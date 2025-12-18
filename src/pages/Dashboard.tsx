@@ -256,32 +256,24 @@ const Dashboard = () => {
             {/* Notifications */}
             <Card className="bg-white">
               <CardBody className="p-6">
-                <div className="flex items-center justify-between mb-4">
+                <div className="flex items-start gap-4 mb-4">
                   <div className="p-2 rounded-lg bg-amber-100 text-amber-600">
                     <BellRing className="h-6 w-6" />
                   </div>
-                  {unreadCount > 0 && (
-                    <Chip 
-                      size="sm" 
-                      color="warning"
-                      variant="flat"
-                    >
-                      +{unreadCount} новых
-                    </Chip>
-                  )}
-                </div>
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <h3 className="text-2xl font-bold text-gray-900 mb-1">
-                      {recentActivities.length}
-                    </h3>
+                  <div className="flex-1">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="text-2xl font-bold text-gray-900">
+                        {recentActivities.length}
+                      </h3>
+                      {unreadCount > 0 && (
+                        <Chip size="sm" color="warning" variant="flat">
+                          +{unreadCount}
+                        </Chip>
+                      )}
+                    </div>
                     <p className="text-gray-600 text-sm">Уведомления</p>
                   </div>
-                  <Button 
-                    size="sm" 
-                    variant="flat"
-                    color="warning"
-                  >
+                  <Button size="sm" variant="flat" color="warning">
                     Все
                   </Button>
                 </div>
