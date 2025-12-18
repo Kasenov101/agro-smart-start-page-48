@@ -28,7 +28,7 @@ import {
   DropdownItem
 } from "@nextui-org/react";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Badge } from "@/components/ui/badge";
+
 
 const Dashboard = () => {
   const [activeTab, setActiveTab] = useState("overview");
@@ -255,34 +255,41 @@ const Dashboard = () => {
           <div className="space-y-6">
             {/* Notifications */}
             <Card className="bg-white">
-              <CardHeader className="pb-3">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <BellRing className="h-5 w-5 text-primary" />
-                    <h3 className="text-lg font-semibold text-gray-900">
-                      Уведомления
+              <CardBody className="p-6">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="p-2 rounded-lg bg-amber-100 text-amber-600">
+                    <BellRing className="h-6 w-6" />
+                  </div>
+                  {unreadCount > 0 && (
+                    <Chip 
+                      size="sm" 
+                      color="warning"
+                      variant="flat"
+                    >
+                      +{unreadCount} новых
+                    </Chip>
+                  )}
+                </div>
+                <div className="flex items-center justify-between mb-4">
+                  <div>
+                    <h3 className="text-2xl font-bold text-gray-900 mb-1">
+                      {recentActivities.length}
                     </h3>
-                    {unreadCount > 0 && (
-                      <Badge variant="destructive" className="ml-1">
-                        {unreadCount}
-                      </Badge>
-                    )}
+                    <p className="text-gray-600 text-sm">Уведомления</p>
                   </div>
                   <Button 
                     size="sm" 
-                    variant="light"
-                    className="text-primary"
+                    variant="flat"
+                    color="warning"
                   >
                     Все
                   </Button>
                 </div>
-              </CardHeader>
-              <CardBody className="p-0">
-                <ScrollArea className="h-[400px]">
+                <ScrollArea className="h-[300px]">
                   <div className="space-y-0">
                     {recentActivities.map((activity, index) => (
                       <div key={activity.id}>
-                        <div className={`flex items-start space-x-3 p-4 hover:bg-gray-50 transition-colors ${
+                        <div className={`flex items-start space-x-3 p-3 hover:bg-gray-50 transition-colors rounded-lg ${
                           !activity.isRead ? 'bg-blue-50/50' : ''
                         }`}>
                           <div className={`w-2 h-2 rounded-full mt-2 flex-shrink-0 ${
@@ -300,7 +307,7 @@ const Dashboard = () => {
                           </div>
                         </div>
                         {index < recentActivities.length - 1 && (
-                          <Divider />
+                          <Divider className="my-1" />
                         )}
                       </div>
                     ))}
