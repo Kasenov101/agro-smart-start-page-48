@@ -7,6 +7,7 @@ import LoginSms from "./pages/LoginSms";
 import Register from "./pages/Register";
 import RegisterStep2 from "./pages/RegisterStep2";
 import Dashboard from "./pages/Dashboard";
+import DashboardNotifications from "./pages/dashboard/Notifications";
 import Profile from "./pages/Profile";
 import PersonalInfo from "./pages/profile/PersonalInfo";
 import OrganizationInfo from "./pages/profile/OrganizationInfo";
@@ -47,6 +48,7 @@ const App = () => (
       <Route path="/register" element={<Register />} />
       <Route path="/register/step2" element={<RegisterStep2 />} />
       <Route path="/dashboard" element={<Dashboard />} />
+      <Route path="/dashboard/notifications" element={<DashboardNotifications />} />
       <Route path="/profile" element={<Profile />}>
         <Route path="personal" element={<PersonalInfo />} />
         <Route path="organization" element={<OrganizationInfo />} />
