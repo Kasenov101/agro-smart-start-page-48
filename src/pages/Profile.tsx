@@ -3,7 +3,8 @@ import {
   User, 
   Globe,
   LogOut,
-  ArrowLeft
+  ArrowLeft,
+  Sprout
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -25,12 +26,18 @@ const Profile = () => {
           {/* Header */}
           <header className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
             <div className="flex items-center justify-between h-14 px-4">
-              <div className="flex items-center gap-2">
-                <SidebarTrigger className="-ml-1" />
-                <div className="h-4 w-px bg-border mx-1" />
+              <div className="flex items-center gap-3">
+                <Link to="/" className="flex items-center gap-2">
+                  <div className="bg-green-600 p-1.5 rounded-lg">
+                    <Sprout className="h-5 w-5 text-white" />
+                  </div>
+                  <span className="font-bold text-foreground hidden sm:inline">Smart Center</span>
+                </Link>
+                <div className="h-5 w-px bg-border" />
+                <SidebarTrigger className="" />
                 <Link 
                   to="/dashboard" 
-                  className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+                  className="flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <ArrowLeft className="h-4 w-4" />
                   <span className="hidden sm:inline">Назад</span>
