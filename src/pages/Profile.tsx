@@ -25,28 +25,15 @@ const Profile = () => {
         <SidebarInset className="flex flex-col flex-1">
            {/* Header */}
            <header className="sticky top-0 z-10 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-             <div className="px-4 py-2">
-               {/* Top row: Logo */}
-               <div className="flex items-center justify-center py-1">
+             <div className="px-4 py-2 space-y-1">
+               {/* Top row: Logo left, Globe+User center-right */}
+               <div className="flex items-center justify-between">
                  <Link to="/" className="flex items-center gap-2.5">
                    <div className="bg-green-600 p-2 rounded-lg">
                      <Sprout className="h-7 w-7 text-white" />
                    </div>
                    <span className="font-bold text-lg text-foreground">Smart Center</span>
                  </Link>
-               </div>
-               {/* Bottom row: Buttons */}
-               <div className="flex items-center justify-between pt-1">
-                 <div className="flex items-center gap-2">
-                   <SidebarTrigger className="h-7 w-7 [&_svg]:h-3.5 [&_svg]:w-3.5" />
-                   <Link 
-                     to="/dashboard" 
-                     className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                   >
-                     <ArrowLeft className="h-3.5 w-3.5" />
-                     <span className="hidden sm:inline">Назад</span>
-                   </Link>
-                 </div>
                  <div className="flex items-center gap-0.5">
                    <DropdownMenu>
                      <DropdownMenuTrigger asChild>
@@ -80,6 +67,17 @@ const Profile = () => {
                      </DropdownMenuContent>
                    </DropdownMenu>
                  </div>
+               </div>
+               {/* Bottom row: Sidebar + Back */}
+               <div className="flex items-center gap-2">
+                 <SidebarTrigger className="h-7 w-7 [&_svg]:h-3.5 [&_svg]:w-3.5" />
+                 <Link 
+                   to="/dashboard" 
+                   className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                 >
+                   <ArrowLeft className="h-3.5 w-3.5" />
+                   <span className="hidden sm:inline">Назад</span>
+                 </Link>
                </div>
              </div>
            </header>
