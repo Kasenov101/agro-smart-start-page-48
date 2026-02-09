@@ -9,26 +9,20 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Chip,
   Select,
   SelectItem,
-  useDisclosure,
 } from "@nextui-org/react";
 import {
   Users,
   Plus,
   MoreHorizontal,
-  Share2,
   Mail,
   MessageSquare,
   Trash2,
   ChevronRight,
   Copy,
+  X,
 } from "lucide-react";
 
 interface User {
@@ -48,7 +42,7 @@ const roles = [
 ];
 
 const UsersList = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [showInvite, setShowInvite] = useState(false);
   const [selectedRole, setSelectedRole] = useState("");
   const [users, setUsers] = useState<User[]>([
     { id: 1, name: "Анна Петрова", email: "anna.petrova@example.com", role: "Менеджер", status: "active" },
@@ -100,10 +94,70 @@ const UsersList = () => {
           </div>
         </div>
 
-        <Button color="primary" startContent={<Plus className="h-4 w-4" />} onPress={onOpen}>
-          Пригласить
+        <Button
+          color="primary"
+          variant={showInvite ? "flat" : "solid"}
+          size="sm"
+          startContent={showInvite ? <X className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+          onPress={() => { setShowInvite(!showInvite); setSelectedRole(""); }}
+        >
+          {showInvite ? "Отмена" : "Пригласить"}
         </Button>
       </div>
+
+      {/* Inline Invite Section */}
+      {showInvite && (
+        <Card className="border border-primary/20">
+          <CardBody className="p-4 space-y-3">
+            <Select
+              size="sm"
+              label="Должность"
+              placeholder="Выберите должность"
+              selectedKeys={selectedRole ? [selectedRole] : []}
+              onSelectionChange={(keys) => {
+                const val = Array.from(keys)[0] as string;
+                setSelectedRole(val || "");
+              }}
+            >
+              {roles.map((role) => (
+                <SelectItem key={role.key}>{role.label}</SelectItem>
+              ))}
+            </Select>
+            <div className="flex gap-2">
+              <Button
+                size="sm"
+                variant="flat"
+                className="flex-1"
+                isDisabled={!selectedRole}
+                startContent={<Mail className="h-4 w-4" />}
+                onPress={() => handleShare("email")}
+              >
+                Email
+              </Button>
+              <Button
+                size="sm"
+                variant="flat"
+                className="flex-1"
+                isDisabled={!selectedRole}
+                startContent={<MessageSquare className="h-4 w-4" />}
+                onPress={() => handleShare("whatsapp")}
+              >
+                WhatsApp
+              </Button>
+              <Button
+                size="sm"
+                variant="flat"
+                className="flex-1"
+                isDisabled={!selectedRole}
+                startContent={<Copy className="h-4 w-4" />}
+                onPress={() => handleShare("link")}
+              >
+                Ссылка
+              </Button>
+            </div>
+          </CardBody>
+        </Card>
+      )}
 
       {/* Users Grid */}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -168,68 +222,6 @@ const UsersList = () => {
           </Card>
         ))}
       </div>
-
-      {/* Invite Modal */}
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>Пригласить пользователя</ModalHeader>
-              <ModalBody className="space-y-4">
-                <Select
-                  label="Должность"
-                  placeholder="Выберите должность"
-                  selectedKeys={selectedRole ? [selectedRole] : []}
-                  onSelectionChange={(keys) => {
-                    const val = Array.from(keys)[0] as string;
-                    setSelectedRole(val || "");
-                  }}
-                >
-                  {roles.map((role) => (
-                    <SelectItem key={role.key}>{role.label}</SelectItem>
-                  ))}
-                </Select>
-
-                <div className="space-y-2">
-                  <p className="text-sm font-medium text-foreground">Способ отправки</p>
-                  <div className="grid grid-cols-3 gap-2">
-                    <Button
-                      variant="flat"
-                      className="flex-col h-auto py-3 gap-1"
-                      isDisabled={!selectedRole}
-                      onPress={() => { handleShare("email"); onClose(); }}
-                    >
-                      <Mail className="h-5 w-5" />
-                      <span className="text-xs">Email</span>
-                    </Button>
-                    <Button
-                      variant="flat"
-                      className="flex-col h-auto py-3 gap-1"
-                      isDisabled={!selectedRole}
-                      onPress={() => { handleShare("whatsapp"); onClose(); }}
-                    >
-                      <MessageSquare className="h-5 w-5" />
-                      <span className="text-xs">WhatsApp</span>
-                    </Button>
-                    <Button
-                      variant="flat"
-                      className="flex-col h-auto py-3 gap-1"
-                      isDisabled={!selectedRole}
-                      onPress={() => { handleShare("link"); onClose(); }}
-                    >
-                      <Copy className="h-5 w-5" />
-                      <span className="text-xs">Ссылка</span>
-                    </Button>
-                  </div>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button variant="flat" onPress={onClose}>Закрыть</Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
     </div>
   );
 };
