@@ -1,23 +1,22 @@
 import { useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Switch } from "@/components/ui/switch";
 import {
+  Card,
+  CardBody,
+  Button,
+  Avatar,
+  Switch,
+  Dropdown,
+  DropdownTrigger,
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
+  DropdownItem,
+  Modal,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  Chip,
+  useDisclosure,
+} from "@nextui-org/react";
 import {
   Users,
   Plus,
@@ -40,7 +39,7 @@ interface User {
 }
 
 const UsersList = () => {
-  const [isInviteOpen, setIsInviteOpen] = useState(false);
+  const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [shareMethod, setShareMethod] = useState("");
   const [users, setUsers] = useState<User[]>([
     {
@@ -97,12 +96,11 @@ const UsersList = () => {
 
   const handleGenerateLink = (method: string) => {
     setShareMethod(method);
-    setIsInviteOpen(true);
+    onOpen();
   };
 
   const handleViewProfile = (userId: number) => {
     console.log(`Просмотр профиля пользователя ${userId}`);
-    // В будущем: navigate(`/profile/users/${userId}`)
   };
 
   return (
@@ -119,28 +117,36 @@ const UsersList = () => {
           </div>
         </div>
 
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button>
-              <Plus className="mr-2 h-4 w-4" />
+        <Dropdown>
+          <DropdownTrigger>
+            <Button color="primary" startContent={<Plus className="h-4 w-4" />}>
               Пригласить
             </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem onClick={() => handleGenerateLink("email")}>
-              <Mail className="mr-2 h-4 w-4" />
+          </DropdownTrigger>
+          <DropdownMenu aria-label="Invite actions">
+            <DropdownItem
+              key="email"
+              startContent={<Mail className="h-4 w-4" />}
+              onPress={() => handleGenerateLink("email")}
+            >
               Отправить по Email
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleGenerateLink("whatsapp")}>
-              <MessageSquare className="mr-2 h-4 w-4" />
+            </DropdownItem>
+            <DropdownItem
+              key="whatsapp"
+              startContent={<MessageSquare className="h-4 w-4" />}
+              onPress={() => handleGenerateLink("whatsapp")}
+            >
               Отправить в WhatsApp
-            </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => handleGenerateLink("link")}>
-              <Share2 className="mr-2 h-4 w-4" />
+            </DropdownItem>
+            <DropdownItem
+              key="link"
+              startContent={<Share2 className="h-4 w-4" />}
+              onPress={() => handleGenerateLink("link")}
+            >
               Скопировать ссылку
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+            </DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
       </div>
 
       {/* Users Grid */}
@@ -148,20 +154,24 @@ const UsersList = () => {
         {users.map((user) => (
           <Card
             key={user.id}
-            className={`group cursor-pointer transition-all hover:shadow-md ${
+            isPressable
+            onPress={() => handleViewProfile(user.id)}
+            className={`transition-all ${
               user.status === "disabled" ? "opacity-60" : ""
             }`}
-            onClick={() => handleViewProfile(user.id)}
           >
-            <CardContent className="p-4">
+            <CardBody className="p-4">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-3">
-                  <Avatar className="h-12 w-12">
-                    <AvatarImage src={user.avatar} />
-                    <AvatarFallback className="bg-primary/10 text-primary">
-                      {getInitials(user.name)}
-                    </AvatarFallback>
-                  </Avatar>
+                  <Avatar
+                    src={user.avatar}
+                    name={getInitials(user.name)}
+                    size="md"
+                    classNames={{
+                      base: "bg-primary/10",
+                      name: "text-primary font-semibold",
+                    }}
+                  />
                   <div className="min-w-0 flex-1">
                     <h3 className="font-medium text-foreground truncate">
                       {user.name}
@@ -172,44 +182,42 @@ const UsersList = () => {
                   </div>
                 </div>
 
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                <Dropdown>
+                  <DropdownTrigger>
                     <Button
-                      variant="ghost"
-                      size="icon"
-                      className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+                      isIconOnly
+                      variant="light"
+                      size="sm"
+                      onPress={(e) => e.continuePropagation()}
                     >
                       <MoreHorizontal className="h-4 w-4" />
                     </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuItem
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleViewProfile(user.id);
-                      }}
+                  </DropdownTrigger>
+                  <DropdownMenu aria-label="User actions">
+                    <DropdownItem
+                      key="profile"
+                      startContent={<ChevronRight className="h-4 w-4" />}
+                      onPress={() => handleViewProfile(user.id)}
                     >
-                      <ChevronRight className="mr-2 h-4 w-4" />
                       Просмотреть профиль
-                    </DropdownMenuItem>
-                    <DropdownMenuItem
-                      className="text-destructive"
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        handleDeleteUser(user.id);
-                      }}
+                    </DropdownItem>
+                    <DropdownItem
+                      key="delete"
+                      className="text-danger"
+                      color="danger"
+                      startContent={<Trash2 className="h-4 w-4" />}
+                      onPress={() => handleDeleteUser(user.id)}
                     >
-                      <Trash2 className="mr-2 h-4 w-4" />
                       Удалить
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
+                    </DropdownItem>
+                  </DropdownMenu>
+                </Dropdown>
               </div>
 
               <div className="mt-4 flex items-center justify-between">
-                <Badge variant="secondary" className="font-normal">
+                <Chip size="sm" variant="flat">
                   {user.role}
-                </Badge>
+                </Chip>
 
                 <div
                   className="flex items-center gap-2"
@@ -219,50 +227,54 @@ const UsersList = () => {
                     {user.status === "active" ? "Активен" : "Отключен"}
                   </span>
                   <Switch
-                    checked={user.status === "active"}
-                    onCheckedChange={() => handleStatusToggle(user.id)}
+                    size="sm"
+                    isSelected={user.status === "active"}
+                    onValueChange={() => handleStatusToggle(user.id)}
                   />
                 </div>
               </div>
-            </CardContent>
+            </CardBody>
           </Card>
         ))}
       </div>
 
-      {/* Invite Dialog */}
-      <Dialog open={isInviteOpen} onOpenChange={setIsInviteOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Ссылка для регистрации</DialogTitle>
-            <DialogDescription>
-              {shareMethod === "email" &&
-                "Ссылка будет отправлена по электронной почте."}
-              {shareMethod === "whatsapp" &&
-                "Ссылка будет отправлена в WhatsApp."}
-              {shareMethod === "link" &&
-                "Скопируйте ссылку и отправьте пользователю."}
-            </DialogDescription>
-          </DialogHeader>
+      {/* Invite Modal */}
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+        <ModalContent>
+          {(onClose) => (
+            <>
+              <ModalHeader>Ссылка для регистрации</ModalHeader>
+              <ModalBody>
+                <p className="text-sm text-muted-foreground">
+                  {shareMethod === "email" &&
+                    "Ссылка будет отправлена по электронной почте."}
+                  {shareMethod === "whatsapp" &&
+                    "Ссылка будет отправлена в WhatsApp."}
+                  {shareMethod === "link" &&
+                    "Скопируйте ссылку и отправьте пользователю."}
+                </p>
 
-          <div className="flex items-center gap-2 rounded-lg border bg-muted/50 p-3">
-            <code className="flex-1 text-sm break-all">
-              https://app.company.com/register?invite=abc123def456
-            </code>
-            <Button variant="ghost" size="icon" className="shrink-0">
-              <Copy className="h-4 w-4" />
-            </Button>
-          </div>
-
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsInviteOpen(false)}>
-              Отмена
-            </Button>
-            <Button onClick={() => setIsInviteOpen(false)}>
-              {shareMethod === "link" ? "Скопировать" : "Отправить"}
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+                <div className="flex items-center gap-2 rounded-lg border bg-default-100 p-3">
+                  <code className="flex-1 text-sm break-all">
+                    https://app.company.com/register?invite=abc123def456
+                  </code>
+                  <Button isIconOnly variant="light" size="sm">
+                    <Copy className="h-4 w-4" />
+                  </Button>
+                </div>
+              </ModalBody>
+              <ModalFooter>
+                <Button variant="flat" onPress={onClose}>
+                  Отмена
+                </Button>
+                <Button color="primary" onPress={onClose}>
+                  {shareMethod === "link" ? "Скопировать" : "Отправить"}
+                </Button>
+              </ModalFooter>
+            </>
+          )}
+        </ModalContent>
+      </Modal>
     </div>
   );
 };
