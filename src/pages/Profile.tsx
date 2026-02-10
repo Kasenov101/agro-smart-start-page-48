@@ -2,8 +2,7 @@ import { Outlet, Link } from "react-router-dom";
 import { 
   User, 
   Globe,
-  LogOut,
-  ArrowLeft
+  LogOut
 } from "lucide-react";
 import {
   DropdownMenu,
@@ -62,16 +61,9 @@ const Profile = () => {
                  </div>
                </div>
                {/* Bottom row: Sidebar + Back */}
-               <div className="flex items-center gap-2">
-                 <SidebarTrigger className="h-7 w-7 [&_svg]:h-3.5 [&_svg]:w-3.5" />
-                 <Link 
-                   to="/dashboard" 
-                   className="flex items-center gap-1 text-xs text-muted-foreground hover:text-foreground transition-colors"
-                 >
-                   <ArrowLeft className="h-3.5 w-3.5" />
-                   <span className="hidden sm:inline">Назад</span>
-                 </Link>
-               </div>
+                <div className="flex items-center gap-2">
+                  <SidebarTrigger className="h-7 w-7 [&_svg]:h-3.5 [&_svg]:w-3.5" />
+                </div>
              </div>
            </header>
 
