@@ -195,7 +195,7 @@ const Invitations = () => {
           const status = statusConfig[inv.status];
           const StatusIcon = status.icon;
           return (
-            <Card key={inv.id}>
+            <Card key={inv.id} className="border border-divider shadow-sm">
               <CardBody className="p-4 space-y-3">
                 <div className="flex items-start justify-between">
                   <div className="flex items-center gap-2 min-w-0">
@@ -213,6 +213,13 @@ const Invitations = () => {
                     variant="flat"
                     color={status.color}
                     startContent={<StatusIcon className="h-3 w-3" />}
+                    className={
+                      inv.status === "accepted"
+                        ? "bg-green-100 text-green-700"
+                        : inv.status === "cancelled"
+                        ? "bg-red-100 text-red-700"
+                        : "bg-gray-100 text-gray-600"
+                    }
                   >
                     {status.label}
                   </Chip>
