@@ -9,24 +9,15 @@ import {
   DropdownTrigger,
   DropdownMenu,
   DropdownItem,
-  Modal,
-  ModalContent,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
   Chip,
-  useDisclosure,
 } from "@nextui-org/react";
+import { Link } from "react-router-dom";
 import {
   Users,
-  Plus,
   MoreHorizontal,
-  Share2,
-  Mail,
-  MessageSquare,
   Trash2,
   ChevronRight,
-  Copy,
+  UserPlus,
 } from "lucide-react";
 
 interface User {
@@ -39,8 +30,6 @@ interface User {
 }
 
 const UsersList = () => {
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
-  const [shareMethod, setShareMethod] = useState("");
   const [users, setUsers] = useState<User[]>([
     {
       id: 1,
@@ -94,10 +83,6 @@ const UsersList = () => {
     setUsers((prev) => prev.filter((user) => user.id !== userId));
   };
 
-  const handleGenerateLink = (method: string) => {
-    setShareMethod(method);
-    onOpen();
-  };
 
   const handleViewProfile = (userId: number) => {
     console.log(`Просмотр профиля пользователя ${userId}`);
@@ -117,36 +102,15 @@ const UsersList = () => {
           </div>
         </div>
 
-        <Dropdown>
-          <DropdownTrigger>
-            <Button color="primary" startContent={<Plus className="h-4 w-4" />}>
-              Пригласить
-            </Button>
-          </DropdownTrigger>
-          <DropdownMenu aria-label="Invite actions">
-            <DropdownItem
-              key="email"
-              startContent={<Mail className="h-4 w-4" />}
-              onPress={() => handleGenerateLink("email")}
-            >
-              Отправить по Email
-            </DropdownItem>
-            <DropdownItem
-              key="whatsapp"
-              startContent={<MessageSquare className="h-4 w-4" />}
-              onPress={() => handleGenerateLink("whatsapp")}
-            >
-              Отправить в WhatsApp
-            </DropdownItem>
-            <DropdownItem
-              key="link"
-              startContent={<Share2 className="h-4 w-4" />}
-              onPress={() => handleGenerateLink("link")}
-            >
-              Скопировать ссылку
-            </DropdownItem>
-          </DropdownMenu>
-        </Dropdown>
+        <Button
+          as={Link}
+          to="/profile/users/invitations"
+          color="primary"
+          variant="light"
+          startContent={<UserPlus className="h-4 w-4" />}
+        >
+          Пригласить
+        </Button>
       </div>
 
       {/* Users Grid */}
@@ -238,43 +202,7 @@ const UsersList = () => {
         ))}
       </div>
 
-      {/* Invite Modal */}
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
-        <ModalContent>
-          {(onClose) => (
-            <>
-              <ModalHeader>Ссылка для регистрации</ModalHeader>
-              <ModalBody>
-                <p className="text-sm text-muted-foreground">
-                  {shareMethod === "email" &&
-                    "Ссылка будет отправлена по электронной почте."}
-                  {shareMethod === "whatsapp" &&
-                    "Ссылка будет отправлена в WhatsApp."}
-                  {shareMethod === "link" &&
-                    "Скопируйте ссылку и отправьте пользователю."}
-                </p>
-
-                <div className="flex items-center gap-2 rounded-lg border bg-default-100 p-3">
-                  <code className="flex-1 text-sm break-all">
-                    https://app.company.com/register?invite=abc123def456
-                  </code>
-                  <Button isIconOnly variant="light" size="sm">
-                    <Copy className="h-4 w-4" />
-                  </Button>
-                </div>
-              </ModalBody>
-              <ModalFooter>
-                <Button variant="flat" onPress={onClose}>
-                  Отмена
-                </Button>
-                <Button color="primary" onPress={onClose}>
-                  {shareMethod === "link" ? "Скопировать" : "Отправить"}
-                </Button>
-              </ModalFooter>
-            </>
-          )}
-        </ModalContent>
-      </Modal>
+      
     </div>
   );
 };

@@ -14,6 +14,7 @@ import OrganizationInfo from "./pages/profile/OrganizationInfo";
 import Security from "./pages/profile/Security";
 import Activity from "./pages/profile/Activity";
 import UsersList from "./pages/profile/Users";
+import Invitations from "./pages/profile/Invitations";
 import Subscriptions from "./pages/profile/Subscriptions";
 import Organizations from "./pages/profile/Organizations";
 import Integrations from "./pages/profile/Integrations";
@@ -56,6 +57,7 @@ const App = () => (
         <Route path="security" element={<Security />} />
         <Route path="activity" element={<Activity />} />
         <Route path="users" element={<UsersList />} />
+        <Route path="users/invitations" element={<Invitations />} />
         <Route path="subscriptions" element={<Subscriptions />} />
         <Route path="organizations" element={<Organizations />} />
         <Route path="integrations" element={<Integrations />} />
@@ -80,6 +82,7 @@ const App = () => (
         <Route path="security" element={<Security />} />
         <Route path="activity" element={<Activity />} />
         <Route path="users" element={<UsersList />} />
+        <Route path="users/invitations" element={<Invitations />} />
         <Route path="subscriptions" element={<Subscriptions />} />
         <Route path="organizations" element={<Organizations />} />
         <Route path="integrations" element={<Integrations />} />
