@@ -86,6 +86,7 @@ const Invitations = () => {
   const [contactType, setContactType] = useState<"email" | "phone">("email");
   const [contactValue, setContactValue] = useState("");
   const [isSending, setIsSending] = useState(false);
+  const [isSent, setIsSent] = useState(false);
 
   const handleSendInvitation = () => {
     if (!contactValue.trim()) return;
@@ -101,9 +102,14 @@ const Invitations = () => {
         date: new Date().toISOString().split("T")[0],
       };
       setInvitations((prev) => [newInvitation, ...prev]);
-      setContactValue("");
       setIsSending(false);
+      setIsSent(true);
     }, 500);
+  };
+
+  const handleReset = () => {
+    setContactValue("");
+    setIsSent(false);
   };
 
   return (
@@ -151,7 +157,7 @@ const Invitations = () => {
               <Radio value="phone">Телефон</Radio>
             </RadioGroup>
 
-            <div className="flex gap-2">
+            <div className="flex gap-2 items-center">
               <Input
                 size="sm"
                 variant="bordered"
@@ -161,7 +167,11 @@ const Invitations = () => {
                     : "+7 (900) 000-00-00"
                 }
                 value={contactValue}
-                onValueChange={setContactValue}
+                onValueChange={(val) => {
+                  setContactValue(val);
+                  if (isSent) setIsSent(false);
+                }}
+                isDisabled={isSent}
                 startContent={
                   contactType === "email" ? (
                     <Mail className="h-4 w-4 text-muted-foreground" />
@@ -170,20 +180,37 @@ const Invitations = () => {
                   )
                 }
                 onKeyDown={(e) => {
-                  if (e.key === "Enter") handleSendInvitation();
+                  if (e.key === "Enter" && !isSent) handleSendInvitation();
                 }}
                 className="flex-1"
               />
-              <Button
-                color="primary"
-                size="sm"
-                isLoading={isSending}
-                isDisabled={!contactValue.trim()}
-                onPress={handleSendInvitation}
-                startContent={!isSending && <Send className="h-4 w-4" />}
-              >
-                Отправить
-              </Button>
+              {isSent ? (
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="flex items-center gap-1 text-xs text-green-600">
+                    <CheckCircle2 className="h-3.5 w-3.5" />
+                    Отправлено
+                  </span>
+                  <Button
+                    size="sm"
+                    variant="light"
+                    onPress={handleReset}
+                    className="text-xs min-w-0 h-7 px-2"
+                  >
+                    Сбросить
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  color="primary"
+                  size="sm"
+                  isLoading={isSending}
+                  isDisabled={!contactValue.trim()}
+                  onPress={handleSendInvitation}
+                  startContent={!isSending && <Send className="h-4 w-4" />}
+                >
+                  Отправить
+                </Button>
+              )}
             </div>
           </div>
         </CardBody>
@@ -240,10 +267,9 @@ const Invitations = () => {
                 {inv.status === "pending" && (
                   <Button
                     size="sm"
-                    variant="flat"
-                    color="danger"
-                    className="w-full"
-                    startContent={<XCircle className="h-3.5 w-3.5" />}
+                    variant="light"
+                    className="text-xs text-red-500 h-7 px-2 min-w-0 self-end"
+                    startContent={<XCircle className="h-3 w-3" />}
                     onPress={() =>
                       setInvitations((prev) =>
                         prev.map((i) =>
