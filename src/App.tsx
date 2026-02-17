@@ -25,6 +25,7 @@ import PlanRequestsContent from "./pages/admin/PlanRequestsContent";
 import ECoin from "./pages/admin/ECoin";
 import MobileAdminLayout from "./pages/mobile/AdminLayout";
 import ToastPage from "./pages/ToastPage";
+import Invite from "./pages/Invite";
 import NotFound from "./pages/NotFound";
 
 // Mobile pages
@@ -67,6 +68,7 @@ const App = () => (
         <Route path="plan-requests" element={<PlanRequestsContent />} />
         <Route path="ecoin" element={<ECoin />} />
       </Route>
+      <Route path="/invite" element={<Invite />} />
       <Route path="/toast" element={<ToastPage />} />
 
       {/* Mobile routes */}
