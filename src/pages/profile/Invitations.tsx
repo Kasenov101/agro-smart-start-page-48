@@ -236,6 +236,25 @@ const Invitations = () => {
                   <span>Пригласил: {inv.invitedBy}</span>
                   <span>{inv.date}</span>
                 </div>
+
+                {inv.status === "pending" && (
+                  <Button
+                    size="sm"
+                    variant="flat"
+                    color="danger"
+                    className="w-full"
+                    startContent={<XCircle className="h-3.5 w-3.5" />}
+                    onPress={() =>
+                      setInvitations((prev) =>
+                        prev.map((i) =>
+                          i.id === inv.id ? { ...i, status: "cancelled" } : i
+                        )
+                      )
+                    }
+                  >
+                    Отменить
+                  </Button>
+                )}
               </CardBody>
             </Card>
           );
