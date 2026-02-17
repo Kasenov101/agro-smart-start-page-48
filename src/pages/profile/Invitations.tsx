@@ -8,6 +8,8 @@ import {
   Input,
   RadioGroup,
   Radio,
+  Select,
+  SelectItem,
 } from "@nextui-org/react";
 import {
   ArrowLeft,
@@ -85,11 +87,22 @@ const Invitations = () => {
 
   const [contactType, setContactType] = useState<"email" | "phone">("email");
   const [contactValue, setContactValue] = useState("");
+  const [userPosition, setUserPosition] = useState("");
   const [isSending, setIsSending] = useState(false);
   const [isSent, setIsSent] = useState(false);
 
+  const positionOptions = [
+    "Директор",
+    "Менеджер",
+    "Бухгалтер",
+    "Оператор",
+    "Агроном",
+    "Механизатор",
+    "Инженер",
+  ];
+
   const handleSendInvitation = () => {
-    if (!contactValue.trim()) return;
+    if (!contactValue.trim() || !userPosition) return;
 
     setIsSending(true);
     setTimeout(() => {
@@ -109,6 +122,7 @@ const Invitations = () => {
 
   const handleReset = () => {
     setContactValue("");
+    setUserPosition("");
     setIsSent(false);
   };
 
@@ -157,6 +171,23 @@ const Invitations = () => {
               <Radio value="phone">Телефон</Radio>
             </RadioGroup>
 
+            <Select
+              size="sm"
+              variant="bordered"
+              label="Должность"
+              placeholder="Выберите должность"
+              selectedKeys={userPosition ? [userPosition] : []}
+              onSelectionChange={(keys) => {
+                const selected = Array.from(keys)[0] as string;
+                setUserPosition(selected || "");
+              }}
+              isDisabled={isSent}
+            >
+              {positionOptions.map((pos) => (
+                <SelectItem key={pos}>{pos}</SelectItem>
+              ))}
+            </Select>
+
             <div className="flex gap-2 items-center">
               <Input
                 size="sm"
@@ -204,7 +235,7 @@ const Invitations = () => {
                   color="primary"
                   size="sm"
                   isLoading={isSending}
-                  isDisabled={!contactValue.trim()}
+                  isDisabled={!contactValue.trim() || !userPosition}
                   onPress={handleSendInvitation}
                   startContent={!isSending && <Send className="h-4 w-4" />}
                 >
